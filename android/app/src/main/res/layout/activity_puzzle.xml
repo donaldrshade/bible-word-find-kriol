@@ -8,6 +8,20 @@
         android:orientation="vertical"
         tools:context=".puzzleActivity">
 
+    <android.support.design.widget.FloatingActionButton
+            android:id="@+id/home_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|start"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            app:backgroundTint="@color/colorHomeButton"
+            android:tint="@color/white"
+            android:src="@drawable/ic_home_white_24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+    />
+
 
     <ImageView
             android:id="@+id/story_title_banner_image"
@@ -23,6 +37,17 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/fespida3" />
+
+    <ImageView
+            android:id="@+id/gridBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="325dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/grid_background"/>
 
     <ImageView
             android:id="@+id/breadScore"
