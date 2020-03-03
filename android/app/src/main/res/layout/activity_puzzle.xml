@@ -25,18 +25,6 @@
             app:srcCompat="@drawable/fespida3" />
 
     <ImageView
-            android:id="@+id/gridBackground"
-            android:layout_width="wrap_content"
-            android:layout_height="325dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.589"
-            app:srcCompat="@drawable/grid_background" />
-
-    <ImageView
             android:id="@+id/breadScore"
             android:layout_width="66dp"
             android:layout_height="61dp"
@@ -117,6 +105,27 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.977" />
 
+    <ImageView
+            android:id="@+id/gridBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="325dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.589"
+            app:srcCompat="@drawable/grid_background" />
+
+    <android.support.v7.widget.GridLayout
+            android:layout_width="280dp"
+            android:layout_height="283dp"
+            app:layout_constraintBottom_toBottomOf="@+id/gridBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/story_title_banner_image">
+
+    </android.support.v7.widget.GridLayout>
 
 
 </android.support.constraint.ConstraintLayout>
