@@ -36,7 +36,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/FesPida3" />
+            app:srcCompat="@drawable/fespida3" />
 
     <ImageView
             android:id="@+id/gridBackground"
