@@ -30,12 +30,12 @@ class puzzleActivity : AppCompatActivity() {
 
         //image_name should contain the name of the banner that matches the current level
         //TODO: I need to select the picture from a string
-        val imageName = R.drawable.fespida3;
+        val imageName = R.drawable.FesPida3
         val banner  = findViewById<ImageView>(R.id.story_title_banner_image)
 
 
         //Changing the banner to the banner specified.
-        banner.setImageResource(imageName);
+        banner.setImageResource(imageName)
     }
 
     //Subtracts 1 from the boat number when tapped.
