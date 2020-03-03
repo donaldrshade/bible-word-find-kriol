@@ -32,6 +32,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         nav_view.setNavigationItemSelectedListener(this)
 //        val db = Database(this)
 //        val level = db.getActiveLevel()
+//        val puzzle = db.getActivePuzzle(level.id)
+//        var puzzleEngine = PuzzleEngine(puzzle.id,this)
+//        val temp = puzzleEngine.grid
 //        val pause = 0
 //        val view = findViewById<TextView>(R.id.main_content)
 //        view.text = level.title

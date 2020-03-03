@@ -59,7 +59,11 @@ class PuzzleEngine(pNum: Int, val context: Context) {
     private fun getWordList(): Array<String> { //array needs to be length-sorted (smallest first)
         val string = level.word_file
 
-        val temp = Array<String>(4) {""}
+        val temp = Array<String>(3) {""}
+        temp[0]="hel"
+        temp[1]="wor"
+        temp[2]="cor"
+
 
 //        context.resources.openRawResource(R.raw.)
 //        return Tester.getWordList()
