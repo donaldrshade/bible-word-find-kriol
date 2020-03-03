@@ -86,7 +86,7 @@ public class PuzzleEngine {
 		for(int r = 0; r < display.length; r++) {
 			if(numWordsLeft != numLinesLeft && (numWordsLeft == 0 || Math.random() >  numWordsLeft / (double) numLinesLeft)){
 				//skip this line
-				System.err.println("skip line");
+				//System.err.println("skip line");
 				for(int c = 0; c < display.length; c++) {
 					display[r][c] = randLetter();
 				}
@@ -96,7 +96,7 @@ public class PuzzleEngine {
 				String s = words[words.length - numWordsLeft].getWord();
 				
 				boolean forwards = (Math.random() < 0.5);
-				System.out.println(s + " " + forwards + " r: " + r);
+				//System.out.println(s + " " + forwards + " r: " + r);
 				int charSkip = (int) (Math.random() * (display.length - s.length()));
 				int c = 0;
 				for(c = 0; c < charSkip; c++) {
