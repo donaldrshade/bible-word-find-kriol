@@ -2,8 +2,10 @@ package org.lightsys.kriolbiblewordfind
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
+import android.widget.ImageView
 
 class MainActivity : AppCompatActivity(){
 
@@ -16,6 +18,14 @@ class MainActivity : AppCompatActivity(){
             val intent = Intent(this,puzzleActivity::class.java)
             startActivity(intent)
         }
+        fab.isClickable=false
+
+        val button1 = findViewById<ImageView>(R.id.button1)
+        button1.setOnClickListener { view ->
+            val intent = Intent(this,puzzleActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
 

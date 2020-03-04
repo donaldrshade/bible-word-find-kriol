@@ -12,29 +12,33 @@
         tools:showIn="@layout/app_bar_main"
         android:background="@color/colorPrimary"
 >
+
     <ImageView
             android:id="@+id/story_title_banner_image"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:contentDescription="TODO"
             android:scaleType="fitXY"
-            android:src="@drawable/FesPida3"
-            app:layout_constraintVertical_weight="6"
-            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/fespida3"
             app:layout_constraintBottom_toTopOf="@id/button1"
-    />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_weight="6" />
+
     <ImageView
             android:id="@+id/button1"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:scaleType="fitXY"
             android:src="@drawable/plei_buton"
-            app:layout_constraintVertical_weight="4"
             app:layout_constraintBottom_toTopOf="@id/button2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/story_title_banner_image"
-    />
+            app:layout_constraintVertical_weight="4" />
     <include android:id="@+id/button2"
-             layout="@layout/howToPlay"
+             layout="@layout/howtoplay"
              android:layout_width="match_parent"
              android:layout_height="0dp"
              app:layout_constraintVertical_weight="2"

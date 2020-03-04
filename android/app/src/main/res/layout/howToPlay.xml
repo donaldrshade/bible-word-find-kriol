@@ -9,7 +9,7 @@
             android:id="@+id/image"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:src="@drawable/HowTo"
+            android:src="@drawable/howtoplay"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/text"
             app:layout_constraintTop_toTopOf="parent"
@@ -32,6 +32,6 @@
             android:textAlignment="center"
             android:textSize="30sp"
             android:textStyle="bold"
-    />
+            android:gravity="center_horizontal" />
 
 </android.support.constraint.ConstraintLayout>

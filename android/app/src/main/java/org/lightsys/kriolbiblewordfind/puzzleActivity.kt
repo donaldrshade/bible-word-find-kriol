@@ -1,8 +1,10 @@
 package org.lightsys.kriolbiblewordfind
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.widget.ImageViewCompat
 import android.view.View
 import android.view.Window
@@ -23,6 +25,10 @@ class puzzleActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_puzzle)
 
+        val fab = findViewById<FloatingActionButton>(R.id.home_fab)
+        fab.setOnClickListener { view ->
+            finish()
+        }
 
         val intent = getIntent()
         val level = intent.getIntExtra(getString(R.string.level_num),-1)
@@ -30,7 +36,7 @@ class puzzleActivity : AppCompatActivity() {
 
         //image_name should contain the name of the banner that matches the current level
         //TODO: I need to select the picture from a string
-        val imageName = R.drawable.FesPida3
+        val imageName = R.drawable.fespida3
         val banner  = findViewById<ImageView>(R.id.story_title_banner_image)
 
 

@@ -18,7 +18,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginLeft="10dp"
             app:backgroundTint="@color/colorHomeButton"
-            android:tint="@color/white"
+
             android:src="@drawable/homebutton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
