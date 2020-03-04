@@ -1,6 +1,6 @@
 package org.lightsys.kriolbiblewordfind
 
-import android.graphics.Color
+import android.graphics.*
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.view.MotionEventCompat.getActionMasked
@@ -10,95 +10,84 @@ import android.widget.Button
 import android.widget.TextView
 import android.view.MotionEvent
 import android.view.View
+import android.graphics.drawable.BitmapDrawable
 import android.widget.LinearLayout.LayoutParams
 import kotlinx.android.synthetic.main.activity_sample.*
 
 class sampleActivity : AppCompatActivity() {
     var counter = 0
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sample)
 
-        var viewReleased = true
+        //Create canvas and add it to layout
+        var myCanvas = DrawingView(this, null)
+        var params = LayoutParams(
+            LayoutParams.MATCH_PARENT,
+            LayoutParams.MATCH_PARENT)
+        addContentView(myCanvas, params)
+        myCanvas.bringToFront()
 
-        sampleLayout.setOnTouchListener { v: View, m: MotionEvent ->
-            if(viewReleased){
-                val x = m.rawX
-                val y = m.rawY
-                button.text = "X: $x, Y: $y"
+        var rect = Rect()
+        image.getHitRect(rect)
 
-                val view = TextView(this)
-                view.layoutParams = LayoutParams(
-                    LayoutParams.WRAP_CONTENT,
-                    LayoutParams.WRAP_CONTENT
-                )
-                view.setBackgroundColor(Color.BLUE)
-                view.id = counter
-                view.alpha = 0.5F
-                view.text = "AHHHHHHHHHHHHHH"
-                view.textSize = 20F
-                sampleLayout.addView(view)
+        for(i in 0..6){
+            for(j in 0..6){
+                image.setOnTouchListener { v: View, m: MotionEvent ->
 
-                var coord = intArrayOf(0, 0)
-                view.getLocationOnScreen(coord)
-                text.text = "AbsX: " + coord[0] + " AbsY: " + coord[1]
-
-                trackToTouch(view, m, coord[0], coord[1])
-                //view.x = x - location[0]
-                //view.y = y - location[1]
-                counter++
+                rect.contains()
             }
-
-            when(m.actionMasked){
-                MotionEvent.ACTION_DOWN -> viewReleased = false //mark letter touched (add to an array)
-                MotionEvent.ACTION_UP ->  viewReleased = true //if x or y diff, create a letter from result
-                MotionEvent.ACTION_MOVE -> text.text = "MOVING"
-
-            }
-            
-            true
-        }
-
-
-        button.setOnClickListener {
-            val view = TextView(this)
-            view.layoutParams = LayoutParams(
-                LayoutParams.WRAP_CONTENT,
-                LayoutParams.WRAP_CONTENT
-            )
-            view.setBackgroundColor(Color.BLUE)
-            view.id = counter
-            view.alpha = 0.5F
-            view.text = "AHHHHHHHHHHHHHH"
-            view.textSize = 20F
-            sampleLayout.addView(view)
-
-            //Get absolute position of view
-            var coord = intArrayOf(0, 0)
-            view.getLocationOnScreen(coord)
-            button.text = "AbsX: " + coord[0] + " AbsY: " + coord[1]
-
-            view.setOnTouchListener { v: View, m: MotionEvent ->
-                //trackToTouch(v, m, coord[0], coord[1])
-                true
-            }
-            counter++
         }
     }
 
-    private fun trackToTouch( v: View, m: MotionEvent, absX: Int, absY: Int)
+
+
+
+    /*override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_sample)
+
+        image.setOnTouchListener { v: View, m: MotionEvent ->
+            var startX = 0F
+            var startY = 0F
+            var endX = 0F
+            var endY = 0F
+
+            when (m.actionMasked) {
+                MotionEvent.ACTION_DOWN -> {
+                    startX = m.rawX
+                    startY = m.rawY
+                }
+                MotionEvent.ACTION_MOVE -> {
+                    endX = m.rawX
+                    endY = m.rawY
+                }
+                MotionEvent.ACTION_UP -> {
+                    text.text = "$startX $startY $endX $endY"
+
+                    c.drawLine(200F, 200F, 356F, 653F, Paint())
+                }
+            }
+
+
+            //c.drawLine(m.x, m.y, )
+            true
+        }
+    }
+
+    private fun trackToTouch( v: View, m: MotionEvent)
     {
         val x = m.rawX
         val y = m.rawY
 
-        var actionString: String
 
         when (m.actionMasked)
         {
-            MotionEvent.ACTION_DOWN -> text.text = "PRESS" //mark letter touched (add to an array)
-            MotionEvent.ACTION_UP -> text.text = "RELEASE" //if x or y diff, create a letter from result
-            MotionEvent.ACTION_MOVE -> text.text = "MOVE"  //track movement, if hit bound of another letter, add to array
+            //MotionEvent.ACTION_DOWN -> text.text = "PRESS" //mark letter touched (add to an array)
+            //MotionEvent.ACTION_UP -> text.text = "RELEASE" //if x or y diff, create a letter from result
+            //MotionEvent.ACTION_MOVE -> text.text = "MOVE"  //track movement, if hit bound of another letter, add to array
             //need a way to limit direction once started
             //wait till next letter touched, determine from that by amount of change in x and y
             //(if only y past tolerance, vert;
@@ -106,12 +95,17 @@ class sampleActivity : AppCompatActivity() {
             //if both past tolerance, diag)
             //(Also set direction by whether change in x/y are positive or negative)
             //Dirs will be: left, right, down, up, diag_LD, diag_LU, diag_RD, diag_RU
-            else -> actionString = ""
+            MotionEvent.ACTION_MOVE -> {
+                button.text = "X: $x, Y: $y"
+
+                var coord = intArrayOf(0, 0)
+                val id = m.getPointerId(0)
+                v.getLocationOnScreen(coord)
+                text.text = "CoordX: " + coord[0] + " CoordY: " + coord[1]
+
+                v.x = x - coord[0]
+                v.y = y - coord[1]
+            }
         }
-
-        button.text = "X: $x, Y: $y"
-
-        v.x = x - absX
-        v.y = y - absY
-    }
+    }*/
 }
