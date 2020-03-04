@@ -7,12 +7,19 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context=".Empty"
-        tools:showIn="@layout/activity_empty">
+        tools:showIn="@layout/activity_empty"
+        android:layout_gravity="center"
+        >
+
     <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="We haven't implemented this yet"
             android:textSize="40sp"
+            android:layout_margin="20dp"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textColor="@color/colorAccent"
     />
 
 </android.support.constraint.ConstraintLayout>

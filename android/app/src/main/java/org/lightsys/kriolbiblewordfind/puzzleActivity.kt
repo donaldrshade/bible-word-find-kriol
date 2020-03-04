@@ -21,8 +21,7 @@ class puzzleActivity : AppCompatActivity() {
 
         //Set Activity to full screen
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_puzzle)
 
         val fab = findViewById<FloatingActionButton>(R.id.home_fab)
