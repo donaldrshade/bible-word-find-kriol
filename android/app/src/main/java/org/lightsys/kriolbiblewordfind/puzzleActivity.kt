@@ -29,6 +29,14 @@ class puzzleActivity : AppCompatActivity() {
             finish()
         }
 
+        /*
+        for (r in size)
+            for ( c in size)
+                val text = //make a new text thing
+                text.setOnTouchListener {make a thing for on motion_down and motion_up}
+                //set position
+         */
+
         val intent = intent;
         val level = intent.getIntExtra(getString(R.string.level_num),-1);
 
