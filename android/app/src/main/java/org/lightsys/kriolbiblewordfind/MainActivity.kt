@@ -6,6 +6,7 @@ import android.support.constraint.ConstraintLayout
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.Window
 import android.view.WindowManager
 import android.widget.ImageView
 
@@ -13,9 +14,13 @@ class MainActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        //Set Activity to full screen
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN)
+
+        setContentView(R.layout.activity_main)
 
         val fab = findViewById<FloatingActionButton>(R.id.home_fab)
         fab.setOnClickListener { view ->
