@@ -27,7 +27,8 @@
             android:id="@+id/gridBackground"
             android:layout_width="wrap_content"
             android:layout_height="325dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toTopOf="@+id/boatScore"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias=".5"
             app:layout_constraintStart_toStartOf="parent"
@@ -55,10 +56,10 @@
             android:onClick="fishClicked"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/boatScore"
-            app:layout_constraintHorizontal_bias=".5"
+            app:layout_constraintHorizontal_bias="0.568"
             app:layout_constraintStart_toEndOf="@+id/breadScore"
-            app:layout_constraintTop_toBottomOf="@+id/story_title_banner_image"
-            app:layout_constraintVertical_bias="0.923"
+            app:layout_constraintTop_toTopOf="@+id/story_title_banner_image"
+            app:layout_constraintVertical_bias="0.939"
             app:srcCompat="@drawable/fish_clipart_md" />
 
     <ImageView
@@ -131,8 +132,12 @@
             app:layout_constraintVertical_bias="0.087" />
 
     <android.support.constraint.ConstraintLayout
+            android:id="@+id/gridSizer"
             android:layout_width="291dp"
             android:layout_height="291dp"
-            tools:layout_editor_absoluteX="60dp"
-            tools:layout_editor_absoluteY="256dp" />
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="@+id/gridBackground"
+            app:layout_constraintEnd_toEndOf="@+id/gridBackground"
+            app:layout_constraintStart_toStartOf="@+id/gridBackground"
+            app:layout_constraintTop_toBottomOf="@+id/story_title_banner_image" />
 </android.support.constraint.ConstraintLayout>
