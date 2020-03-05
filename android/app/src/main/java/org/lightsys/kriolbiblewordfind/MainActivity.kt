@@ -9,9 +9,7 @@ import android.util.Log
 import android.view.Window
 import android.view.WindowManager
 import android.widget.ImageView
-
 class MainActivity : AppCompatActivity(){
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //Set Activity to full screen
@@ -56,8 +54,5 @@ class MainActivity : AppCompatActivity(){
             val intent = Intent(this,Empty::class.java)
             startActivity(intent)
         }
-
     }
-
-
 }
