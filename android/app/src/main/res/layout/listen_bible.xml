@@ -30,6 +30,7 @@
             android:text="@string/listen_bible"
             android:textColor="@color/black"
             android:textAlignment="center"
+            android:gravity="center_horizontal"
             android:textSize="30sp"
             android:textStyle="bold"
     />

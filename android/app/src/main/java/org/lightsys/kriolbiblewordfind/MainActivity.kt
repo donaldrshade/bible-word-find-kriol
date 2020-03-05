@@ -44,11 +44,11 @@ class MainActivity : AppCompatActivity(){
             val intent = Intent(this,Empty::class.java)
             startActivity(intent)
         }
-//        val button5 = findViewById<ConstraintLayout>(R.id.button3)
-//        button5.setOnClickListener { view ->
-//            val intent = Intent(this,Empty::class.java)
-//            startActivity(intent)
-//        }
+        val button5 = findViewById<ConstraintLayout>(R.id.button3)
+        button5.setOnClickListener { view ->
+            val intent = Intent(this,Empty::class.java)
+            startActivity(intent)
+        }
 
     }
 
