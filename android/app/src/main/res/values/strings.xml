@@ -11,4 +11,6 @@
     <string name="howTo">Hau yu plei</string>
     <string name="game_level">Geim lebul</string>
     <string name="title_activity_empty">Empty</string>
+    <string name="listen_bible">Irim Baibul</string>
+    <string name="watch_video">Lunkinat video</string>
 </resources>
