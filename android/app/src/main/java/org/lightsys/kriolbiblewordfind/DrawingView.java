@@ -1,29 +1,34 @@
 package org.lightsys.kriolbiblewordfind;
 
-
 import android.content.Context;
 import android.graphics.*;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
+
 import java.util.ArrayList;
 
 public class DrawingView extends View {
 
     private Path drawPath;
-    private Paint drawPaint, canvasPaint;
+    private Paint drawPaint;
     private ArrayList<Path> paths = new ArrayList<Path>();
     private int paintColor = Color.BLUE;
-    private Canvas drawCanvas;
-    private Bitmap canvasBitmap;
+    private Rect rect;
+    private TextView text;
     private float startX;
     private float startY;
     private int startRow;
     private int startCol;
 
 
-    public DrawingView(Context context, AttributeSet attrs){
+    public DrawingView(Context context, AttributeSet attrs, TextView text){
         super(context, attrs);
+
+        rect = new Rect();
+        this.getHitRect(rect);
+        this.text = text;
 
         drawPaint = new Paint();
         drawPaint.setColor(paintColor);
@@ -33,7 +38,6 @@ public class DrawingView extends View {
         drawPaint.setStyle(Paint.Style.STROKE);
         drawPaint.setStrokeJoin(Paint.Join.ROUND);
         drawPaint.setStrokeCap(Paint.Cap.ROUND);
-        canvasPaint = new Paint(Paint.DITHER_FLAG);
     }
 
     //setup drawing
@@ -41,7 +45,7 @@ public class DrawingView extends View {
 
         //generate new path
         drawPath = new Path();
-       paths.add(drawPath);
+        paths.add(drawPath);
 
     }
 
@@ -83,10 +87,20 @@ public class DrawingView extends View {
             default:
                 return false;
         }
+
+        if(rect.contains((int)touchX, (int)touchY)){
+            String s = "Touched: " + touchX + " " + touchY;
+            text.setText(s);
+        }
+        else
+        {
+            String s = "Non-Touched: " + touchX + " " + touchY;
+            text.setText(s);
+        }
+
         //redraw
         invalidate();
         return true;
-
     }
 
     //update color
