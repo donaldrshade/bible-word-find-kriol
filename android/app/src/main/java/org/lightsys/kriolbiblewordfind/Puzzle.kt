@@ -12,4 +12,8 @@ class Puzzle(var id:Int = -1,var size:Int = -1,var numOfWords:Int = -1,var compl
     fun getAudioFileId(context: Context): Int {
         return context.resources.getIdentifier(audioFile, "raw", context.getString(R.string.package_name));
     }
+
+    fun getWordSizes(): IntArray{
+        return intArrayOf(min_num_letters, max_num_letters)
+    }
 }
