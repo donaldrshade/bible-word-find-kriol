@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.WindowManager
 import android.widget.ImageView
 
@@ -31,21 +32,25 @@ class MainActivity : AppCompatActivity(){
         }
         val button2 = findViewById<ConstraintLayout>(R.id.button2)
         button2.setOnClickListener { view ->
+            System.out.println("button2")
             val intent = Intent(this,Empty::class.java)
             startActivity(intent)
         }
         val button3 = findViewById<ConstraintLayout>(R.id.button3)
         button3.setOnClickListener { view ->
+            System.out.println("button3")
             val intent = Intent(this,Empty::class.java)
             startActivity(intent)
         }
-        val button4 = findViewById<ConstraintLayout>(R.id.button3)
+        val button4 = findViewById<ConstraintLayout>(R.id.button4)
         button4.setOnClickListener { view ->
+            System.out.println("button4")
             val intent = Intent(this,Empty::class.java)
             startActivity(intent)
         }
-        val button5 = findViewById<ConstraintLayout>(R.id.button3)
+        val button5 = findViewById<ConstraintLayout>(R.id.button5)
         button5.setOnClickListener { view ->
+            System.out.println("button5")
             val intent = Intent(this,Empty::class.java)
             startActivity(intent)
         }
