@@ -67,50 +67,50 @@ class Database(context: Context) :
         //Insert into the Level Table
         val levelString = "INSERT INTO $LEVEL_TABLE_NAME ( $LEVEL_COL_1, $LEVEL_COL_2, $LEVEL_COL_3,$LEVEL_COL_4,$LEVEL_COL_5) VALUES"
 
-        db.execSQL(levelString+"(1,\"Jisas bin stapam win en weib (Mak 4:35-41)\", 0, "+"\"Mak4.jpg\" , "+"\"Mark 4 35-41 A.txt\")")
-        db.execSQL(levelString+"(2,\"Jisas bin weikimap Lesaras brom dedbala (Jon 11:38-44)\", 0, "+"\"Lazarus.jpg\" , "+"\"John 11 38-44 A.txt\")")
-        db.execSQL(levelString+"(3,\"Jisas bin bon (Methyu 1:18-25)\", 0, "+"\"Methyu1.jpg\" , "+"\"Matthew 1 18-25 A.txt\")")
-        db.execSQL(levelString+"(4,\"Jona bin jingat langa God (Jona 2:1-10)\", 0, "+"\"Jona.jpg\" , "+"\"Jonah 2 1-10 A.txt\")")
-        db.execSQL(levelString+"(5,\"Pida bin meigim wan leimbala men gudwan (Eks 3:1-10)\", 0, "+"\"Eks3.jpg\" , "+"\"Acts 3 1-10 A.txt\")")
-        db.execSQL(levelString+"(6,\"Josef en im braja olabat (Jenasis 37:1-11)\", 0, "+"\"Jenasis37.jpg\" , "+"\"Genesis 37 1-11 A.txt\")")
-        db.execSQL(levelString+"(7,\"Thribala fishamen (Lul 5:1-11)\", 0, "+"\"Luk5.jpg\" , "+"\"Luke 5 1-11 A.txt\")")
-        db.execSQL(levelString+"(8,\"Detlot speshalwan klos blanga ola Kristjan pipul (Ifishans 6:10-20)\", 0, "+"\"Ifishans.jpg\" , "+"\"Ephesians 6 10-20 A.txt\")")
-        db.execSQL(levelString+"(9,\"Jisas bin stapam win en weib (Mak 4:35-41)\", 0, "+"\"Mak4.jpg\" , "+"\"Mark 4 35-41 A.txt\")")
-        db.execSQL(levelString+"(10,\"Jona bin jingat langa God (Jona 2:1-10)\", 0, "+"\"Jona.jpg\" , "+"\"Jonah 2 1-10 A.txt\")")
-        db.execSQL(levelString+"(11,\"Pida bin meigim wan leimbala men gudwan (Eks 3:1-10)\", 0, "+"\"Eks3.jpg\" , "+"\"Acts 3 1-10 A.txt\")")
-        db.execSQL(levelString+"(12,\"Detlot speshalwan klos blanga ola Kristjan pipul (Ifishans 6:10-20)\", 0, "+"\"Ifishans.jpg\" , "+"\"Ephesians 610-20 A.txt\")")
-        db.execSQL(levelString+"(13,\"Raida langa waitwan hos (Rebaleishan 19:11-21)\", 0, "+"\"Rebaleishan.jpg\" , "+"\"Revelation 19 11-21 A.txt\")")
-        db.execSQL(levelString+"(14,\"Detlot 7 san blanga Seba (Eks 19:11-22)\", 0, "+"\"Ephesus.jpg\" , "+"\"Acts 19 11-22 A.txt\")")
-        db.execSQL(levelString+"(15,\"Pol bin prei blanga olabat (Kaloshans 1:3-14)\", 0, "+"\"Kaloshans.jpg\" , "+"\"Collossians 1 3-14 A.txt\")")
-        db.execSQL(levelString+"(16,\"Wan lowamen bin wandi trikim Jisas (Luk 10:25-37)\", 0, "+"\"Luk10.jpg\" , "+"\"Luke 10 25-37 A.txt\")")
-        db.execSQL(levelString+"(17,\"Seitin bin temtimbat Jisas (Luk 4:1-13)\", 0, "+"\"Temptation.jpg\" , "+"\"Luke 4 1-13 A.txt\")")
-        db.execSQL(levelString+"(18,\"Jisas en im braja olabat (Hibrus 2:5-18)\", 0, "+"\"FesPida3.jpg\" , "+"\"hebrews 2 5-18 A.txt\")")
-        db.execSQL(levelString+"(19,\"Teiknodis langa det trubalawan wed (Kaloshans 2:6-19)\", 0, "+"\"FesPida3.jpg\" , "+"\"Collosians 2 6-19 A.txt\")")
-        db.execSQL(levelString+"(20,\"Joshuwa bin bidim ola Emarait pipul (Joshuwa 10:1-15)\", 0, "+"\"Joshuwa.jpg\" , "+"\"Joshua 10 1-15 A.txt\")")
-        db.execSQL(levelString+"(21,\"Jisas bin fidim 5,000 men (Mak 6:30-44)\", 0, "+"\"Mak6.jpg\" , "+"\"Mark 6 30-44 A.txt\")")
-        db.execSQL(levelString+"(22,\"God na meigim wi laigim gija (Fes Jon 4:7-21)\", 0, "+"\"Lovelight.jpg\" , "+"\"1 John 4 7-21 A.txt\")")
-        db.execSQL(levelString+"(23,\"Kristjan pipul garra abum trabul blanga gudbala ting  (Fes Pida 3:8-22)\", 0, "+"\"FesPida3.jpg\" , "+"\"1 Peter 3 8-22 A.txt\")")
-        db.execSQL(levelString+"(24,\"Seitin bin temtimbat Jisas (Luk 4:1-13)\", 0, "+"\"Temptation.jpg\" , "+"\"Luke 4 1-13 A.txt\")")
-        db.execSQL(levelString+"(25,\"Jisas bin fidim 5,000 men (Mak 6:30-44)\", 0, "+"\"Mak6.jpg\" , "+"\"Mark 6 30-44 A.txt\")")
-        db.execSQL(levelString+"(26,\"Nogudbala spirit en bigibigi (Mak 5:1-20)\", 0, "+"\"Mak5.jpg\" , "+"\"Mark 5 1-20 A.txt\")")
-        db.execSQL(levelString+"(27,\"Mosis en ola pipul bin preisim God (Eksadas 15:1-21)\", 0, "+"\"Eksadas15.jpg\" , "+"\"Exodus 15 1-21 A.txt\")")
-        db.execSQL(levelString+"(28,\"Nikadimas bin kaman langa Jisas (Jon 3:1-21)\", 0, "+"\"Nicodemus.jpg\" , "+"\"John 3 1-21 A.txt\")")
-        db.execSQL(levelString+"(29,\"God bin kilim ola feswan san (Eksadas 12:21-42)\", 0, "+"\"Eksadas12.jpg\" , "+"\"Exodus 12 21-42 A.txt\")")
-        db.execSQL(levelString+"(30,\"Dubala bin dagat daga (Jenasis 3:1-24)\", 0, "+"\"Jenasis3.jpg\" , "+"\"Gen 3 1-24 A.txt\")")
-        db.execSQL(levelString+"(31,\"Denyul langa det hol weya ola laiyan oldei jidan (Denyul 6:1-28)\", 0, "+"\" Denyul6.jpg\" , "+"\"Daniel 6 1-28 A.txt\")")
-        db.execSQL(levelString+"(32,\"God bin meigim ebrijing (Jenasis 1:1-2:3)\", 0, "+"\"Jenasis1.jpg\" , "+"\"Genesis 1 all & 2 1-4 A.txt\")")
-        db.execSQL(levelString+"(33,\"Ilaija en detlot mesinja blanga Beil (Fes Kings 18:1-40)\", 0, "+"\"Elijah.jpg\" , "+"\"1 Kings 18 1-40 A.txt\")")
-        db.execSQL(levelString+"(34,\"Deibid bin bidim Galaiyath (Fes Semyul 17:1-58)\", 0, "+"\"David.jpg\" , "+"\"1 Samuel 17 1-58 A.txt\")")
-        db.execSQL(levelString+"(35,\"Nogudbala spirit en bigibigi (Mak 5:1-20)\", 0, "+"\"Mak5.jpg\" , "+"\"Mark 5 1-20 A.txt\")")
-        db.execSQL(levelString+"(36,\"God bin meigim ebrijing (Jenasis 1:1-2:3)\", 0, "+"\"Jenasis1.jpg\" , "+"\"Genesis 1 all & 2 1-4 A.txt\")")
-        db.execSQL(levelString+"(37,\"Jisas bin stapam win en weib (Mak 4:35-41)\", 0, "+"\"Mak4.jpg\" , "+"\"Mark 4 35-41 A.txt\")")
-        db.execSQL(levelString+"(38,\"Jona bin jingat langa God (Jona 2:1-10)\", 0, "+"\"Jona.jpg\" , "+"\"Jonah 2 1-10 A.txt\")")
-        db.execSQL(levelString+"(39,\"Pida bin meigim wan leimbala men gudwan (Eks 3:1-10)\", 0, "+"\"Eks3.jpg\" , "+"\"Acts 3 1-10 A.txt\")")
-        db.execSQL(levelString+"(40,\"Detlot speshalwan klos blanga ola Kristjan pipul (Ifishans 6:10-20)\", 0, "+"\"Ifishans.jpg\" , "+"\"Ephesians 6 10-20 A.txt\")")
-        db.execSQL(levelString+"(41,\"Seitin bin temtimbat Jisas (Luk 4:1-13)\", 0, "+"\"Temptation.jpg\" , "+"\"Luke 4 1-13 A.txt\")")
-        db.execSQL(levelString+"(42,\"Jisas bin fidim 5,000 men (Mak 6:30-44)\", 0, "+"\"Mak6.jpg\" , "+"\"Mark 6 30-44 A.txt\")")
-        db.execSQL(levelString+"(43,\"Nogudbala spirit en bigibigi (Mak 5:1-20)\", 0, "+"\"Mak5.jpg\" , "+"\"Mark 5 1-20 A.txt\")")
-        db.execSQL(levelString+"(44,\"God bin meigim ebrijing (Jenasis 1:1-2:3)\", 0, "+"\"Jenasis1.jpg\" , "+"\"Genesis 1 all & 2 1-4 A.txt\")")
+        db.execSQL(levelString+"(1,\"Jisas bin stapam win en weib (Mak 4:35-41)\", 0, "+"\"mak4\" , "+"\"mark_4_35_41_a\")")
+        db.execSQL(levelString+"(2,\"Jisas bin weikimap Lesaras brom dedbala (Jon 11:38-44)\", 0, "+"\"lazarus\" , "+"\"john_11_38_44_a\")")
+        db.execSQL(levelString+"(3,\"Jisas bin bon (Methyu 1:18-25)\", 0, "+"\"methyu1\" , "+"\"matthew_1_18_25_a\")")
+        db.execSQL(levelString+"(4,\"Jona bin jingat langa God (Jona 2:1-10)\", 0, "+"\"jona\" , "+"\"jonah_2_1_10_a\")")
+        db.execSQL(levelString+"(5,\"Pida bin meigim wan leimbala men gudwan (Eks 3:1-10)\", 0, "+"\"eks3\" , "+"\"acts_3_1_10_a\")")
+        db.execSQL(levelString+"(6,\"Josef en im braja olabat (Jenasis 37:1-11)\", 0, "+"\"jenasis37\" , "+"\"genesis_37_1_11_a\")")
+        db.execSQL(levelString+"(7,\"Thribala fishamen (Lul 5:1-11)\", 0, "+"\"luk5\" , "+"\"luke_5_1_11_a\")")
+        db.execSQL(levelString+"(8,\"Detlot speshalwan klos blanga ola Kristjan pipul (Ifishans 6:10-20)\", 0, "+"\"ifishans\" , "+"\"ephesians_6_10_20_a\")")
+        db.execSQL(levelString+"(9,\"Jisas bin stapam win en weib (Mak 4:35-41)\", 0, "+"\"mak4\" , "+"\"mark_4_35_41_a\")")
+        db.execSQL(levelString+"(10,\"Jona bin jingat langa God (Jona 2:1-10)\", 0, "+"\"jona\" , "+"\"jonah_2_1_10_a\")")
+        db.execSQL(levelString+"(11,\"Pida bin meigim wan leimbala men gudwan (Eks 3:1-10)\", 0, "+"\"eks3\" , "+"\"acts_3_1_10_a\")")
+        db.execSQL(levelString+"(12,\"Detlot speshalwan klos blanga ola Kristjan pipul (Ifishans 6:10-20)\", 0, "+"\"ifishans\" , "+"\"ephesians_6_10_20_a\")")
+        db.execSQL(levelString+"(13,\"Raida langa waitwan hos (Rebaleishan 19:11-21)\", 0, "+"\"rebaleishan\" , "+"\"revelation_19_11_21_a\")")
+        db.execSQL(levelString+"(14,\"Detlot 7 san blanga Seba (Eks 19:11-22)\", 0, "+"\"ephesus\" , "+"\"acts_19_11_22_a\")")
+        db.execSQL(levelString+"(15,\"Pol bin prei blanga olabat (Kaloshans 1:3-14)\", 0, "+"\"kaloshans\" , "+"\"collossians_1_3_14_a\")")
+        db.execSQL(levelString+"(16,\"Wan lowamen bin wandi trikim Jisas (Luk 10:25-37)\", 0, "+"\"luk10\" , "+"\"luke_10_25_37_a\")")
+        db.execSQL(levelString+"(17,\"Seitin bin temtimbat Jisas (Luk 4:1-13)\", 0, "+"\"temptation\" , "+"\"luke_4_1_13_a\")")
+        db.execSQL(levelString+"(18,\"Jisas en im braja olabat (Hibrus 2:5-18)\", 0, "+"\"fespida3\" , "+"\"hebrews_2_5_18_a\")")
+        db.execSQL(levelString+"(19,\"Teiknodis langa det trubalawan wed (Kaloshans 2:6-19)\", 0, "+"\"fespida3\" , "+"\"collosians_2_6_19_a\")")
+        db.execSQL(levelString+"(20,\"Joshuwa bin bidim ola Emarait pipul (Joshuwa 10:1-15)\", 0, "+"\"joshuwa\" , "+"\"joshua_10_1_15_a\")")
+        db.execSQL(levelString+"(21,\"Jisas bin fidim 5,000 men (Mak 6:30-44)\", 0, "+"\"mak6\" , "+"\"mark_6_30_44_a\")")
+        db.execSQL(levelString+"(22,\"God na meigim wi laigim gija (Fes Jon 4:7-21)\", 0, "+"\"lovelight\" , "+"\"john1_4_7_21_a\")")
+        db.execSQL(levelString+"(23,\"Kristjan pipul garra abum trabul blanga gudbala ting  (Fes Pida 3:8-22)\", 0, "+"\"fespida3\" , "+"\"peter1_3_8_22_a\")")
+        db.execSQL(levelString+"(24,\"Seitin bin temtimbat Jisas (Luk 4:1-13)\", 0, "+"\"temptation\" , "+"\"luke_4_1_13_a\")")
+        db.execSQL(levelString+"(25,\"Jisas bin fidim 5,000 men (Mak 6:30-44)\", 0, "+"\"mak6\" , "+"\"mark_6_30_44_a\")")
+        db.execSQL(levelString+"(26,\"Nogudbala spirit en bigibigi (Mak 5:1-20)\", 0, "+"\"mak5\" , "+"\"mark_5_1_20_a\")")
+        db.execSQL(levelString+"(27,\"Mosis en ola pipul bin preisim God (Eksadas 15:1-21)\", 0, "+"\"eksadas15\" , "+"\"exodus_15_1_21_a\")")
+        db.execSQL(levelString+"(28,\"Nikadimas bin kaman langa Jisas (Jon 3:1-21)\", 0, "+"\"nicodemus\" , "+"\"john_3_1_21_a\")")
+        db.execSQL(levelString+"(29,\"God bin kilim ola feswan san (Eksadas 12:21-42)\", 0, "+"\"eksadas12\" , "+"\"exodus_12_21_42_a\")")
+        db.execSQL(levelString+"(30,\"Dubala bin dagat daga (Jenasis 3:1-24)\", 0, "+"\"jenasis3\" , "+"\"gen_3_1_24_a\")")
+        db.execSQL(levelString+"(31,\"Denyul langa det hol weya ola laiyan oldei jidan (Denyul 6:1-28)\", 0, "+"\" denyul6\" , "+"\"daniel_6_1_28_a\")")
+        db.execSQL(levelString+"(32,\"God bin meigim ebrijing (Jenasis 1:1-2:3)\", 0, "+"\"jenasis1\" , "+"\"genesis_1_2_1_4_a\")")
+        db.execSQL(levelString+"(33,\"Ilaija en detlot mesinja blanga Beil (Fes Kings 18:1-40)\", 0, "+"\"elijah\" , "+"\"kings1_18_1_40_a\")")
+        db.execSQL(levelString+"(34,\"Deibid bin bidim Galaiyath (Fes Semyul 17:1-58)\", 0, "+"\"david\" , "+"\"samuel1_17_1_58_a\")")
+        db.execSQL(levelString+"(35,\"Nogudbala spirit en bigibigi (Mak 5:1-20)\", 0, "+"\"mak5\" , "+"\"mark_5_1_20_a\")")
+        db.execSQL(levelString+"(36,\"God bin meigim ebrijing (Jenasis 1:1-2:3)\", 0, "+"\"jenasis1\" , "+"\"genesis_1_2_1_4_a\")")
+        db.execSQL(levelString+"(37,\"Jisas bin stapam win en weib (Mak 4:35-41)\", 0, "+"\"mak4\" , "+"\"mark_4_35_41_a\")")
+        db.execSQL(levelString+"(38,\"Jona bin jingat langa God (Jona 2:1-10)\", 0, "+"\"jona\" , "+"\"jonah_2_1_10_a\")")
+        db.execSQL(levelString+"(39,\"Pida bin meigim wan leimbala men gudwan (Eks 3:1-10)\", 0, "+"\"eks3\" , "+"\"acts_3_1_10_a\")")
+        db.execSQL(levelString+"(40,\"Detlot speshalwan klos blanga ola Kristjan pipul (Ifishans 6:10-20)\", 0, "+"\"ifishans\" , "+"\"ephesians_6_10_20_a\")")
+        db.execSQL(levelString+"(41,\"Seitin bin temtimbat Jisas (Luk 4:1-13)\", 0, "+"\"temptation\" , "+"\"luke_4_1_13_a\")")
+        db.execSQL(levelString+"(42,\"Jisas bin fidim 5,000 men (Mak 6:30-44)\", 0, "+"\"mak6\" , "+"\"mark_6_30_44_a\")")
+        db.execSQL(levelString+"(43,\"Nogudbala spirit en bigibigi (Mak 5:1-20)\", 0, "+"\"mak5\" , "+"\"mark_5_1_20_a\")")
+        db.execSQL(levelString+"(44,\"God bin meigim ebrijing (Jenasis 1:1-2:3)\", 0, "+"\"jenasis1\" , "+"\"genesis_1_2_1_4_a\")")
 
         //Insert Into the Puzzle Tables
         db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(1,3 , 2,0,"+"\"NULL\""+",1,3,3)")
@@ -145,10 +145,10 @@ class Database(context: Context) :
         db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(30,4 , 3,0,"+"\"NULL\""+",8,4,4)")
         db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(31,5 , 4,0,"+"\"NULL\""+",8,5,5)")
         db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(32,5 , 5,0,"+"\"NULL\""+",8,3, 5)")
-        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(33,10 , 12,0,"+"\"Kriol MRK_4 35-41.mp3\""+",9,3, 5)")
-        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(34,10 , 12,0,"+"\"Kriol JONAH 2.mp3\""+",10,3, 5)")
-        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(35,10 , 12,0,"+"\"Kriol ACT_3 1-10.mp3\""+",11,3, 5)")
-        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(36,10 , 12,0,"+"\"Kriol EPH_6 10-20.mp3\""+",12,3, 5)")
+        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(33,10 , 12,0,"+"\"kriol_mrk_4_35_41\""+",9,3, 5)")
+        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(34,10 , 12,0,"+"\"kriol_jonah_2\""+",10,3, 5)")
+        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(35,10 , 12,0,"+"\"kriol_act_3_1_10\""+",11,3, 5)")
+        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(36,10 , 12,0,"+"\"kriol_eph_6_10_20\""+",12,3, 5)")
         db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(37,5 , 4,0,"+"\"NULL\""+",13,5,5)")
         db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(38,6 , 5,0,"+"\"NULL\""+",13,6,6)")
         db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(39,7 , 6,0,"+"\"NULL\""+",13,7,7)")
@@ -193,8 +193,8 @@ class Database(context: Context) :
         db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(78,6 , 5,0,"+"\"NULL\""+",23,6,6)")
         db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(79,7 , 6,0,"+"\"NULL\""+",23,7,7)")
         db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(80,7 , 7,0,"+"\"NULL\""+",23,5, 7)")
-        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(81,10 , 12,0,"+"\"Kriol LUK_4 1-13.mp3\""+",24,5, 7)")
-        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(82,10 , 12,0,"+"\"Kriol MRK_6 30-44 .mp3\""+",25,5, 7)")
+        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(81,10 , 12,0,"+"\"kriol_luk_4_1_13\""+",24,5, 7)")
+        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(82,10 , 12,0,"+"\"kriol_mrk_6_30_44_\""+",25,5, 7)")
         db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(83,10 , 5,0,"+"\"NULL\""+",26,7,7)")
         db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(84,10 , 7,0,"+"\"NULL\""+",26,7 , 8)")
         db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(85,10 , 10,0,"+"\"NULL\""+",26,7, 10)")
@@ -222,16 +222,18 @@ class Database(context: Context) :
         db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(107,10 , 5,0,"+"\"NULL\""+",34,7,7)")
         db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(108,10 , 7,0,"+"\"NULL\""+",34,7 , 8)")
         db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(109,10 , 10,0,"+"\"NULL\""+",34,7, 10)")
-        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(110,10 , 12,0,"+"\"Kriol MRK 5 1-20.mp3\""+",35,7, 10)")
-        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(111,10 , 12,0,"+"\"Kriol GEN_1&2 4.mp3\""+",36,7, 10)")
-        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(112,10 , 15,0,"+"\"Kriol MRK_4 35-41.mp3\""+",37,3,10)")
-        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(113,10 , 15,0,"+"\"Kriol JONAH 2.mp3\""+",38,3,10)")
-        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(114,10 , 15,0,"+"\"Kriol ACT_3 1-10.mp3\""+",39,3,10)")
-        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(115,10 , 15,0,"+"\"Kriol EPH_6 10-20.mp3\""+",40,3,10)")
-        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(116,10 , 15,0,"+"\"Kriol LUK_4 1-13.mp3\""+",41,3,10)")
-        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(117,10 , 15,0,"+"\"Kriol MRK_6 30-44 .mp3\""+",42,3,10)")
-        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(118,10 , 15,0,"+"\"Kriol MRK 5 1-20.mp3\""+",43,3,10)")
-        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(119,10 , 15,0,"+"\"Kriol GEN_1&2 4.mp3\""+",44,3,10)")
+        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(110,10 , 12,0,"+"\"kriol_mrk_5_1_20\""+",35,7, 10)")
+        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(111,10 , 12,0,"+"\"kriol_gen_1_2_4\""+",36,7, 10)")
+        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(112,10 , 15,0,"+"\"kriol_mrk_4_35_41\""+",37,3,10)")
+        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(113,10 , 15,0,"+"\"kriol_jonah_2\""+",38,3,10)")
+        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(114,10 , 15,0,"+"\"kriol_act_3_1_10\""+",39,3,10)")
+        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(115,10 , 15,0,"+"\"kriol_eph_6_10_20\""+",40,3,10)")
+        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(116,10 , 15,0,"+"\"kriol_luk_4_1_13\""+",41,3,10)")
+        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(117,10 , 15,0,"+"\"kriol_mrk_6_30_44_\""+",42,3,10)")
+        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(118,10 , 15,0,"+"\"kriol_mrk_5_1_20\""+",43,3,10)")
+        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(119,10 , 15,0,"+"\"kriol_gen_1_2_4\""+",44,3,10)")
+
+
         // There is no word table. They are in files
     }
     //Functions for quering the DB

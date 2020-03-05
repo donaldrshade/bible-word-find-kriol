@@ -13,4 +13,5 @@
     <string name="title_activity_empty">Empty</string>
     <string name="listen_bible">Irim Baibul</string>
     <string name="watch_video">Lunkinat video</string>
+    <string name="package_name">org.lightsys.kriolbiblewordfind</string>
 </resources>
