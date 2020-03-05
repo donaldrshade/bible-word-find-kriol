@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="#64CA89"
+        android:orientation="vertical"
+        tools:context=".puzzleActivity">
+
+
+    <ImageView
+            android:id="@+id/story_title_banner_image"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:contentDescription="TODO"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toTopOf="@+id/gridBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/fespida3" />
+
+    <ImageView
+            android:id="@+id/gridBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="325dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias=".5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.589"
+            app:srcCompat="@drawable/grid_background" />
+
+    <ImageView
+            android:id="@+id/breadScore"
+            android:layout_width="66dp"
+            android:layout_height="61dp"
+            android:onClick="breadClicked"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.081"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/story_title_banner_image"
+            app:layout_constraintVertical_bias="0.921"
+            app:srcCompat="@drawable/bread" />
+
+    <ImageView
+            android:id="@+id/fishScore"
+            android:layout_width="115dp"
+            android:layout_height="49dp"
+            android:onClick="fishClicked"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/boatScore"
+            app:layout_constraintHorizontal_bias=".5"
+            app:layout_constraintStart_toEndOf="@+id/breadScore"
+            app:layout_constraintTop_toBottomOf="@+id/story_title_banner_image"
+            app:layout_constraintVertical_bias="0.923"
+            app:srcCompat="@drawable/fish_clipart_md" />
+
+    <ImageView
+            android:id="@+id/boatScore"
+            android:layout_width="91dp"
+            android:layout_height="56dp"
+            android:onClick="boatClicked"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.95"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.949"
+            app:srcCompat="@drawable/boat" />
+
+    <TextView
+            android:id="@+id/breadScoreNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.133"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.977" />
+
+    <TextView
+            android:id="@+id/boatScoreNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.868"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.98" />
+
+    <TextView
+            android:id="@+id/fishScoreNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/boatScoreNumber"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toEndOf="@+id/breadScoreNumber"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.977" />
+
+
+    <android.support.design.widget.FloatingActionButton
+            android:id="@+id/home_fab"
+            android:layout_width="57dp"
+            android:layout_height="59dp"
+            android:src="@drawable/homebutton"
+            app:backgroundTint="@color/colorHomeButton"
+            app:layout_constraintBottom_toTopOf="@+id/gridBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.045"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.087" />
+
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="291dp"
+            android:layout_height="291dp"
+            tools:layout_editor_absoluteX="60dp"
+            tools:layout_editor_absoluteY="256dp" />
+</android.support.constraint.ConstraintLayout>
