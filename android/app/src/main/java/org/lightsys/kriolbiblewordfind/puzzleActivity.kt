@@ -1,17 +1,16 @@
 package org.lightsys.kriolbiblewordfind
-
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+import android.content.res.Resources
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
-import android.support.v4.widget.ImageViewCompat
+import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.Window
-import android.widget.ImageView
 import android.view.WindowManager
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_puzzle.*
+
+
 
 class puzzleActivity : AppCompatActivity() {
 
@@ -30,18 +29,16 @@ class puzzleActivity : AppCompatActivity() {
             finish()
         }
 
-        val intent = getIntent()
-        val level = intent.getIntExtra(getString(R.string.level_num),-1)
+        val intent = intent;
+        val level = intent.getIntExtra(getString(R.string.level_num),-1);
 
+        //String that contains the banner name
+        val levelBanner = "eijah";
 
-        //image_name should contain the name of the banner that matches the current level
-        //TODO: I need to select the picture from a string
-        val imageName = R.drawable.fespida3
-        val banner  = findViewById<ImageView>(R.id.story_title_banner_image)
-
-
-        //Changing the banner to the banner specified.
-        banner.setImageResource(imageName)
+        //Changing the banner
+        val res: Resources = resources;
+        val resID = res.getIdentifier(levelBanner, "drawable", packageName);
+        story_title_banner_image.setImageResource(resID);
     }
 
     //Subtracts 1 from the boat number when tapped.
