@@ -6,10 +6,7 @@ import android.support.constraint.ConstraintLayout
 import android.support.constraint.ConstraintSet
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
-import android.view.Gravity
-import android.view.View
-import android.view.Window
-import android.view.WindowManager
+import android.view.*
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_puzzle.*
 import kotlinx.android.synthetic.main.nav_header_main.*
@@ -40,7 +37,7 @@ class puzzleActivity : AppCompatActivity() {
         var db = Database(this)
         puzzle = db.getPuzzle(pnum)
        var puzzleSize = puzzle.size;
-        puzzleSize = 3;
+        puzzleSize = 3;//TODO
 
         val gridSizer = findViewById<ConstraintLayout>(R.id.gridSizer);
         val cset = ConstraintSet();
@@ -64,8 +61,17 @@ class puzzleActivity : AppCompatActivity() {
 
 
                 gridSizer!!.addView(textView, lp)
-                    //text.setOnTouchListener { make a thing for on motion_down and motion_up }
-                //set position
+               /* textView.setOnTouchListener( ) {v: View, m: MotionEvent ->
+                    when(m.actionMasked){
+                        MotionEvent.ACTION_DOWN -> {
+                            this.setStartLetter(textView);
+                        }
+                        MotionEvent.ACTION_UP -> {
+                            this.setEndLetter(textView);
+                        }
+                    }
+                    true;
+                }*/
             }
         }
 
@@ -103,6 +109,9 @@ class puzzleActivity : AppCompatActivity() {
 
 
 
+
+
+
         //String that contains the banner name
         val levelBanner = "eijah";//TODO
 
@@ -112,6 +121,16 @@ class puzzleActivity : AppCompatActivity() {
         story_title_banner_image.setImageResource(resID);
     }
 
+
+    /*fun setStartLetter( box: TextView){
+       // box.setText("Start");
+        //box.setText(box.left.toString())
+    }
+
+    fun setEndLetter(box : TextView){
+        box.setText(box.top.toString());
+    }
+*/
     //Subtracts 1 from the boat number when tapped.
     //TODO: The boat number is set to 5 by default and must be changed
     fun boatClicked(view: View) {
