@@ -73,8 +73,14 @@ public class DrawingView extends View {
                 startY = touchY;
                 break;
             case MotionEvent.ACTION_MOVE:
+                this.getHitRect(rect);
                 drawPath.rewind();
-                drawPath.moveTo(startX, startY);
+                if(rect.contains((int)touchX, (int)touchY)){
+                    //Snap to center
+                    drawPath.moveTo(rect.exactCenterX(), rect.exactCenterY());
+                } else {
+                    drawPath.moveTo(startX, startY);
+                }
                 drawPath.lineTo(touchX, touchY);
                 break;
             case MotionEvent.ACTION_UP:
@@ -89,6 +95,7 @@ public class DrawingView extends View {
 
         this.getHitRect(rect);
         if(rect.contains((int)touchX, (int)touchY)){
+
             String s = "Touched: " + touchX + " " + touchY;
             text.setText(s);
         }
