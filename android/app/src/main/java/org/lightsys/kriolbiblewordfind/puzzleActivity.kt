@@ -40,7 +40,7 @@ class puzzleActivity : AppCompatActivity() {
         var db = Database(this)
         puzzle = db.getPuzzle(pnum)
        var puzzleSize = puzzle.size;
-        puzzleSize = 4;
+        puzzleSize = 3;
 
         val gridSizer = findViewById<ConstraintLayout>(R.id.gridSizer);
         val cset = ConstraintSet();
@@ -54,12 +54,10 @@ class puzzleActivity : AppCompatActivity() {
         for (r in 0 until puzzleSize) {
             for (c in 0 until puzzleSize) {
                 var textView = TextView(this)
-                textView.id = r*puzzleSize+c;
+                textView.id = 1000+r*puzzleSize+c;
                 idArr[r*puzzleSize+c] = textView.id;
-                textView.text = "A"
-                if(r==c){
-                    textView.text = "${r}D"
-                }
+                textView.text = "${r}${c}"
+
                 textView.gravity = Gravity.CENTER
                 //textView.setBackgroundColor(40)
                 val lp = ConstraintLayout.LayoutParams(ConstraintSet.MATCH_CONSTRAINT, ConstraintSet.MATCH_CONSTRAINT)
@@ -78,13 +76,13 @@ class puzzleActivity : AppCompatActivity() {
         for (r in 0 until puzzleSize) {
             val intarr = IntArray(puzzleSize);
             for (c in 0 until puzzleSize) {
-                intarr[c] = r*puzzleSize + c;
-                val id = r*puzzleSize + c
+                intarr[c] = 1000+r*puzzleSize + c;
+                val id = 1000+r*puzzleSize + c
                 cset.setDimensionRatio(id, "1:1")
                 if(r==0){
                     cset.connect(id, ConstraintSet.TOP, dimensionBox, ConstraintSet.TOP);
                 } else {
-                    cset.connect(id, ConstraintSet.TOP, (r-1)*puzzleSize+c, ConstraintSet.BOTTOM)
+                    cset.connect(id, ConstraintSet.TOP, 1000+(r-1)*puzzleSize+c, ConstraintSet.BOTTOM)
                 }
 
 
