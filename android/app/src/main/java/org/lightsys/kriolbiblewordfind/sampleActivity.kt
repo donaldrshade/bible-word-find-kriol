@@ -30,9 +30,6 @@ class sampleActivity : AppCompatActivity() {
             finish()
         }
 
-        var rect = Rect()
-        canvas.getHitRect(rect)
-
         /*for(i in 0..6){
             for(j in 0..6){
                 canvas.setOnTouchListener { v: View, m: MotionEvent ->

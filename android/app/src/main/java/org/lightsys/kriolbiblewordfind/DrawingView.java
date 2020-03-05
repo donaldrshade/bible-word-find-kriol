@@ -27,7 +27,6 @@ public class DrawingView extends View {
         super(context, attrs);
 
         rect = new Rect();
-        this.getHitRect(rect);
         this.text = text;
 
         drawPaint = new Paint();
@@ -88,6 +87,7 @@ public class DrawingView extends View {
                 return false;
         }
 
+        this.getHitRect(rect);
         if(rect.contains((int)touchX, (int)touchY)){
             String s = "Touched: " + touchX + " " + touchY;
             text.setText(s);
