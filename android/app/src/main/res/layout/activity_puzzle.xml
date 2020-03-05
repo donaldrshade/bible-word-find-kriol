@@ -668,7 +668,4 @@
                 app:layout_row="6" />
 
     </android.support.v7.widget.GridLayout>
-
-
 </android.support.constraint.ConstraintLayout>
-
