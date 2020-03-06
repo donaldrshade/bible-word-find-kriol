@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:background="@color/colorPrimary">
+
+    <android.support.design.widget.FloatingActionButton
+            android:id="@+id/home_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|start"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            app:backgroundTint="@color/colorHomeButton"
+            android:src="@drawable/homebutton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+    />
+
+    <ImageView
+    android:id="@+id/story_title_banner_image"
+    android:layout_width="wrap_content"
+    android:layout_height="0dp"
+    android:contentDescription="TODO"
+    android:scaleType="fitXY"
+    android:src="@drawable/fespida3"
+    app:layout_constraintBottom_toTopOf="@id/watch_bible_title"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_weight="4"/>
+
+    <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintBottom_toBottomOf="@id/story_title_banner_image"
+    app:layout_constraintEnd_toEndOf="@id/story_title_banner_image"
+    app:layout_constraintStart_toStartOf="@id/story_title_banner_image"
+    android:text="@string/main_menu_title"
+    android:textAlignment="gravity"
+    android:gravity="center"
+    android:textStyle="bold"
+    android:textSize="40sp"
+    app:fontFamily="@font/comic_sans"
+    android:textColor="@color/black"/>
+
+    <TextView
+    android:id="@+id/watch_bible_title"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    android:gravity="center"
+    android:text="@string/watch_video"
+    android:textColor="@color/black"
+    android:textSize="@dimen/sub_menu_label"
+    android:textStyle="bold"
+    app:fontFamily="@font/comic_sans_b"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/story_title_banner_image"
+    app:layout_constraintBottom_toTopOf="@id/watch_bible_link"
+    app:layout_constraintVertical_weight="3" />
+
+    <ImageView
+    android:id="@+id/watch_bible_link"
+    android:layout_width="wrap_content"
+    android:layout_height="0dp"
+    android:background="@color/colorPrimary"
+    android:src="@drawable/video"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/watch_bible_title"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintVertical_weight="6"/>
+
+</android.support.constraint.ConstraintLayout>

@@ -2,6 +2,8 @@ package org.lightsys.kriolbiblewordfind
 import PuzzleEngine
 import Word
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.SharedPreferences
 import android.content.res.Resources
 import android.graphics.Paint
 import android.graphics.Color
@@ -25,6 +27,11 @@ class puzzleActivity : AppCompatActivity() {
     var puzzleSize = 0
     var letters = arrayOf<TextView?>()
     var wordList = arrayOf<Word?>()
+    var wordCounter = 0
+    var isAudioPuzzle = false
+    lateinit var db:Database
+    lateinit var puzzleEngine:PuzzleEngine
+    lateinit var sp:SharedPreferences
 
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,16 +59,44 @@ class puzzleActivity : AppCompatActivity() {
 
         val intent = intent
         //TODO: Get pnum from strings file
-        val pnum = 2//intent.getIntExtra(getString(R.string.puzzle_num),-1)
+        val pnum = intent.getIntExtra(getString(R.string.puzzle_num),-1)
+        sp = this.getSharedPreferences(getString(R.string.points_file_key), Context.MODE_PRIVATE)
+        val boatCount = sp.getInt(getString(R.string.boat_key),0)
+        val fishCount = sp.getInt(getString(R.string.fish_key),0)
+        val breadCount = sp.getInt(getString(R.string.bread_key),0)
+        val boatView = findViewById<TextView>(R.id.boatScoreNumber)
+        boatView.setText(boatCount.toString())
+        val fishView = findViewById<TextView>(R.id.fishScoreNumber)
+        fishView.setText(fishCount.toString())
+        val breadView = findViewById<TextView>(R.id.breadScoreNumber)
+        breadView.setText(breadCount.toString())
 
-        var puzzle = Puzzle()
 
         //Initiate Database and load puzzle engine
-        var db = Database(this)
-        puzzle = db.getPuzzle(pnum)
-        var puzzleEngine = PuzzleEngine(puzzle, this)
+        db = Database(this)
+        var puzzle = db.getPuzzle(pnum)
+        puzzleEngine = PuzzleEngine(puzzle, this)
         var puzzleGrid = puzzleEngine.grid
         wordList = puzzleEngine.getWords()
+
+        //Load words into wordbank, only populate it if not audio puzzle
+        wordCounter = wordList.size
+        isAudioPuzzle = db.isAudioPuzzle(puzzleEngine.puzzle.id)
+        if(isAudioPuzzle){
+
+        } else {
+            for(w in 0 until wordList.size){
+                var textView = TextView(this)
+                var params = LinearLayout.LayoutParams(
+                    wordBank.layoutParams.width,
+                    wordBank.layoutParams.height
+                )
+                textView.textSize= 20F
+                textView.text = wordList[w]!!.word
+                textView.id = w + 2000
+                wordBank.addView(textView, params)
+            }
+        }
 
         val gridSizer = findViewById<ConstraintLayout>(R.id.gridSizer)
         val cset = ConstraintSet()
@@ -160,7 +195,6 @@ class puzzleActivity : AppCompatActivity() {
     }
 
     fun isValidWord(startX: Float, startY: Float, endX: Float, endY: Float) : Boolean{
-
         var ind1 = getGridCellIndex(startX, startY)
         var row1 = (ind1 / puzzleSize)
         var col1 = ind1 % puzzleSize
@@ -175,8 +209,26 @@ class puzzleActivity : AppCompatActivity() {
             if(word!!.getStartPt()[0] == row1 && word.getStartPt()[1] == col1 && word.getEndPt()[0] == row2 && word.getEndPt()[1] == col2){
                 wordList[i] = null
                 gainBread()
-                boatScoreNumber.paintFlags = boatScoreNumber.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG
-                //TODO: Cross word off from listy-list
+
+                //Cross off word from word bank
+                if(isAudioPuzzle){
+
+                } else {
+                    var wordText = findViewById<TextView>(i + 2000)
+                    wordText.paintFlags = wordText.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG
+                }
+
+                //Check how many words left, if all discovered, win level
+                wordCounter--
+                if(wordCounter == 0){
+                    gainFish()
+                    //TODO: winPuzzle() //Not sure if this function will be necessary
+                    val levelComplete = db.markPuzzleCompleted(puzzleEngine.puzzle.id)
+                    if(levelComplete){
+                        gainBoat()
+                    }
+                    //
+                }
                 return true
             }
         }
@@ -189,10 +241,10 @@ class puzzleActivity : AppCompatActivity() {
         var boatString = boatScoreNumber.text.toString()
         var boatInt = boatString.toInt()
 
-        if (boatInt > 0){
-            boatInt--
+        if (boatInt > 2){
+            boatInt -= 3
             boatScoreNumber.text = boatInt.toString()
-            //TODO: Reveal one random letter
+            //TODO: Spend 3 boats to unlock a level
         }
     }
 
@@ -215,19 +267,21 @@ class puzzleActivity : AppCompatActivity() {
         var breadString = breadScoreNumber.text.toString()
         var breadInt = breadString.toInt()
 
-        if (breadInt > 2) {
-            breadInt -= 3
+        if (breadInt > 0) {
+            breadInt--
             breadScoreNumber.text = breadInt.toString()
-            //TODO: Spend 3 boats to unlock a level
+            //TODO: Reveal one random letter
         }
     }
 
     fun gainBoat(){
        var boatString = boatScoreNumber.text.toString()
         var boatInt = boatString.toInt()
-
         boatInt++
         boatScoreNumber.text = boatInt.toString()
+        val edit = sp.edit()
+        edit.putInt(getString(R.string.boat_key),boatInt)
+        edit.commit()
     }
 
     fun gainFish(){
@@ -236,6 +290,9 @@ class puzzleActivity : AppCompatActivity() {
 
         fishInt++
         fishScoreNumber.text = fishInt.toString()
+        val edit = sp.edit()
+        edit.putInt(getString(R.string.fish_key),fishInt)
+        edit.commit()
     }
 
     fun gainBread(){
@@ -244,5 +301,8 @@ class puzzleActivity : AppCompatActivity() {
 
         breadInt++
         breadScoreNumber.text = breadInt.toString()
+        val edit = sp.edit()
+        edit.putInt(getString(R.string.bread_key),breadInt)
+        edit.commit()
     }
 }
