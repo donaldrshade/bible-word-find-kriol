@@ -32,10 +32,10 @@ class LevelSelect : AppCompatActivity() {
         }
 
         val levelTable = findViewById<TableLayout>(R.id.levelTable)
-
-
         val db = Database(this)
         val levels = db.getLevelList()
+        val lastLevel = db.getActiveLevel()
+
 
         //An integer that is the number of levels
         val numOfLevels = levels.size
@@ -57,10 +57,14 @@ class LevelSelect : AppCompatActivity() {
                 audioImage.layoutParams = params
                 row.addView(audioImage)
 
-                //Send the player to the selected level
-                audioImage.setOnClickListener{
-                    setResult(num)
-                    finish()
+                //Enable button if the level is unlocked
+                if (lastLevel.id >= num) {
+                    //Send the player to the selected level
+                    audioImage.setOnClickListener {
+                        audioImage.setImageResource(R.drawable.headphones_active)
+                        setResult(num)
+                        finish()
+                    }
                 }
             } else {
                 val textView = TextView(this)
@@ -73,9 +77,12 @@ class LevelSelect : AppCompatActivity() {
 
                 //Send the player to the selected level
                 textView.setOnClickListener{
-                    textView.setTextColor(Color.GREEN)
-                    setResult(num)
-                    finish()
+                    //Enable button if the level is unlocked
+                    if (lastLevel.id >= num) {
+                        textView.setTextColor(Color.GREEN)
+                        setResult(num)
+                        finish()
+                    }
                 }
             }
 

@@ -257,6 +257,7 @@ class Database(context: Context) :
         }
         return returnList
     }
+
     fun getPuzzle(puzzleId:Int):Puzzle{
         val db = this.writableDatabase
         val query = "select * from $PUZZLE_TABLE_NAME WHERE $PUZZLE_COL_1 = ? "
