@@ -5,7 +5,7 @@
     <stroke
             android:width="4dp"
             android:color="#000000" />
-<!--    <corners android:radius="@dimen/pop_up_corner_radius"/>-->
+    <corners android:radius="@dimen/pop_up_corner_radius"/>
     <solid android:color="@color/white"/>
 
 </shape>

@@ -39,4 +39,8 @@
     <string name="hasText">HAS_TEXT</string>
     <string name="setText">SET_TEXT</string>
     <string name="hasTick">HAS_TICK</string>
+    <string name="tutorial_1">Dis arror shoum bla meigim det wed garram yu bingga.</string>
+    <string name="X_POS">X_POS</string>
+    <string name="Y_POS">Y_POS</string>
+    <string name="tutorial_2">When you find a word it will be recorded here.</string>
 </resources>

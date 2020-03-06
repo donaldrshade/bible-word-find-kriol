@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Window
 import android.view.WindowManager
 import android.widget.ImageView
+const val PLAY_LEVEL = 10
 class MainActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,8 +31,8 @@ class MainActivity : AppCompatActivity(){
         }
         val howToPlayButton = findViewById<ConstraintLayout>(R.id.how_to_play_button)
         howToPlayButton.setOnClickListener {
-            val intent = Intent(this,Empty::class.java)
-            startActivity(intent)
+            val intent = Intent(this,puzzleActivity::class.java)
+            startActivityForResult(intent,PLAY_LEVEL)
         }
         val gameLevelButton = findViewById<ConstraintLayout>(R.id.game_level_button)
         gameLevelButton.setOnClickListener {

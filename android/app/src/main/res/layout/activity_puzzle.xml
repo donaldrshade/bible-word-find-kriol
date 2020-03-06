@@ -70,6 +70,15 @@
     </android.support.constraint.ConstraintLayout>
 
     <ImageView
+            android:id="@+id/arrow_image"
+            android:layout_width="60dp"
+            android:layout_height="80dp"
+            android:src="@drawable/arrow"
+            android:visibility="invisible"
+            app:layout_constraintTop_toTopOf="@id/gridSizer"
+            app:layout_constraintStart_toStartOf="@id/gridSizer"/>
+
+    <ImageView
             android:id="@+id/breadScore"
             android:layout_width="46dp"
             android:layout_height="50dp"
@@ -163,5 +172,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.087" />
+
 
 </android.support.constraint.ConstraintLayout>

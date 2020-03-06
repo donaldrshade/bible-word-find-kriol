@@ -1,30 +1,33 @@
 package org.lightsys.kriolbiblewordfind
-
 import PuzzleEngine
 import Word
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Resources
-import android.graphics.Color
 import android.graphics.Paint
-import android.media.MediaPlayer
-import android.nfc.FormatException
+import android.graphics.Color
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.ConstraintSet
 import android.support.design.widget.FloatingActionButton
+import android.support.transition.Visibility
 import android.support.v7.app.AppCompatActivity
 import android.view.Gravity
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import android.widget.*
-import android.widget.LinearLayout.LayoutParams
+import android.view.animation.AnimationUtils
+import android.view.animation.TranslateAnimation
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_puzzle.*
 import java.lang.Math.floor
 
 
+const val LEVEL_NOT_FINISHED = -5
 class puzzleActivity : AppCompatActivity() {
 
     var puzzleSize = 0
@@ -32,10 +35,12 @@ class puzzleActivity : AppCompatActivity() {
     var wordList = arrayOf<Word?>()
     var wordCounter = 0
     var isAudioPuzzle = false
+    var finished = false
     lateinit var db:Database
     lateinit var puzzleEngine:PuzzleEngine
     lateinit var sp:SharedPreferences
-    lateinit var media:MediaPlayer
+
+    lateinit var arrow:ImageView
 
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +53,7 @@ class puzzleActivity : AppCompatActivity() {
 
         //Create canvas to track swipes
         var canvas = DrawingView(this, null, this)
-        var params = LayoutParams(
+        var params = LinearLayout.LayoutParams(
             gridSizer.layoutParams.width,
             gridSizer.layoutParams.height
         )
@@ -56,10 +61,18 @@ class puzzleActivity : AppCompatActivity() {
         gridSizer.addView(canvas, params)
         canvas.bringToFront()
 
-        //Set Home Button
         val fab = findViewById<FloatingActionButton>(R.id.home_fab)
         fab.setOnClickListener { view ->
-            finish()
+            if(finished){
+                val i = Intent()
+                setResult(puzzleEngine.puzzle.id,i)
+                finish()
+            }else{
+                val i = Intent()
+                setResult(LEVEL_NOT_FINISHED,i)
+                finish()
+            }
+
         }
 
         val intent = intent
@@ -75,72 +88,30 @@ class puzzleActivity : AppCompatActivity() {
         val breadView = findViewById<TextView>(R.id.breadScoreNumber)
         breadView.setText(breadCount.toString())
 
+
         //Initiate Database and load puzzle engine
         db = Database(this)
         var puzzle = db.getPuzzle(pnum)
         puzzleEngine = PuzzleEngine(puzzle, this)
-
         var puzzleGrid = puzzleEngine.grid
         wordList = puzzleEngine.getWords()
 
         //Load words into wordbank, only populate it if not audio puzzle
-        //If audio puzzle, add play/pause button and word counter
-        wordCounter = 0
+        wordCounter = wordList.size
         isAudioPuzzle = db.isAudioPuzzle(puzzleEngine.puzzle.id)
-
-        var wordBank = findViewById<TableLayout>(R.id.wordBank)
-
         if(isAudioPuzzle){
-            val row = TableRow(this)
-            wordBank.addView(row)
-            var rowParams = TableRow.LayoutParams(row.layoutParams.width / 3, row.layoutParams.height)
-            row.addView(TextView(this), rowParams)
-            var audioView = ImageButton(this)
-            audioView.layoutParams = rowParams
-            audioView.setImageResource(R.drawable.headphones)
-            audioView.setBackgroundResource(0)
-            audioView.id = 2000
 
-            //Initialize media player
-            try {
-                media = createMedia(puzzle.audioFile)
-            } catch (e : FormatException) {
-                Toast.makeText(getApplicationContext(), "Incorrect file format", Toast.LENGTH_SHORT).show()
-                finish()
-            }
-
-            //If audio is playing, clicking audio button pauses it
-            //Otherwise, play audio
-            audioView.setOnClickListener {
-                if(media.isPlaying()){
-                    media.pause();
-                } else {
-                    media.start();
-                }
-            }
-
-            var wordsLeft = TextView(this)
-            wordsLeft.textSize = 20F
-            wordsLeft.text = "$wordCounter / " + wordList.size
-            wordsLeft.layoutParams = rowParams
-            wordsLeft.id = 2001
-
-            row.addView(audioView)
-            row.addView(wordsLeft)
         } else {
-            var row = TableRow(this)
             for(w in 0 until wordList.size){
-                if(w % 3 == 0){
-                    row = TableRow(this);
-                    wordBank.addView(row);
-                }
                 var textView = TextView(this)
-
+                var params = LinearLayout.LayoutParams(
+                    wordBank.layoutParams.width,
+                    wordBank.layoutParams.height
+                )
                 textView.textSize= 20F
-                textView.gravity = Gravity.CENTER
                 textView.text = wordList[w]!!.word
                 textView.id = w + 2000
-                row.addView(textView)
+                wordBank.addView(textView, params)
             }
         }
 
@@ -162,17 +133,17 @@ class puzzleActivity : AppCompatActivity() {
 
 
                 gridSizer!!.addView(textView, lp)
-               /* textView.setOnTouchListener( ) {v: View, m: MotionEvent ->
-                    when(m.actionMasked){
-                        MotionEvent.ACTION_DOWN -> {
-                            this.setStartLetter(textView)
-                        }
-                        MotionEvent.ACTION_UP -> {
-                            this.setEndLetter(textView)
-                        }
-                    }
-                    true
-                }*/
+                /* textView.setOnTouchListener( ) {v: View, m: MotionEvent ->
+                     when(m.actionMasked){
+                         MotionEvent.ACTION_DOWN -> {
+                             this.setStartLetter(textView)
+                         }
+                         MotionEvent.ACTION_UP -> {
+                             this.setEndLetter(textView)
+                         }
+                     }
+                     true
+                 }*/
             }
         }
 
@@ -208,20 +179,27 @@ class puzzleActivity : AppCompatActivity() {
 
         story_title_banner_image.setImageResource(bannerResID);
 
-        when (rnds){
-            0-> levelBackground.setBackgroundColor(Color.rgb(0,188,212));
-            1-> levelBackground.setBackgroundColor(Color.rgb(152,228,146));
-            2-> levelBackground.setBackgroundColor(Color.rgb(220,195,154));
-            3-> levelBackground.setBackgroundColor(Color.rgb(173,166,227));
-            4-> levelBackground.setBackgroundColor(Color.rgb(214,174,236));
-            5-> levelBackground.setBackgroundColor(Color.rgb(180,218,217));
-            6-> levelBackground.setBackgroundColor(Color.rgb(218,180,210));
-            7-> levelBackground.setBackgroundColor(Color.rgb(185,209,175));
-            8-> levelBackground.setBackgroundColor(Color.rgb(166,225,195));
-            9-> levelBackground.setBackgroundColor(Color.rgb(20,180,180));
-            else -> {levelBackground.setBackgroundColor(Color.rgb(20,180,180));}
+//        when (rnds){
+//            0-> levelBackground.setBackgroundColor(Color.rgb(0,188,212));
+//            1-> levelBackground.setBackgroundColor(Color.rgb(152,228,146));
+//            2-> levelBackground.setBackgroundColor(Color.rgb(220,195,154));
+//            3-> levelBackground.setBackgroundColor(Color.rgb(173,166,227));
+//            4-> levelBackground.setBackgroundColor(Color.rgb(214,174,236));
+//            5-> levelBackground.setBackgroundColor(Color.rgb(180,218,217));
+//            6-> levelBackground.setBackgroundColor(Color.rgb(218,180,210));
+//            7-> levelBackground.setBackgroundColor(Color.rgb(185,209,175));
+//            8-> levelBackground.setBackgroundColor(Color.rgb(166,225,195));
+//            9-> levelBackground.setBackgroundColor(Color.rgb(20,180,180));
+//            else -> {levelBackground.setBackgroundColor(Color.rgb(20,180,180));}
+//        }
+        arrow = findViewById<ImageView>(R.id.arrow_image)
+        if(puzzle.id == -1){
+            showHelp1()
+            PopUp(this,setText = this.getString(R.string.tutorial_1),hasTick = false,yPos=300)
         }
     }
+
+
 
     fun getGridCell(x: Float, y: Float) : TextView?{
         return letters[getGridCellIndex(x, y)]
@@ -240,7 +218,6 @@ class puzzleActivity : AppCompatActivity() {
         return row * puzzleSize + col
     }
 
-    //Updated function allows words to be completed in either direction
     fun isValidWord(startX: Float, startY: Float, endX: Float, endY: Float) : Boolean{
         var ind1 = getGridCellIndex(startX, startY)
         var row1 = (ind1 / puzzleSize)
@@ -253,29 +230,38 @@ class puzzleActivity : AppCompatActivity() {
         for(i in 0 until wordList.size){
             val word = wordList[i]
             if(word == null) continue
-            if(word!!.getStartPt()[0] == row1 && word.getStartPt()[1] == col1 && word.getEndPt()[0] == row2 && word.getEndPt()[1] == col2
-                || word!!.getEndPt()[0] == row1 && word.getEndPt()[1] == col1 && word.getStartPt()[0] == row2 && word.getStartPt()[1] == col2){
+            if(word!!.getStartPt()[0] == row1 && word.getStartPt()[1] == col1 && word.getEndPt()[0] == row2 && word.getEndPt()[1] == col2){
                 wordList[i] = null
                 gainBread()
 
-                //Update wordCounter and cross off word from word bank
-                wordCounter++
+                //Cross off word from word bank
                 if(isAudioPuzzle){
-                    var id = 2001
-                    var wordsLeft = findViewById<TextView>(id)
-                    wordsLeft.text = "$wordCounter / " + wordList.size
+
                 } else {
                     var wordText = findViewById<TextView>(i + 2000)
                     wordText.paintFlags = wordText.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG
                 }
 
-                //If all words discovered, win level
-                if(wordCounter == wordList.size){
+                //Check how many words left, if all discovered, win level
+                wordCounter--
+                if(puzzleEngine.puzzle.id==-1 && wordCounter == 2){
+                    dismissAction()
+                    showHelp2()
+                }
+                if(puzzleEngine.puzzle.id==-1 && wordCounter == 1){
+                    dismissAction()
+                    showHelp2()
+                }
+                if(wordCounter == 0){
                     gainFish()
+
+                    //TODO: winPuzzle() //Not sure if this function will be necessary
                     val levelComplete = db.markPuzzleCompleted(puzzleEngine.puzzle.id)
                     if(levelComplete){
                         gainBoat()
                     }
+                    finished = true;
+                    PopUp(this,hasTick = true)
                 }
                 return true
             }
@@ -283,7 +269,7 @@ class puzzleActivity : AppCompatActivity() {
         return false
     }
 
-    //Subtracts 1 from the boat number when tapped
+    //TODO: The boat number is set to 5 by default and must be changed
     fun useBoat(view: View) {
         var boatString = boatScoreNumber.text.toString()
         var boatInt = boatString.toInt()
@@ -296,6 +282,7 @@ class puzzleActivity : AppCompatActivity() {
     }
 
     //Subtracts 1 from the fish number when tapped
+    //TODO: The fish number is set to 5 by default and must be changed
     fun useFish(view: View) {
         var fishString = fishScoreNumber.text.toString()
         var fishInt = fishString.toInt()
@@ -308,6 +295,7 @@ class puzzleActivity : AppCompatActivity() {
     }
 
     //Subtracts 1 from the bread number when tapped
+    //TODO: The bread number is set to 5 by default and must be changed
     fun useBread(view: View) {
         var breadString = breadScoreNumber.text.toString()
         var breadInt = breadString.toInt()
@@ -320,7 +308,7 @@ class puzzleActivity : AppCompatActivity() {
     }
 
     fun gainBoat(){
-       var boatString = boatScoreNumber.text.toString()
+        var boatString = boatScoreNumber.text.toString()
         var boatInt = boatString.toInt()
         boatInt++
         boatScoreNumber.text = boatInt.toString()
@@ -341,7 +329,7 @@ class puzzleActivity : AppCompatActivity() {
     }
 
     fun gainBread(){
-       var breadString = breadScoreNumber.text.toString()
+        var breadString = breadScoreNumber.text.toString()
         var breadInt = breadString.toInt()
 
         breadInt++
@@ -350,23 +338,37 @@ class puzzleActivity : AppCompatActivity() {
         edit.putInt(getString(R.string.bread_key),breadInt)
         edit.commit()
     }
+    private fun showHelp1() {
+//        TODO("Not yet implemented")
 
-    //Creates and prepares media to be played
-//Throws FormatException if file is not an mp3
-    @Throws(FormatException::class)
-    private fun createMedia(mp3: String): MediaPlayer {
-        return if (!mp3.isNullOrEmpty()) {
-            val id = resources.getIdentifier(mp3, "raw", packageName)
-            MediaPlayer.create(this, id)
-        } else {
-            throw FormatException()
+        arrow.visibility=ImageView.VISIBLE
+
+        val animSlide = TranslateAnimation(0F,675F,150F,150F)
+
+        animSlide.duration = 4000
+        animSlide.repeatCount = 6
+//        animSlide.repeatMode = 2
+        arrow.startAnimation(animSlide)
+        arrow.postOnAnimation{
+            arrow.visibility=ImageView.INVISIBLE
+        }
+    }
+    private fun dismissAction(){
+        arrow.animation = null
+    }
+    private fun showHelp2(){
+        PopUp(this,setText = this.getString(R.string.tutorial_2),hasTick = false,yPos=700,xPos=500)
+        arrow.visibility=ImageView.VISIBLE
+
+        val animSlide = TranslateAnimation(-200F,-200F,1450F,1375F)
+
+        animSlide.duration = 1500
+        animSlide.repeatCount = 5
+//        animSlide.repeatMode = 2
+        arrow.startAnimation(animSlide)
+        arrow.postOnAnimation{
+            arrow.visibility=ImageView.INVISIBLE
         }
     }
 
-    override fun onStop() {
-        if(isAudioPuzzle) {
-            media.release()
-        }
-        super.onStop()
-    }
 }
