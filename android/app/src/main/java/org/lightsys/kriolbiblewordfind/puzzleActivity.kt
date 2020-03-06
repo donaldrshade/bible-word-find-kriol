@@ -285,24 +285,12 @@ class puzzleActivity : AppCompatActivity() {
 
                 foundWord(i)
                 gainBread()
-                soundEffect = createMedia("word_reward")
-                soundEffect.start()
 
 
                 //If all words discovered, win level
                 if(wordCounter == wordList.size){
                     gainFish()
-                    val levelComplete = db.markPuzzleCompleted(puzzleEngine.puzzle.id)
-                    if(levelComplete){
-                        gainBoat()
-                        soundEffect = createMedia("complete_puzzle")
-                        soundEffect.start()
-                        //TODO: Re-enable level change on popup
-                        PopUp(this, hasText = true, setText = "Level Win", hasTick = false)
-
-                    } else {
-                        PopUp(this, hasText = false, setText = "", hasTick = true)
-                    }
+                    winLevel()
                 }
                 return true
             }
@@ -311,6 +299,12 @@ class puzzleActivity : AppCompatActivity() {
     }
 
     fun foundWord(index: Int){
+        val arr = posInWord(wordList[index]!!)
+        for(ar in arr){
+            breadHighlights[ar[0]][ar[1]] = false
+            letters[ar[0]*puzzleSize + ar[1]]!!.setBackgroundResource(0)
+
+        }
         wordList[index] = null
         //Update wordCounter and cross off word from word bank
         wordCounter++
@@ -323,28 +317,16 @@ class puzzleActivity : AppCompatActivity() {
             wordText.paintFlags = wordText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         }
 
+        soundEffect = createMedia("word_reward")
+        soundEffect.start()
+
         //If all words discovered, win level
         if(wordCounter == wordList.size){
-            gainFish()
-            //TODO: winPuzzle() //Not sure if this function will be necessary
-            val levelComplete = db.markPuzzleCompleted(puzzleEngine.puzzle.id)
-            if(levelComplete){
-                gainBoat()
-            }
+            winLevel()
         }
     }
 
-    //Subtracts 1 from the boat number when tapped
-    fun useBoat(view: View) {
-        var boatString = boatScoreNumber.text.toString()
-        var boatInt = boatString.toInt()
 
-        if (boatInt > 2){
-            boatInt -= 3
-            boatScoreNumber.text = boatInt.toString()
-            //TODO: Spend 3 boats to unlock a level
-        }
-    }
 
     //Subtracts 1 from the fish number when tapped
     fun useFish(view: View) {
@@ -353,6 +335,11 @@ class puzzleActivity : AppCompatActivity() {
 
         if (fishInt > 0){
             fishInt--
+
+            val edit = sp.edit()
+            edit.putInt(getString(R.string.fish_key),fishInt)
+            edit.commit()
+
             fishScoreNumber.text = fishInt.toString()
             // Reveal a random entire word
             val numWords = wordList.size - wordCounter
@@ -382,16 +369,23 @@ class puzzleActivity : AppCompatActivity() {
 
         if (breadInt > 0) {
             breadInt--
+            val edit = sp.edit()
+            edit.putInt(getString(R.string.bread_key),breadInt)
+            edit.commit()
             breadScoreNumber.text = breadInt.toString()
 
             var randRow = (Math.random()*breadHighlights.size).toInt()
             var randCol = (Math.random() * breadHighlights.size).toInt()
-
+            val sr = randRow;
+            val sc = randCol;
             while(breadHighlights[randRow][randCol] || !isWordPos( intArrayOf(randRow,randCol) ) ) {
                 randCol++;
                 if(randCol % puzzleSize == 0) {
                     randCol = 0;
                     randRow = (randRow + 1) % puzzleSize
+                }
+                if(randRow == sr && randCol ==sc){
+                    break;
                 }
                 //there WILL be a spot left to highlight, otherwise a word got finished and not removed
             }
@@ -403,7 +397,6 @@ class puzzleActivity : AppCompatActivity() {
                 Don't highlight = bold/background letters.
                 ..pick a random pos in the board, cycle until find a pos in a word
              */
-            //TODO: Reveal one random letter
         }
     }
 
@@ -495,6 +488,19 @@ class puzzleActivity : AppCompatActivity() {
         val edit = sp.edit()
         edit.putInt(getString(R.string.bread_key),breadInt)
         edit.commit()
+    }
+
+    fun winLevel(){
+        val levelComplete = db.markPuzzleCompleted(puzzleEngine.puzzle.id)
+        if(levelComplete){
+            gainBoat()
+            soundEffect = createMedia("complete_puzzle")
+            soundEffect.start()
+            PopUp(this, hasText = true, setText = "Level Win", hasTick = false)
+
+        } else {
+            PopUp(this, hasText = false, setText = "", hasTick = true)
+        }
     }
 
     //Creates and prepares media to be played
