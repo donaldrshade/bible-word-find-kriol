@@ -62,6 +62,7 @@ class puzzleActivity : AppCompatActivity() {
         val comicSansFont : Typeface? = ResourcesCompat.getFont(this,R.font.comic_sans)
         //TODO: Get pnum from strings file
         val pnum = intent.getIntExtra(getString(R.string.puzzle_num),-1)
+
         sp = this.getSharedPreferences(getString(R.string.points_file_key), Context.MODE_PRIVATE)
         val boatCount = sp.getInt(getString(R.string.boat_key),0)
         val fishCount = sp.getInt(getString(R.string.fish_key),0)
@@ -77,6 +78,7 @@ class puzzleActivity : AppCompatActivity() {
         //Initiate Database and load puzzle engine
         db = Database(this)
         var puzzle = db.getPuzzle(pnum)
+        var levelnum = puzzle.level_id
         puzzleEngine = PuzzleEngine(puzzle, this)
         var puzzleGrid = puzzleEngine.grid
         wordList = puzzleEngine.getWords()
@@ -155,7 +157,8 @@ class puzzleActivity : AppCompatActivity() {
         cset.applyTo(gridSizer)
 
         //String that contains the banner name
-        val levelBanner = "eijah"//TODO
+        val currentLevel = db.getLevel(levelnum)
+        val levelBanner = currentLevel.picture
 
         //Changing the banner
         val bannerRes: Resources = resources;
