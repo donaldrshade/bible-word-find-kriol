@@ -52,11 +52,11 @@
                 android:layout_height="0dp"
                 android:layout_margin="15dp"
                 android:scaleType="fitXY"
-                app:layout_constraintBottom_toTopOf="@+id/textView3"
+                app:layout_constraintBottom_toTopOf="@+id/levelSelectBoat"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView2"
-                app:layout_constraintVertical_bias="0.65">
+                app:layout_constraintVertical_bias="0.59000003">
 
             <TableLayout
                     android:id="@+id/levelTable"
@@ -70,16 +70,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:fontFamily="@font/comic_sans"
                 android:text="Geim Lebul"
                 android:textColor="@color/black"
                 android:textSize="30dp"
-                android:fontFamily="@font/comic_sans"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView2"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/story_title_banner_image"
-                app:layout_constraintVertical_bias="0.684" />
+                app:layout_constraintVertical_bias="1.0" />
 
         <ImageView
                 android:id="@+id/imageView2"
@@ -89,7 +88,7 @@
                 android:layout_marginTop="15dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.082"
+                app:layout_constraintHorizontal_bias="0.102"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/story_title_banner_image"
                 app:layout_constraintVertical_bias="0.0"
@@ -119,6 +118,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView2"
+                app:layout_constraintVertical_bias="1.0"
                 app:srcCompat="@drawable/boat" />
 
         <TextView
