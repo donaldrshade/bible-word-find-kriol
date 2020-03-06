@@ -58,9 +58,10 @@ class MainActivity : AppCompatActivity(){
             startActivity(intent)
         }
         val noise = findViewById<Switch>(R.id.sound_switch)
+        val sp = this.getSharedPreferences(getString(R.string.points_file_key), Context.MODE_PRIVATE)
+        noise.isChecked = sp.getBoolean(getString(R.string.points_file_key),false)
         noise.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked){
-                val sp = this.getSharedPreferences(getString(R.string.points_file_key), Context.MODE_PRIVATE)
                 val edit = sp.edit()
                 edit.putBoolean(getString(R.string.SOUNDS),isChecked)
         }
