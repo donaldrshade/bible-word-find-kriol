@@ -236,7 +236,7 @@ class Database(context: Context) :
 
         // There is no word table. They are in files
     }
-    //Functions for quering the DB
+    //Functions for querying the DB
 
     fun getLevel(levelId:Int):Level{
         val db = this.writableDatabase
@@ -272,25 +272,31 @@ class Database(context: Context) :
         val res = db.rawQuery(query,arrayOf())
         if (res.moveToNext()) {
             if(res.getInt(3)==0){
-                return Level(res.getInt(0),res.getString(1),res.getInt(2)==1,res.getString(3),res.getString(4))
+                val temp = Level(res.getInt(0),res.getString(1),res.getInt(2)==1,res.getString(3),res.getString(4))
+                return temp
             }
         }
         return Level(-2)
     }
+
     fun getActivePuzzle(levelId:Int):Puzzle{
         val db = this.writableDatabase
-        val query = "select * from $PUZZLE_TABLE_NAME WHERE $PUZZLE_COL_6=?"
+        val query = "select * from $PUZZLE_TABLE_NAME WHERE $PUZZLE_COL_6=? AND $PUZZLE_COL_4==0"
         val res = db.rawQuery(query,arrayOf(levelId.toString()))
         if (res.moveToNext()) {
             if(res.getInt(4)==0){
-                return Puzzle(res.getInt(0),res.getInt(1),res.getInt(2),res.getInt(3)==1,res.getString(4),res.getInt(5),res.getInt(6),res.getInt(7))
+                val temp = Puzzle(res.getInt(0),res.getInt(1),res.getInt(2),res.getInt(3)==1,res.getString(4),res.getInt(5),res.getInt(6),res.getInt(7))
+                return temp
             }
         }
         markLevelCompleted(levelId)
         return getActivePuzzle(levelId+1)
     }
-
-    private fun markLevelCompleted(levelId: Int):Boolean {
+    fun getActivePuzzleNum():Int{
+        val temp = getActivePuzzle(getActiveLevel().id).id //TODO: FIX
+        return temp
+    }
+    fun markLevelCompleted(levelId: Int):Boolean {
         val db = this.writableDatabase
         val query = "select * from $LEVEL_TABLE_NAME WHERE $LEVEL_COL_1 = ? "
         val res = db.rawQuery(query, arrayOf(levelId.toString()))
@@ -315,6 +321,49 @@ class Database(context: Context) :
         }
     }
 
+    fun markPuzzleCompleted(puzzleId: Int):Boolean {
+        val db = this.writableDatabase
+        val query = "select * from $PUZZLE_TABLE_NAME WHERE $PUZZLE_COL_1 = ? "
+        val res = db.rawQuery(query, arrayOf(puzzleId.toString()))
+        var puz:Puzzle
+        if (res.moveToNext()) {
+            puz=Puzzle(res.getInt(0),res.getInt(1),res.getInt(2),res.getInt(3)==1,res.getString(4),res.getInt(5),res.getInt(6),res.getInt(7))
+        }else{
+            puz=Puzzle()
+        }
+        if(puz.id != -1 && puz.id != -2 ){
+            puz.completed=true
+            var set = ContentValues()
+            set.put(PUZZLE_COL_1,puz.id)
+            set.put(PUZZLE_COL_2,puz.size)
+            set.put(PUZZLE_COL_3,puz.numOfWords)
+            set.put(PUZZLE_COL_4,1)
+            set.put(PUZZLE_COL_5,puz.audioFile)
+            set.put(PUZZLE_COL_6,puz.level_id)
+            set.put(PUZZLE_COL_7,puz.min_num_letters)
+            set.put(PUZZLE_COL_8,puz.max_num_letters)
+            db.update(PUZZLE_TABLE_NAME,set,"$PUZZLE_COL_1=?", arrayOf(puzzleId.toString()))
+            val next = getPuzzle(puz.id+1)
+            if(next.level_id != puz.level_id){
+                return markLevelCompleted(puz.level_id)
+            }
+            return false
+        } else{
+            return false
+        }
+    }
+
+    fun isAudioPuzzle(puzzleId: Int):Boolean {
+        val db = this.writableDatabase
+        val query = "select $PUZZLE_COL_5 from $PUZZLE_TABLE_NAME WHERE $PUZZLE_COL_1 = ? "
+        val res = db.rawQuery(query, arrayOf(puzzleId.toString()))
+        var puz:Puzzle
+        if (res.moveToNext()) {
+            return res.getString(0)!="NULL"
+        }else {
+            return false
+        }
+    }
 
     companion object {
         //level vals

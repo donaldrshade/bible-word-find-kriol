@@ -1,27 +1,43 @@
 package org.lightsys.kriolbiblewordfind
+
 import PuzzleEngine
 import Word
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.SharedPreferences
 import android.content.res.Resources
+import android.graphics.Paint
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.ConstraintSet
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
-import android.view.*
+import android.view.Gravity
+import android.view.View
+import android.view.Window
+import android.view.WindowManager
+import android.widget.*
+import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.LinearLayout.LayoutParams
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_puzzle.*
-import kotlinx.android.synthetic.main.activity_puzzle.story_title_banner_image
+import kotlinx.android.synthetic.main.nav_header_main.*
 import java.lang.Math.floor
-
 
 class puzzleActivity : AppCompatActivity() {
 
     var puzzleSize = 0
     var letters = arrayOf<TextView?>()
     var wordList = arrayOf<Word?>()
+    var wordCounter = 0
+    var isAudioPuzzle = false
+    lateinit var db:Database
+    lateinit var puzzleEngine:PuzzleEngine
+    lateinit var sp:SharedPreferences
+
 
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,8 +48,9 @@ class puzzleActivity : AppCompatActivity() {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_puzzle)
 
+        //Create canvas to track swipes
         var canvas = DrawingView(this, null, this)
-        var params = LinearLayout.LayoutParams(
+        var params = LayoutParams(
             gridSizer.layoutParams.width,
             gridSizer.layoutParams.height
         )
@@ -47,22 +64,83 @@ class puzzleActivity : AppCompatActivity() {
         }
 
         val intent = intent
-        val pnum = -1//intent.getIntExtra(getString(R.string.puzzle_num),-1)
 
-        var puzzle = Puzzle()
-        var db = Database(this)
-        puzzle = db.getPuzzle(pnum)
-        var puzzleEngine = PuzzleEngine(puzzle, this)
+        val pnum = 33//intent.getIntExtra(getString(R.string.puzzle_num),-1)
+        sp = this.getSharedPreferences(getString(R.string.points_file_key), Context.MODE_PRIVATE)
+        val boatCount = sp.getInt(getString(R.string.boat_key),0)
+        val fishCount = sp.getInt(getString(R.string.fish_key),0)
+        val breadCount = sp.getInt(getString(R.string.bread_key),0)
+        val boatView = findViewById<TextView>(R.id.boatScoreNumber)
+        boatView.setText(boatCount.toString())
+        val fishView = findViewById<TextView>(R.id.fishScoreNumber)
+        fishView.setText(fishCount.toString())
+        val breadView = findViewById<TextView>(R.id.breadScoreNumber)
+        breadView.setText(breadCount.toString())
+
+        //Initiate Database and load puzzle engine
+        db = Database(this)
+        var puzzle = db.getPuzzle(pnum)
+        puzzleEngine = PuzzleEngine(puzzle, this)
+
         var puzzleGrid = puzzleEngine.grid
         wordList = puzzleEngine.getWords()
 
-        puzzleSize = puzzle.size
+        //Load words into wordbank, only populate it if not audio puzzle
+        //If audio puzzle, add play/pause button and word counter
+        wordCounter = 0
+        isAudioPuzzle = db.isAudioPuzzle(puzzleEngine.puzzle.id)
+
+        var wordBank = findViewById<TableLayout>(R.id.wordBank)
+
+        if(isAudioPuzzle){
+            val row = TableRow(this)
+            wordBank.addView(row)
+            var audioView = ImageButton(this)
+            var audioParams = LayoutParams(
+                LayoutParams.WRAP_CONTENT,
+                LayoutParams.MATCH_PARENT
+            )
+            audioView.setImageResource(R.drawable.headphones)
+            audioView.id = 2000
+
+            //TODO: setOnClickListener
+
+            var wordsLeft = TextView(this)
+            wordsLeft.textSize = 20F
+            wordsLeft.text = "$wordCounter / " + wordList.size
+            wordsLeft.id = 2001
+
+            var wordParams = LayoutParams(
+                wordBank.layoutParams.width,
+                wordBank.layoutParams.height
+            )
+
+            wordBank.addView(audioView, audioParams)
+            wordBank.addView(wordsLeft, wordParams)
+        } else {
+
+
+            var row = TableRow(this)
+            for(w in 0 until wordList.size){
+                if(w % 3 == 0){
+                    row = TableRow(this);
+                    wordBank.addView(row);
+                }
+                var textView = TextView(this)
+
+                textView.textSize= 20F
+                textView.gravity = Gravity.CENTER
+                textView.text = wordList[w]!!.word
+                textView.id = w + 2000
+                row.addView(textView)
+            }
+        }
 
         val gridSizer = findViewById<ConstraintLayout>(R.id.gridSizer)
         val cset = ConstraintSet()
 
+        puzzleSize = puzzle.size
         letters = arrayOfNulls(puzzleSize*puzzleSize)
-
         for (r in 0 until puzzleSize) {
             for (c in 0 until puzzleSize) {
                 var textView = TextView(this)
@@ -154,8 +232,8 @@ class puzzleActivity : AppCompatActivity() {
         return row * puzzleSize + col
     }
 
+    //Updated function allows words to be completed in either direction
     fun isValidWord(startX: Float, startY: Float, endX: Float, endY: Float) : Boolean{
-
         var ind1 = getGridCellIndex(startX, startY)
         var row1 = (ind1 / puzzleSize)
         var col1 = ind1 % puzzleSize
@@ -164,28 +242,50 @@ class puzzleActivity : AppCompatActivity() {
         var row2 = (ind2 / puzzleSize)
         var col2 = ind2 % puzzleSize
 
-        for(i in 0 until wordList.size ){
+        for(i in 0 until wordList.size){
             val word = wordList[i]
             if(word == null) continue
-            if(word!!.getStartPt()[0] == row1 && word.getStartPt()[1] == col1 && word.getEndPt()[0] == row2 && word.getEndPt()[1] == col2){
+            if(word!!.getStartPt()[0] == row1 && word.getStartPt()[1] == col1 && word.getEndPt()[0] == row2 && word.getEndPt()[1] == col2
+                || word!!.getEndPt()[0] == row1 && word.getEndPt()[1] == col1 && word.getStartPt()[0] == row2 && word.getStartPt()[1] == col2){
                 wordList[i] = null
                 gainBread()
-                //TODO: Cross word off from listy-list
+
+                //Update wordCounter and cross off word from word bank
+                wordCounter++
+                if(isAudioPuzzle){
+                    var id = 2001
+                    var wordsLeft = findViewById<TextView>(id)
+                    wordsLeft.text = "$wordCounter / " + wordList.size
+                } else {
+                    var wordText = findViewById<TextView>(i + 2000)
+                    wordText.paintFlags = wordText.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG
+                }
+
+                //If all words discovered, win level
+                if(wordCounter == wordList.size){
+                    gainFish()
+                    //TODO: winPuzzle() //Not sure if this function will be necessary
+                    val levelComplete = db.markPuzzleCompleted(puzzleEngine.puzzle.id)
+                    if(levelComplete){
+                        gainBoat()
+                    }
+                }
                 return true
             }
         }
         return false
     }
 
-    //Subtracts 1 from the boat number when tapped.
+    //Subtracts 1 from the boat number when tapped
     //TODO: The boat number is set to 5 by default and must be changed
     fun useBoat(view: View) {
         var boatString = boatScoreNumber.text.toString()
         var boatInt = boatString.toInt()
 
-        if (boatInt > 0){
-            boatInt--
+        if (boatInt > 2){
+            boatInt -= 3
             boatScoreNumber.text = boatInt.toString()
+            //TODO: Spend 3 boats to unlock a level
         }
     }
 
@@ -198,6 +298,7 @@ class puzzleActivity : AppCompatActivity() {
         if (fishInt > 0){
             fishInt--
             fishScoreNumber.text = fishInt.toString()
+            //TODO: Reveal an entire word
         }
     }
 
@@ -210,15 +311,18 @@ class puzzleActivity : AppCompatActivity() {
         if (breadInt > 0) {
             breadInt--
             breadScoreNumber.text = breadInt.toString()
+            //TODO: Reveal one random letter
         }
     }
 
     fun gainBoat(){
        var boatString = boatScoreNumber.text.toString()
         var boatInt = boatString.toInt()
-
         boatInt++
         boatScoreNumber.text = boatInt.toString()
+        val edit = sp.edit()
+        edit.putInt(getString(R.string.boat_key),boatInt)
+        edit.commit()
     }
 
     fun gainFish(){
@@ -227,6 +331,9 @@ class puzzleActivity : AppCompatActivity() {
 
         fishInt++
         fishScoreNumber.text = fishInt.toString()
+        val edit = sp.edit()
+        edit.putInt(getString(R.string.fish_key),fishInt)
+        edit.commit()
     }
 
     fun gainBread(){
@@ -235,5 +342,62 @@ class puzzleActivity : AppCompatActivity() {
 
         breadInt++
         breadScoreNumber.text = breadInt.toString()
+        val edit = sp.edit()
+        edit.putInt(getString(R.string.bread_key),breadInt)
+        edit.commit()
     }
+
+    /*
+    //If audio is playing, clicking play button pauses it
+        //Otherwise, play audio
+        play = findViewById(R.id.play_button);
+        play.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(media.isPlaying()){
+                    media.pause();
+                    play.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
+                    mIsPlaying = false;
+                } else {
+                    media.start();
+                    play.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause));
+                    mIsPlaying = true;
+                }
+            }
+        });
+
+    //Creates and prepares media to be played
+    //Throws FormatException if file is not an mp3
+    private MediaPlayer createMedia(String mp3) throws FormatException {
+        if(mp3.contains(".mp3")) {
+            String file = mp3.replace(".mp3", "");
+            int id = getResources().getIdentifier(file,"raw", getPackageName());
+            MediaPlayer mediaPlayer = MediaPlayer.create(lessonActivity.this, id);
+            return mediaPlayer;
+        } else {
+            throw new FormatException();
+        }
+    }
+
+    //When lesson activity closes, save information
+    //and close MediaPlayer before exiting
+    @Override
+    protected void onStop() {
+        //If we close before the audio is finished, save current position
+        int currentPosition = media.getCurrentPosition();
+        if(currentPosition != media.getDuration()){
+            DatabaseConnection db = new DatabaseConnection(getApplicationContext());
+            Lesson update = new Lesson();
+            update.setName(inputIntent.getStringExtra("lesson_name"));
+            update.setCourse(inputIntent.getStringExtra("course_name"));
+            update.setSeekTime(currentPosition);
+            db.updateLesson(update);
+        }
+        media.release();
+        media = null;
+        super.onStop();
+    }
+
+    */
 }

@@ -12,6 +12,8 @@
         tools:showIn="@layout/app_bar_main"
         android:background="@color/colorPrimary">
 
+
+
     <ImageView
             android:id="@+id/story_title_banner_image"
             android:layout_width="wrap_content"
@@ -19,54 +21,95 @@
             android:contentDescription="TODO"
             android:scaleType="fitXY"
             android:src="@drawable/fespida3"
-            app:layout_constraintBottom_toTopOf="@id/button1"
+            app:layout_constraintBottom_toTopOf="@id/play_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_weight="5" />
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/story_title_banner_image"
+            app:layout_constraintEnd_toEndOf="@id/story_title_banner_image"
+            app:layout_constraintStart_toStartOf="@id/story_title_banner_image"
+            android:text="@string/main_menu_title"
+            android:textAlignment="gravity"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="40sp"
+            app:fontFamily="@font/comic_sans"
+            android:textColor="@color/black"/>
+
+
 
     <ImageView
-            android:id="@+id/button1"
+            android:id="@+id/play_button"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:scaleType="fitXY"
             android:src="@drawable/plei_buton"
-            app:layout_constraintBottom_toTopOf="@id/button2"
+            app:layout_constraintBottom_toTopOf="@id/how_to_play_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/story_title_banner_image"
-            app:layout_constraintVertical_weight="3" />
-    <include android:id="@+id/button2"
+            app:layout_constraintVertical_weight="3"
+            android:layout_marginHorizontal="@dimen/layout_margin"/>
+
+    <include android:id="@+id/how_to_play_button"
              layout="@layout/how_to_play"
              android:layout_width="match_parent"
              android:layout_height="0dp"
              app:layout_constraintVertical_weight="2"
-             app:layout_constraintTop_toBottomOf="@id/button1"
-             app:layout_constraintBottom_toTopOf="@+id/button3"
+             app:layout_constraintTop_toBottomOf="@id/play_button"
+             app:layout_constraintBottom_toTopOf="@+id/game_level_button"
+            android:layout_marginHorizontal="@dimen/layout_margin"
+
     />
-    <include android:id="@+id/button3"
+    <include android:id="@+id/game_level_button"
             layout="@layout/game_level_button"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintVertical_weight="2"
-            app:layout_constraintTop_toBottomOf="@id/button2"
-            app:layout_constraintBottom_toBottomOf="@id/button4"
+            app:layout_constraintTop_toBottomOf="@id/how_to_play_button"
+            app:layout_constraintBottom_toBottomOf="@id/listen_bible_button"
+            android:layout_marginHorizontal="@dimen/layout_margin"
             />
-    <include android:id="@+id/button4"
+    <include android:id="@+id/listen_bible_button"
             layout="@layout/listen_bible"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintVertical_weight="2"
-            app:layout_constraintTop_toBottomOf="@id/button3"
-            app:layout_constraintBottom_toBottomOf="@id/button5"
+            app:layout_constraintTop_toBottomOf="@id/game_level_button"
+            app:layout_constraintBottom_toBottomOf="@id/watch_bible_button"
+            android:layout_marginHorizontal="@dimen/layout_margin"
             />
-    <include android:id="@+id/button5"
-            layout="@layout/watch_video"
+    <include android:id="@+id/watch_bible_button"
+        layout="@layout/watch_video"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintVertical_weight="2"
+        app:layout_constraintTop_toBottomOf="@id/listen_bible_button"
+        app:layout_constraintBottom_toTopOf="@id/noise_section"
+        android:layout_marginHorizontal="@dimen/layout_margin"
+        />
+    <include android:id="@+id/noise_section"
+            layout="@layout/noise_section"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintVertical_weight="2"
-            app:layout_constraintTop_toBottomOf="@id/button4"
+            app:layout_constraintTop_toBottomOf="@id/watch_bible_button"
+            app:layout_constraintBottom_toTopOf="@id/developer_button"
+            android:layout_marginHorizontal="@dimen/layout_margin"
+            />
+    <include android:id="@+id/developer_button"
+            layout="@layout/developers"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintVertical_weight="2"
+            app:layout_constraintTop_toBottomOf="@id/noise_section"
             app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginHorizontal="@dimen/layout_margin"
+            android:layout_marginBottom="10dp"
             />
 
 </android.support.constraint.ConstraintLayout>
