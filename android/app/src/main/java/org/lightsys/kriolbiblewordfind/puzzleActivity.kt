@@ -7,12 +7,18 @@ import android.support.constraint.ConstraintSet
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
 import android.view.*
+import android.widget.LinearLayout
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_puzzle.*
-import kotlinx.android.synthetic.main.nav_header_main.*
+import kotlinx.android.synthetic.main.activity_puzzle.story_title_banner_image
+import java.lang.Math.floor
 
 
 class puzzleActivity : AppCompatActivity() {
+
+    var puzzleSize = 0
+    var letters = arrayOf<TextView?>()
+    var wordList = arrayOf<Word?>()
 
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,37 +29,44 @@ class puzzleActivity : AppCompatActivity() {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_puzzle)
 
+        var canvas = DrawingView(this, null, this)
+        var params = LinearLayout.LayoutParams(
+            gridSizer.layoutParams.width,
+            gridSizer.layoutParams.height
+        )
+        canvas.id = 999
+        gridSizer.addView(canvas, params)
+        canvas.bringToFront()
+
         val fab = findViewById<FloatingActionButton>(R.id.home_fab)
         fab.setOnClickListener { view ->
             finish()
         }
 
-
-
         val intent = intent;
-        val pnum = intent.getIntExtra(getString(R.string.puzzle_num),-1);
+        val pnum = 1//intent.getIntExtra(getString(R.string.puzzle_num),-1);
 
-        var puzzle = Puzzle();
+        var puzzleEngine = PuzzleEngine(pnum, this)
+        var puzzleGrid = puzzleEngine.grid
+        wordList = puzzleEngine.getWords()
+
+        var puzzle = Puzzle()
         var db = Database(this)
         puzzle = db.getPuzzle(pnum)
-       var puzzleSize = puzzle.size;
+        puzzleSize = puzzle.size
         puzzleSize = 3;//TODO
 
         val gridSizer = findViewById<ConstraintLayout>(R.id.gridSizer);
-        val cset = ConstraintSet();
+        val cset = ConstraintSet()
 
-        val height = gridSizer.height;
-        val split = height / puzzleSize;
-
-        var idArr : Array<Int?>
-        idArr = arrayOfNulls(puzzleSize*puzzleSize);
+        letters = arrayOfNulls(puzzleSize*puzzleSize)
 
         for (r in 0 until puzzleSize) {
             for (c in 0 until puzzleSize) {
                 var textView = TextView(this)
-                textView.id = 1000+r*puzzleSize+c;
-                idArr[r*puzzleSize+c] = textView.id;
-                textView.text = "${r}${c}"
+                textView.id = 1000+r*puzzleSize+c
+                letters[r*puzzleSize+c] = textView
+                textView.text = puzzleGrid[r][c].toString()
 
                 textView.gravity = Gravity.CENTER
                 //textView.setBackgroundColor(40)
@@ -75,14 +88,14 @@ class puzzleActivity : AppCompatActivity() {
             }
         }
 
-        cset.clone(gridSizer);
+        cset.clone(gridSizer)
 
         val dimensionBox = R.id.gridSizer
         cset.setDimensionRatio(dimensionBox, ("$puzzleSize:$puzzleSize"));
         for (r in 0 until puzzleSize) {
-            val intarr = IntArray(puzzleSize);
+            val intarr = IntArray(puzzleSize)
             for (c in 0 until puzzleSize) {
-                intarr[c] = 1000+r*puzzleSize + c;
+                intarr[c] = 1000+r*puzzleSize + c
                 val id = 1000+r*puzzleSize + c
                 cset.setDimensionRatio(id, "1:1")
                 if(r==0){
@@ -100,27 +113,56 @@ class puzzleActivity : AppCompatActivity() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
         //String that contains the banner name
-        val levelBanner = "eijah";//TODO
+        val levelBanner = "eijah"//TODO
 
         //Changing the banner
         val res: Resources = resources;
         val resID = res.getIdentifier(levelBanner, "drawable", packageName);
-        story_title_banner_image.setImageResource(resID);
+        story_title_banner_image.setImageResource(resID)
     }
 
+    fun getGridCell(x: Float, y: Float) : TextView?{
+        return letters[getGridCellIndex(x, y)]
+    }
+
+    private fun getGridCellIndex(x: Float, y: Float) : Int {
+        val height = gridSizer.height
+        val split = height / puzzleSize;
+
+        var row = floor(y.toDouble() / split).toInt()
+        var col = floor(x.toDouble() / split).toInt()
+        if (row < 0) row = 0
+        if (col < 0) col = 0
+        row = Math.min(row, puzzleSize - 1)
+        col = Math.min(col, puzzleSize - 1)
+        return row * puzzleSize + col
+    }
+
+    fun isValidWord(startX: Float, startY: Float, endX: Float, endY: Float) : Boolean{
+
+        var ind1 = getGridCellIndex(startX, startY)
+        var row1 = (ind1 / puzzleSize).toInt()
+        var col1 = ind1 % puzzleSize
+
+        var ind2 = getGridCellIndex(endX, endY)
+        var row2 = (ind2 / puzzleSize).toInt()
+        var col2 = ind2 % puzzleSize
+
+        for(i in 0 until wordList.size ){
+            val word = wordList[i]
+            if(word == null) continue
+            if(word!!.getStartPt()[0] == row1 && word.getStartPt()[1] == col1 && word.getEndPt()[0] == row2 && word.getEndPt()[1] == col2){
+                wordList[i] = null
+                return true
+                //TODO: Cross word off from listy-list
+            }
+            return false
+        }
+
+
+        return true
+    }
 
     /*fun setStartLetter( box: TextView){
        // box.setText("Start");

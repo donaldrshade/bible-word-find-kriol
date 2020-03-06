@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 public class DrawingView extends View {
 
+    private puzzleActivity activity;
     private Path drawPath;
     private Paint drawPaint;
     private ArrayList<Path> paths = new ArrayList<Path>();
@@ -19,15 +20,14 @@ public class DrawingView extends View {
     private TextView text;
     private float startX;
     private float startY;
-    private int startRow;
-    private int startCol;
+    private float endX;
+    private float endY;
 
 
-    public DrawingView(Context context, AttributeSet attrs, TextView text){
+    public DrawingView(Context context, AttributeSet attrs, puzzleActivity activity){
         super(context, attrs);
-
+        this.activity = activity;
         rect = new Rect();
-        this.text = text;
 
         drawPaint = new Paint();
         drawPaint.setColor(paintColor);
@@ -66,43 +66,33 @@ public class DrawingView extends View {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 initPath();
-                //startRow = 0;
-                //startCol = 0;
-                drawPath.moveTo(touchX, touchY);
-                startX = touchX;
-                startY = touchY;
+                activity.getGridCell(touchX, touchY).getHitRect(rect);
+                startX = rect.exactCenterX();
+                startY = rect.exactCenterY();
+                drawPath.moveTo(startX, startY);
                 break;
             case MotionEvent.ACTION_MOVE:
                 this.getHitRect(rect);
                 drawPath.rewind();
-                if(rect.contains((int)touchX, (int)touchY)){
-                    //Snap to center
-                    drawPath.moveTo(rect.exactCenterX(), rect.exactCenterY());
-                } else {
-                    drawPath.moveTo(startX, startY);
-                }
+                drawPath.moveTo(startX, startY);
                 drawPath.lineTo(touchX, touchY);
                 break;
             case MotionEvent.ACTION_UP:
                 drawPath.rewind();
                 drawPath.moveTo(startX, startY);
-                drawPath.lineTo(touchX, touchY);
-                checkWord(startRow, startCol, 0, 0);
+                activity.getGridCell(touchX, touchY).getHitRect(rect);
+                endX = rect.exactCenterX();
+                endY = rect.exactCenterY();
+                drawPath.lineTo(endX, endY);
+                //TODO: This
+                if(activity.isValidWord(startX, startY, endX, endY)){
+                    //paths.remove(paths.size()-1);
+                } else {
+                    paths.remove(paths.size()-1);
+                }
                 break;
             default:
                 return false;
-        }
-
-        this.getHitRect(rect);
-        if(rect.contains((int)touchX, (int)touchY)){
-
-            String s = "Touched: " + touchX + " " + touchY;
-            text.setText(s);
-        }
-        else
-        {
-            String s = "Non-Touched: " + touchX + " " + touchY;
-            text.setText(s);
         }
 
         //redraw
@@ -116,10 +106,4 @@ public class DrawingView extends View {
         paintColor = Color.parseColor(newColor);
         drawPaint.setColor(paintColor);
     }
-
-    public void checkWord(int row1, int col1, int row2, int col2) {
-        if(false)//check if word in list
-            paths.remove(paths.size()-1);
-    }
-
 }
