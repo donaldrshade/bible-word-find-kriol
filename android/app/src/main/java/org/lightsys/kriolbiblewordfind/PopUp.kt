@@ -60,5 +60,6 @@ public fun PopUp(act:Activity,hasText:Boolean = false,setText:String = "",hasTic
     intent.putExtra(act.getString(R.string.hasText),hasText)
     intent.putExtra(act.getString(R.string.hasTick),hasTick)
     intent.putExtra(act.getString(R.string.setText),setText)
+    intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
     act.startActivity(intent)
 }

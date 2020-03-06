@@ -283,15 +283,13 @@ class puzzleActivity : AppCompatActivity() {
             if(word!!.getStartPt()[0] == row1 && word.getStartPt()[1] == col1 && word.getEndPt()[0] == row2 && word.getEndPt()[1] == col2
                 || word!!.getEndPt()[0] == row1 && word.getEndPt()[1] == col1 && word.getStartPt()[0] == row2 && word.getStartPt()[1] == col2){
 
-                foundWord(i)
-                gainBread()
-
-
                 //If all words discovered, win level
                 if(wordCounter == wordList.size){
                     gainFish()
-                    winLevel()
                 }
+
+                foundWord(i)
+                gainBread()
                 return true
             }
         }
