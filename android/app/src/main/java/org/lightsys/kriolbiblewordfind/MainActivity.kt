@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity(){
         val button1 = findViewById<ImageView>(R.id.button1)
         button1.setOnClickListener { view ->
             val intent = Intent(this,puzzleActivity::class.java)
+            intent.putExtra(getString(R.string.puzzle_num),Database(this).getActivePuzzleNum())
             startActivity(intent)
         }
         val button2 = findViewById<ConstraintLayout>(R.id.button2)
@@ -52,8 +53,5 @@ class MainActivity : AppCompatActivity(){
             val intent = Intent(this,Empty::class.java)
             startActivity(intent)
         }
-        val db = Database(this)
-        val temp = PuzzleEngine(db.getActivePuzzle(db.getActiveLevel().id),this)
-        val pause = 0
     }
 }

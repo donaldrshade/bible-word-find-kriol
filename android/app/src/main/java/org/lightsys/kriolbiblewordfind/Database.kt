@@ -272,24 +272,30 @@ class Database(context: Context) :
         val res = db.rawQuery(query,arrayOf())
         if (res.moveToNext()) {
             if(res.getInt(3)==0){
-                return Level(res.getInt(0),res.getString(1),res.getInt(2)==1,res.getString(3),res.getString(4))
+                val temp = Level(res.getInt(0),res.getString(1),res.getInt(2)==1,res.getString(3),res.getString(4))
+                return temp
             }
         }
         return Level(-2)
     }
+
     fun getActivePuzzle(levelId:Int):Puzzle{
         val db = this.writableDatabase
-        val query = "select * from $PUZZLE_TABLE_NAME WHERE $PUZZLE_COL_6=?"
+        val query = "select * from $PUZZLE_TABLE_NAME WHERE $PUZZLE_COL_6=? AND $PUZZLE_COL_4==0"
         val res = db.rawQuery(query,arrayOf(levelId.toString()))
         if (res.moveToNext()) {
             if(res.getInt(4)==0){
-                return Puzzle(res.getInt(0),res.getInt(1),res.getInt(2),res.getInt(3)==1,res.getString(4),res.getInt(5),res.getInt(6),res.getInt(7))
+                val temp = Puzzle(res.getInt(0),res.getInt(1),res.getInt(2),res.getInt(3)==1,res.getString(4),res.getInt(5),res.getInt(6),res.getInt(7))
+                return temp
             }
         }
         markLevelCompleted(levelId)
         return getActivePuzzle(levelId+1)
     }
-
+    fun getActivePuzzleNum():Int{
+        val temp = getActivePuzzle(getActiveLevel().id).id //TODO: FIX
+        return temp
+    }
     fun markLevelCompleted(levelId: Int):Boolean {
         val db = this.writableDatabase
         val query = "select * from $LEVEL_TABLE_NAME WHERE $LEVEL_COL_1 = ? "
@@ -341,7 +347,7 @@ class Database(context: Context) :
             if(next.level_id != puz.level_id){
                 return markLevelCompleted(puz.level_id)
             }
-            return true
+            return false
         } else{
             return false
         }

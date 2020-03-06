@@ -55,7 +55,7 @@ class puzzleActivity : AppCompatActivity() {
 
         val intent = intent
         //TODO: Get pnum from strings file
-        val pnum = 3//intent.getIntExtra(getString(R.string.puzzle_num),-1)
+        val pnum = intent.getIntExtra(getString(R.string.puzzle_num),-1)
 
 
         //Initiate Database and load puzzle engine
@@ -201,7 +201,10 @@ class puzzleActivity : AppCompatActivity() {
                 if(wordCounter == 0){
                     gainFish()
                     //TODO: winPuzzle() //Not sure if this function will be necessary
-                    db.markPuzzleCompleted(puzzleEngine.puzzle.id)
+                    val levelComplete = db.markPuzzleCompleted(puzzleEngine.puzzle.id)
+                    if(levelComplete){
+                        gainBoat()
+                    }
                     //
                 }
                 return true
