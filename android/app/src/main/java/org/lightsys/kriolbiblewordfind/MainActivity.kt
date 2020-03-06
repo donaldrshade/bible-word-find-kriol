@@ -15,6 +15,7 @@ class MainActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+
         //Set Activity to full screen
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN)
@@ -28,6 +29,7 @@ class MainActivity : AppCompatActivity(){
 
         val playButton = findViewById<ImageView>(R.id.play_button)
         playButton.setOnClickListener {
+            //playButton.setImageResource(R.drawable.plei_buton_active)
             val intent = Intent(this,puzzleActivity::class.java)
             intent.putExtra(getString(R.string.puzzle_num),Database(this).getActivePuzzleNum())
             startActivity(intent)
