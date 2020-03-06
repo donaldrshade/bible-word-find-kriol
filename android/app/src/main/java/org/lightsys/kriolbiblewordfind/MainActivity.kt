@@ -17,11 +17,10 @@ class MainActivity : AppCompatActivity(){
         setContentView(R.layout.activity_main)
 
         val fab = findViewById<FloatingActionButton>(R.id.home_fab)
-        fab.setOnClickListener {
-            val intent = Intent(this,PopUp(hasTick = true)::class.java)
-            startActivity(intent)
-        }
-        //fab.isClickable=false
+//        fab.setOnClickListener {
+//            PopUp(this,hasText = true,setText = "Hi, from Colorado!")
+//        }
+        fab.isClickable=false
 
         val playButton = findViewById<ImageView>(R.id.play_button)
         playButton.setOnClickListener {

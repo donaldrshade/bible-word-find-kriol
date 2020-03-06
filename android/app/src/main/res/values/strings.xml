@@ -36,4 +36,7 @@
     <string name="boat_key">BOAT_KEY</string>
     <string name="fish_key">FISH_KEY</string>
     <string name="bread_key">BREAD_KEY</string>
+    <string name="hasText">HAS_TEXT</string>
+    <string name="setText">SET_TEXT</string>
+    <string name="hasTick">HAS_TICK</string>
 </resources>

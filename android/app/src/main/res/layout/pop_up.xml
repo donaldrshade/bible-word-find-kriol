@@ -3,7 +3,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:background="@color/colorAccent"
+        android:background="@color/colorPrimary"
         android:orientation="vertical">
 
     <TextView
@@ -11,12 +11,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="temp"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:textSize="@dimen/pop_up_text"
+            android:textColor="@color/colorHomeButton"
+            android:background="@drawable/pop_up_border"/>
     <ImageView
+            android:id="@+id/tick_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:src="@drawable/tick"/>
+            android:src="@drawable/tick"
+            android:background="@drawable/pop_up_border"/>
 
 
 </RelativeLayout>
