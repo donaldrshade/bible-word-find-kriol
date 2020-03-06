@@ -25,6 +25,9 @@ class puzzleActivity : AppCompatActivity() {
     var puzzleSize = 0
     var letters = arrayOf<TextView?>()
     var wordList = arrayOf<Word?>()
+    var wordCounter = 0
+    lateinit var db:Database
+    lateinit var puzzleEngine:PuzzleEngine
 
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,23 +57,24 @@ class puzzleActivity : AppCompatActivity() {
         //TODO: Get pnum from strings file
         val pnum = 3//intent.getIntExtra(getString(R.string.puzzle_num),-1)
 
-        var puzzle = Puzzle()
 
         //Initiate Database and load puzzle engine
-        var db = Database(this)
-        puzzle = db.getPuzzle(pnum)
-        var puzzleEngine = PuzzleEngine(puzzle, this)
+        db = Database(this)
+        var puzzle = db.getPuzzle(pnum)
+        puzzleEngine = PuzzleEngine(puzzle, this)
         var puzzleGrid = puzzleEngine.grid
         wordList = puzzleEngine.getWords()
 
         //Load words into wordbank
         //if(!audioStory){}
+        wordCounter = wordList.size
         for(w in 0 until wordList.size){
             var textView = TextView(this)
             var params = LinearLayout.LayoutParams(
                 wordBank.layoutParams.width,
                 wordBank.layoutParams.height
             )
+            textView.textSize= 20F
             textView.text = wordList[w]!!.word
             textView.id = w + 2000
             wordBank.addView(textView, params)
@@ -173,7 +177,6 @@ class puzzleActivity : AppCompatActivity() {
     }
 
     fun isValidWord(startX: Float, startY: Float, endX: Float, endY: Float) : Boolean{
-
         var ind1 = getGridCellIndex(startX, startY)
         var row1 = (ind1 / puzzleSize)
         var col1 = ind1 % puzzleSize
@@ -188,8 +191,19 @@ class puzzleActivity : AppCompatActivity() {
             if(word!!.getStartPt()[0] == row1 && word.getStartPt()[1] == col1 && word.getEndPt()[0] == row2 && word.getEndPt()[1] == col2){
                 wordList[i] = null
                 gainBread()
-                boatScoreNumber.paintFlags = boatScoreNumber.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG
-                //TODO: Cross word off from listy-list
+
+                //Cross off word from word bank
+                var wordText = findViewById<TextView>(i + 2000)
+                wordText.paintFlags = wordText.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG
+
+                //Check how many words left, if all discovered, win level
+                wordCounter--
+                if(wordCounter == 0){
+                    gainFish()
+                    //TODO: winPuzzle() //Not sure if this function will be necessary
+                    db.markPuzzleCompleted(puzzleEngine.puzzle.id)
+                    //
+                }
                 return true
             }
         }
