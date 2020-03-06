@@ -70,7 +70,7 @@ class puzzleActivity : AppCompatActivity() {
         val comicSansFont : Typeface? = ResourcesCompat.getFont(this,R.font.comic_sans_b)
         //TODO: Get pnum from strings file
 
-        val pnum = intent.getIntExtra(getString(R.string.puzzle_num),-1)
+        val pnum = 34//intent.getIntExtra(getString(R.string.puzzle_num),-1)
 
         sp = this.getSharedPreferences(getString(R.string.points_file_key), Context.MODE_PRIVATE)
         val boatCount = sp.getInt(getString(R.string.boat_key),0)
@@ -102,13 +102,14 @@ class puzzleActivity : AppCompatActivity() {
         if(isAudioPuzzle){
             val row = TableRow(this)
             wordBank.addView(row)
-            var rowParams = TableRow.LayoutParams(row.layoutParams.width, row.layoutParams.height)
+            var rowParams = TableRow.LayoutParams(row.layoutParams.width / 3, row.layoutParams.height)
             row.addView(TextView(this), rowParams)
             var audioView = ImageButton(this)
             audioView.layoutParams = rowParams
             audioView.setImageResource(R.drawable.headphones)
             audioView.setBackgroundResource(0)
-            audioView.scaleType = ImageView.ScaleType.CENTER_INSIDE
+            audioView.layoutParams.height = 200
+            audioView.adjustViewBounds = true
             audioView.id = 2000
 
             //Initialize media player
@@ -134,6 +135,7 @@ class puzzleActivity : AppCompatActivity() {
             wordsLeft.text = "$wordCounter / " + wordList.size
             wordsLeft.layoutParams = rowParams
             wordsLeft.id = 2001
+            wordsLeft.typeface = comicSansFont
 
             row.addView(audioView)
             row.addView(wordsLeft)
@@ -145,16 +147,13 @@ class puzzleActivity : AppCompatActivity() {
                     wordBank.addView(row);
                 }
                 var textView = TextView(this)
-
                 textView.textSize= 20F
                 textView.gravity = Gravity.CENTER
                 textView.text = wordList[w]!!.word
                 textView.id = w + 2000
-
                 textView.typeface = comicSansFont
-                wordBank.addView(textView, params)
 
-
+                row.addView(textView)
             }
         }
 

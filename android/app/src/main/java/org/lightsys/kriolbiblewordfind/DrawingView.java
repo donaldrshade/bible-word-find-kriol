@@ -106,4 +106,13 @@ public class DrawingView extends View {
         paintColor = Color.parseColor(newColor);
         drawPaint.setColor(paintColor);
     }
+
+    public void highlightLetters(TextView startLetter, TextView endLetter){
+        Rect startRect = new Rect();
+        Rect endRect = new Rect();
+        startLetter.getHitRect(startRect);
+        endLetter.getHitRect(endRect);
+        drawPath.moveTo(startRect.exactCenterX(), startRect.exactCenterY());
+        drawPath.lineTo(endRect.exactCenterX(), endRect.exactCenterY());
+    }
 }
