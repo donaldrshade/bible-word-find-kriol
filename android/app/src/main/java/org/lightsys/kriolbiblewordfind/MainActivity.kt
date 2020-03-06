@@ -1,7 +1,9 @@
 package org.lightsys.kriolbiblewordfind
 
+import PuzzleEngine
 import android.content.Intent
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.support.constraint.ConstraintLayout
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
@@ -22,7 +24,6 @@ class MainActivity : AppCompatActivity(){
             val intent = Intent(this,MainActivity::class.java)
             startActivity(intent)
         }
-
         fab.isClickable=false
 
         val button1 = findViewById<ImageView>(R.id.button1)
@@ -32,7 +33,6 @@ class MainActivity : AppCompatActivity(){
         }
         val button2 = findViewById<ConstraintLayout>(R.id.button2)
         button2.setOnClickListener { view ->
-            System.out.println("button2")
             val intent = Intent(this,Empty::class.java)
             startActivity(intent)
         }
@@ -44,15 +44,16 @@ class MainActivity : AppCompatActivity(){
         }
         val button4 = findViewById<ConstraintLayout>(R.id.button4)
         button4.setOnClickListener { view ->
-            System.out.println("button4")
             val intent = Intent(this,Empty::class.java)
             startActivity(intent)
         }
         val button5 = findViewById<ConstraintLayout>(R.id.button5)
         button5.setOnClickListener { view ->
-            System.out.println("button5")
             val intent = Intent(this,Empty::class.java)
             startActivity(intent)
         }
+        val db = Database(this)
+        val temp = PuzzleEngine(db.getActivePuzzle(db.getActiveLevel().id),this)
+        val pause = 0
     }
 }
