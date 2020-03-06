@@ -103,7 +103,6 @@
             android:id="@+id/boatScore"
             android:layout_width="72dp"
             android:layout_height="49dp"
-            android:onClick="useBoat"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.95"

@@ -2,6 +2,7 @@ package org.lightsys.kriolbiblewordfind
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -11,6 +12,7 @@ import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView
 import android.view.Gravity
+import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TableLayout
@@ -19,9 +21,13 @@ import android.widget.TextView
 
 import kotlinx.android.synthetic.main.activity_empty.*
 import kotlinx.android.synthetic.main.activity_level_select.*
+import kotlinx.android.synthetic.main.activity_puzzle.*
 import kotlinx.android.synthetic.main.how_to_play.*
 
 class LevelSelect : AppCompatActivity() {
+    lateinit var sp : SharedPreferences
+    lateinit var db : Database
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,9 +41,14 @@ class LevelSelect : AppCompatActivity() {
 
         val levelTable = findViewById<TableLayout>(R.id.levelTable)
 
-        val sp = this.getSharedPreferences(getString(R.string.points_file_key), Context.MODE_PRIVATE)
+        val boat = findViewById<ImageView>(R.id.levelSelectBoat)
+        boat.setOnClickListener {
+            useBoat()
+        }
+
+        sp = this.getSharedPreferences(getString(R.string.points_file_key), Context.MODE_PRIVATE)
         levelSelectBoatText.text = sp.getInt(getString(R.string.boat_key),0).toString()
-        val db = Database(this)
+        db = Database(this)
         val levels = db.getLevelList()
         val lastLevel = db.getActiveLevel()
 
@@ -93,14 +104,34 @@ class LevelSelect : AppCompatActivity() {
 
         }
 
+    }
+
+    //Subtracts 1 from the boat number when tapped
+    fun useBoat() {
+        var boatString = levelSelectBoatText.text.toString()
+        var boatInt = boatString.toInt()
+
+        if (boatInt > 2){
+            boatInt -= 3
+            levelSelectBoatText.text = boatInt.toString()
+            //TODO: Spend 3 boats to unlock a level
+            val curLevel = db.getActiveLevel().id
+
+            var curPuzzle = db.getActivePuzzle(curLevel)
+            while(curPuzzle.level_id == curLevel){
+                db.markPuzzleCompleted(curPuzzle.id)
+                curPuzzle = db.getActivePuzzle(curLevel)
+            }
+
+
+           // db.markLevelCompleted(curLevel)
 
 
 
-
-
-
-
-
+            val edit = sp.edit()
+            edit.putInt(getString(R.string.boat_key),boatInt)
+            edit.commit()
+        }
     }
 
 }
