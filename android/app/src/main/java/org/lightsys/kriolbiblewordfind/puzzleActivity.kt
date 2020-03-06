@@ -66,11 +66,8 @@ class puzzleActivity : AppCompatActivity() {
         }
 
         val intent = intent
-
         val comicSansFont : Typeface? = ResourcesCompat.getFont(this,R.font.comic_sans_b)
-        //TODO: Get pnum from strings file
-
-        val pnum = 34//intent.getIntExtra(getString(R.string.puzzle_num),-1)
+        val pnum = intent.getIntExtra(getString(R.string.puzzle_num),-1)
 
         sp = this.getSharedPreferences(getString(R.string.points_file_key), Context.MODE_PRIVATE)
         val boatCount = sp.getInt(getString(R.string.boat_key),0)
