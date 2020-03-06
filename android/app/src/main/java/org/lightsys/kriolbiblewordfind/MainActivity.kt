@@ -8,8 +8,12 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Window
 import android.view.WindowManager
 import android.widget.ImageView
+
+const val LEVEL_SELECT = 1
 class MainActivity : AppCompatActivity(){
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         //Set Activity to full screen
         requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -37,7 +41,7 @@ class MainActivity : AppCompatActivity(){
         val gameLevelButton = findViewById<ConstraintLayout>(R.id.game_level_button)
         gameLevelButton.setOnClickListener {
             val intent = Intent(this,LevelSelect::class.java)
-            startActivity(intent)
+            startActivityForResult(intent, LEVEL_SELECT)
         }
         val listenBibleButton = findViewById<ConstraintLayout>(R.id.listen_bible_button)
         listenBibleButton.setOnClickListener {
@@ -52,6 +56,15 @@ class MainActivity : AppCompatActivity(){
         val developer_button = findViewById<ConstraintLayout>(R.id.developer_button)
         developer_button.setOnClickListener {
             val intent = Intent(this,Empty::class.java)
+            startActivity(intent)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == LEVEL_SELECT){
+            val intent = Intent(this,puzzleActivity::class.java)
+            intent.putExtra(getString(R.string.puzzle_num),resultCode)
             startActivity(intent)
         }
     }

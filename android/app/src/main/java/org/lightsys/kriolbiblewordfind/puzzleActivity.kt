@@ -7,10 +7,12 @@ import android.content.SharedPreferences
 import android.content.res.Resources
 import android.graphics.Paint
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.ConstraintSet
 import android.support.design.widget.FloatingActionButton
+import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.Gravity
 import android.view.View
@@ -23,7 +25,6 @@ import java.lang.Math.floor
 
 
 class puzzleActivity : AppCompatActivity() {
-
     var puzzleSize = 0
     var letters = arrayOf<TextView?>()
     var wordList = arrayOf<Word?>()
@@ -58,6 +59,7 @@ class puzzleActivity : AppCompatActivity() {
         }
 
         val intent = intent
+        val comicSansFont : Typeface? = ResourcesCompat.getFont(this,R.font.comic_sans)
         //TODO: Get pnum from strings file
         val pnum = intent.getIntExtra(getString(R.string.puzzle_num),-1)
         sp = this.getSharedPreferences(getString(R.string.points_file_key), Context.MODE_PRIVATE)
@@ -94,6 +96,7 @@ class puzzleActivity : AppCompatActivity() {
                 textView.textSize= 20F
                 textView.text = wordList[w]!!.word
                 textView.id = w + 2000
+                textView.typeface = comicSansFont
                 wordBank.addView(textView, params)
             }
         }
@@ -109,7 +112,7 @@ class puzzleActivity : AppCompatActivity() {
                 textView.id = 1000+r*puzzleSize+c
                 letters[r*puzzleSize+c] = textView
                 textView.text = puzzleGrid[r][c].toString()
-
+                textView.typeface = comicSansFont
                 textView.gravity = Gravity.CENTER
                 //textView.setBackgroundColor(40)
                 val lp = ConstraintLayout.LayoutParams(ConstraintSet.MATCH_CONSTRAINT, ConstraintSet.MATCH_CONSTRAINT)
