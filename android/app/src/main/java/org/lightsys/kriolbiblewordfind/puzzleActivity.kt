@@ -4,6 +4,7 @@ import PuzzleEngine
 import Word
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Resources
 import android.graphics.Color
@@ -299,11 +300,11 @@ class puzzleActivity : AppCompatActivity() {
                         soundEffect.start()
                         //TODO: Re-enable level change on popup
                         PopUp(this, hasText = true, setText = "Level Win", hasTick = false)
+
                     } else {
                         PopUp(this, hasText = false, setText = "", hasTick = true)
                     }
                 }
-
                 return true
             }
         }

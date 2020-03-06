@@ -8,6 +8,7 @@ import android.text.Layout
 import android.util.DisplayMetrics
 import android.widget.ImageView
 import android.widget.TextView
+import kotlinx.android.synthetic.main.pop_up.*
 
 class PopUp(): Activity() {
 
@@ -27,16 +28,29 @@ class PopUp(): Activity() {
         if(hasText){
             popUpText.visibility = TextView.VISIBLE
             popUpText.text = setText
+
+            popUpText.setOnClickListener{
+                finish()
+                val intent = Intent(this,puzzleActivity::class.java)
+                intent.putExtra(getString(R.string.puzzle_num),Database(this).getActivePuzzleNum())
+                startActivity(intent)
+            }
         }
         else{
             popUpText.visibility = TextView.INVISIBLE
         }
         if(hasTick){
             tickImage.visibility = ImageView.VISIBLE
+
+            tickImage.setOnClickListener{
+                finish()
+                val intent = Intent(this,puzzleActivity::class.java)
+                intent.putExtra(getString(R.string.puzzle_num),Database(this).getActivePuzzleNum())
+                startActivity(intent)
+            }
         }else{
             tickImage.visibility = ImageView.INVISIBLE
         }
-
     }
 }
 public fun PopUp(act:Activity,hasText:Boolean = false,setText:String = "",hasTick:Boolean = false){
