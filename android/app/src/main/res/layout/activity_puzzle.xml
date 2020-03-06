@@ -2,9 +2,10 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/backgound"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="#64CA89"
+        android:background="#A6E1C3"
         android:orientation="vertical"
         tools:context=".puzzleActivity">
 
@@ -12,7 +13,7 @@
     <ImageView
             android:id="@+id/story_title_banner_image"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="230dp"
             android:contentDescription="TODO"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toTopOf="@+id/gridBackground"
@@ -33,26 +34,26 @@
             app:layout_constraintHorizontal_bias=".5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.589"
+            app:layout_constraintVertical_bias="0.71000004"
             app:srcCompat="@drawable/grid_background" />
 
     <ImageView
             android:id="@+id/breadScore"
-            android:layout_width="66dp"
-            android:layout_height="61dp"
+            android:layout_width="46dp"
+            android:layout_height="50dp"
             android:onClick="useBread"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.081"
+            app:layout_constraintHorizontal_bias="0.050"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/story_title_banner_image"
-            app:layout_constraintVertical_bias="0.921"
+            app:layout_constraintVertical_bias="0.927"
             app:srcCompat="@drawable/bread" />
 
     <ImageView
             android:id="@+id/fishScore"
-            android:layout_width="115dp"
-            android:layout_height="49dp"
+            android:layout_width="89dp"
+            android:layout_height="39dp"
             android:onClick="useFish"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/boatScore"
@@ -64,16 +65,17 @@
 
     <ImageView
             android:id="@+id/boatScore"
-            android:layout_width="91dp"
-            android:layout_height="56dp"
+            android:layout_width="72dp"
+            android:layout_height="49dp"
             android:onClick="useBoat"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.95"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.949"
+            app:layout_constraintVertical_bias="0.939"
             app:srcCompat="@drawable/boat" />
+
 
     <TextView
             android:id="@+id/breadScoreNumber"
@@ -83,25 +85,26 @@
             android:textColor="#000000"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.133"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.977" />
+            app:layout_constraintEnd_toEndOf="@+id/breadScore"
+            app:layout_constraintHorizontal_bias="0.526"
+            app:layout_constraintStart_toStartOf="@+id/breadScore"
+            app:layout_constraintTop_toBottomOf="@+id/breadScore"
+            app:layout_constraintVertical_bias="0.454" />
 
     <TextView
             android:id="@+id/boatScoreNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
             android:text="5"
             android:textColor="#000000"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.868"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.98" />
+            app:layout_constraintEnd_toEndOf="@+id/boatScore"
+            app:layout_constraintHorizontal_bias="0.484"
+            app:layout_constraintStart_toStartOf="@+id/boatScore"
+            app:layout_constraintTop_toBottomOf="@+id/boatScore"
+            app:layout_constraintVertical_bias="0.428" />
 
     <TextView
             android:id="@+id/fishScoreNumber"
@@ -111,12 +114,11 @@
             android:textColor="#000000"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/boatScoreNumber"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toEndOf="@+id/breadScoreNumber"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.977" />
-
+            app:layout_constraintEnd_toEndOf="@+id/fishScore"
+            app:layout_constraintHorizontal_bias=".5"
+            app:layout_constraintStart_toStartOf="@+id/fishScore"
+            app:layout_constraintTop_toBottomOf="@+id/fishScore"
+            app:layout_constraintVertical_bias="0.47000003" />
 
     <android.support.design.widget.FloatingActionButton
             android:id="@+id/home_fab"
