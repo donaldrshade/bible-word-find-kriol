@@ -1,4 +1,6 @@
 package org.lightsys.kriolbiblewordfind
+import PuzzleEngine
+import Word
 import android.annotation.SuppressLint
 import android.content.res.Resources
 import android.os.Bundle
@@ -44,17 +46,16 @@ class puzzleActivity : AppCompatActivity() {
         }
 
         val intent = intent;
-        val pnum = 1//intent.getIntExtra(getString(R.string.puzzle_num),-1);
-
-        var puzzleEngine = PuzzleEngine(pnum, this)
-        var puzzleGrid = puzzleEngine.grid
-        wordList = puzzleEngine.getWords()
+        val pnum = 2//intent.getIntExtra(getString(R.string.puzzle_num),-1);
 
         var puzzle = Puzzle()
         var db = Database(this)
         puzzle = db.getPuzzle(pnum)
+        var puzzleEngine = PuzzleEngine(puzzle, this)
+        var puzzleGrid = puzzleEngine.grid
+        wordList = puzzleEngine.getWords()
+
         puzzleSize = puzzle.size
-        puzzleSize = 3;//TODO
 
         val gridSizer = findViewById<ConstraintLayout>(R.id.gridSizer);
         val cset = ConstraintSet()
@@ -103,15 +104,11 @@ class puzzleActivity : AppCompatActivity() {
                 } else {
                     cset.connect(id, ConstraintSet.TOP, 1000+(r-1)*puzzleSize+c, ConstraintSet.BOTTOM)
                 }
-
-
             }
             cset.createHorizontalChain(dimensionBox, ConstraintSet.LEFT, dimensionBox, ConstraintSet.RIGHT,
                 intarr, null, ConstraintSet.CHAIN_SPREAD)
         }
         cset.applyTo(gridSizer)
-
-
 
         //String that contains the banner name
         val levelBanner = "eijah"//TODO
@@ -154,14 +151,12 @@ class puzzleActivity : AppCompatActivity() {
             if(word == null) continue
             if(word!!.getStartPt()[0] == row1 && word.getStartPt()[1] == col1 && word.getEndPt()[0] == row2 && word.getEndPt()[1] == col2){
                 wordList[i] = null
-                return true
+                gainBread()
                 //TODO: Cross word off from listy-list
+                return true
             }
-            return false
         }
-
-
-        return true
+        return false
     }
 
     /*fun setStartLetter( box: TextView){
@@ -175,47 +170,67 @@ class puzzleActivity : AppCompatActivity() {
 */
     //Subtracts 1 from the boat number when tapped.
     //TODO: The boat number is set to 5 by default and must be changed
-    fun boatClicked(view: View) {
-        val boatView  = findViewById<TextView>(R.id.boatScoreNumber)
-
-        var boatString = boatView.text.toString();
+    fun useBoat(view: View) {
+        var boatString = boatScoreNumber.text.toString();
         var boatInt = boatString.toInt()
 
         if (boatInt > 0){
-            boatInt -= 1
+            boatInt--
             boatString = boatInt.toString()
-            boatView.text = boatString
+            boatScoreNumber.text = boatString
         }
     }
 
     //Subtracts 1 from the fish number when tapped
     //TODO: The fish number is set to 5 by default and must be changed
-    fun fishClicked(view: View) {
-        val fishView  = findViewById<TextView>(R.id.fishScoreNumber)
-
-        var fishString = fishView.text.toString();
+    fun useFish(view: View) {
+        var fishString = fishScoreNumber.text.toString();
         var fishInt = fishString.toInt()
 
         if (fishInt > 0){
-            fishInt -= 1
+            fishInt--
             fishString = fishInt.toString()
-            fishView.text = fishString
+            fishScoreNumber.text = fishString
         }
-
     }
 
     //Subtracts 1 from the bread number when tapped
     //TODO: The bread number is set to 5 by default and must be changed
-    fun breadClicked(view: View) {
-        val breadView  = findViewById<TextView>(R.id.breadScoreNumber)
-
-        var breadString = breadView.text.toString();
+    fun useBread(view: View) {
+        var breadString = breadScoreNumber.text.toString();
         var breadInt = breadString.toInt()
 
-        if (breadInt > 0){
-            breadInt -= 1
+        if (breadInt > 0) {
+            breadInt--
             breadString = breadInt.toString()
-            breadView.text = breadString
+            breadScoreNumber.text = breadString
         }
+    }
+
+    fun gainBoat(){
+       var boatString = boatScoreNumber.text.toString();
+        var boatInt = boatString.toInt()
+
+        boatInt++
+        boatString = boatInt.toString()
+        boatScoreNumber.text = boatString
+    }
+
+    fun gainFish(){
+        var fishString = fishScoreNumber.text.toString();
+        var fishInt = fishString.toInt()
+
+        fishInt++
+        fishString = fishInt.toString()
+        fishScoreNumber.text = fishString
+    }
+
+    fun gainBread(){
+       var breadString = breadScoreNumber.text.toString();
+        var breadInt = breadString.toInt()
+
+        breadInt++
+        breadString = breadInt.toString()
+        breadScoreNumber.text = breadString
     }
 }

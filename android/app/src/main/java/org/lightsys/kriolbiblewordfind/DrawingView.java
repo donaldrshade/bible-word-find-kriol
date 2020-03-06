@@ -15,7 +15,7 @@ public class DrawingView extends View {
     private Path drawPath;
     private Paint drawPaint;
     private ArrayList<Path> paths = new ArrayList<Path>();
-    private int paintColor = Color.BLUE;
+    private int paintColor;
     private Rect rect;
     private TextView text;
     private float startX;
@@ -28,6 +28,7 @@ public class DrawingView extends View {
         super(context, attrs);
         this.activity = activity;
         rect = new Rect();
+        paintColor = getResources().getColor(R.color.colorHomeButton);
 
         drawPaint = new Paint();
         drawPaint.setColor(paintColor);
@@ -86,7 +87,7 @@ public class DrawingView extends View {
                 drawPath.lineTo(endX, endY);
                 //TODO: This
                 if(activity.isValidWord(startX, startY, endX, endY)){
-                    //paths.remove(paths.size()-1);
+                    //
                 } else {
                     paths.remove(paths.size()-1);
                 }
