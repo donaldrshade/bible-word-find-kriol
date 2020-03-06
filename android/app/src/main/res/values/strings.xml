@@ -39,4 +39,5 @@
     <string name="hasText">HAS_TEXT</string>
     <string name="setText">SET_TEXT</string>
     <string name="hasTick">HAS_TICK</string>
+    <string name="SOUNDS">SOUNDS_ON_OFF</string>
 </resources>

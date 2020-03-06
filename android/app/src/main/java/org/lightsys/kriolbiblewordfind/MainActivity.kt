@@ -1,5 +1,6 @@
 package org.lightsys.kriolbiblewordfind
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
@@ -8,7 +9,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Window
 import android.view.WindowManager
 import android.widget.ImageView
-
+import android.widget.Switch
 
 const val LEVEL_SELECT = 1
 class MainActivity : AppCompatActivity(){
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity(){
 
         val playButton = findViewById<ImageView>(R.id.play_button)
         playButton.setOnClickListener {
-            playButton.setImageResource(R.drawable.plei_buton_active)
+            // playButton.setImageResource(R.drawable.plei_buton_active)
             val intent = Intent(this,puzzleActivity::class.java)
             intent.putExtra(getString(R.string.puzzle_num),Database(this).getActivePuzzleNum())
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
@@ -55,6 +56,14 @@ class MainActivity : AppCompatActivity(){
         watchBibleButton.setOnClickListener {
             val intent = Intent(this,WatchActivity::class.java)
             startActivity(intent)
+        }
+        val noise = findViewById<Switch>(R.id.sound_switch)
+        noise.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked){
+                val sp = this.getSharedPreferences(getString(R.string.points_file_key), Context.MODE_PRIVATE)
+                val edit = sp.edit()
+                edit.putBoolean(getString(R.string.SOUNDS),isChecked)
+        }
         }
         val developerButton = findViewById<ConstraintLayout>(R.id.developer_button)
         developerButton.setOnClickListener {
