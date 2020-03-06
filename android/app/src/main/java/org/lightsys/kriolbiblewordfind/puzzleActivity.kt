@@ -47,7 +47,7 @@ class puzzleActivity : AppCompatActivity() {
         }
 
         val intent = intent
-        val pnum = 2//intent.getIntExtra(getString(R.string.puzzle_num),-1)
+        val pnum = -1//intent.getIntExtra(getString(R.string.puzzle_num),-1)
 
         var puzzle = Puzzle()
         var db = Database(this)

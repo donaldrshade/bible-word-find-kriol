@@ -274,16 +274,16 @@ class PuzzleEngine(var puzzle: Puzzle, var context: Context) {
                 i++;
             }
             words = arrayOf(
-                    new Word("EDAM"),
-                    new Word("DAGA"),
-                    new Word("MOAB")
+                    Word("EDAM"),
+                    Word("DAGA"),
+                    Word("MOAB")
             )
-            words[0].setStartPt(0,0);
-            words[0].setEndPt(0,3);
-            words[1].setStartPt(0,1);
-            words[1].setEndPt(3,1);
-            words[2].setStartPt(0,3);
-            words[2].setEndPt(3,3);
+            words[0]!!.setStartPt(0,0);
+            words[0]!!.setEndPt(0,3);
+            words[1]!!.setStartPt(0,1);
+            words[1]!!.setEndPt(3,1);
+            words[2]!!.setStartPt(0,3);
+            words[2]!!.setEndPt(3,3);
         } else {
             val s = puzzle.size
             val wCt = puzzle.numOfWords
