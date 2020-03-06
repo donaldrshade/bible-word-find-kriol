@@ -236,7 +236,7 @@ class Database(context: Context) :
 
         // There is no word table. They are in files
     }
-    //Functions for quering the DB
+    //Functions for querying the DB
 
     fun getLevel(levelId:Int):Level{
         val db = this.writableDatabase
@@ -349,6 +349,18 @@ class Database(context: Context) :
             }
             return false
         } else{
+            return false
+        }
+    }
+
+    fun isAudioPuzzle(puzzleId: Int):Boolean {
+        val db = this.writableDatabase
+        val query = "select $PUZZLE_COL_5 from $PUZZLE_TABLE_NAME WHERE $PUZZLE_COL_1 = ? "
+        val res = db.rawQuery(query, arrayOf(puzzleId.toString()))
+        var puz:Puzzle
+        if (res.moveToNext()) {
+            return res.getString(0)!="NULL"
+        }else {
             return false
         }
     }
