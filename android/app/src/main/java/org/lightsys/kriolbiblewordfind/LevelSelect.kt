@@ -5,9 +5,12 @@ import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView
 import android.view.WindowManager
+import android.widget.TextView
 
 import kotlinx.android.synthetic.main.activity_empty.*
+import kotlinx.android.synthetic.main.how_to_play.*
 
 class LevelSelect : AppCompatActivity() {
 
@@ -21,6 +24,8 @@ class LevelSelect : AppCompatActivity() {
             startActivity(intent)
         }
 
+        val recyclerView = findViewById<RecyclerView>(R.id.levellist)
+
 
         val db = Database(this)
         val levels = db.getLevelList()
@@ -28,7 +33,15 @@ class LevelSelect : AppCompatActivity() {
         //An integer that is the number of levels
         val numOfLevels = levels.size
 
+/*
 
+        for (num in 0..numOfLevels){
+            val textView = TextView(this)
+            textView.setText("Test Tex")
+            recyclerView!!.addView(textView)
+        }
+
+*/
 
 
 

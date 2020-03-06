@@ -10,6 +10,60 @@
         tools:context=".puzzleActivity">
 
 
+    <ScrollView
+            android:layout_width="411dp"
+            android:layout_height="63dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toTopOf="@+id/breadScore"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/gridBackground"
+            app:layout_constraintVertical_bias="0.48000002">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+            <TextView
+                    android:id="@+id/textView20"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView" />
+
+            <TextView
+                    android:id="@+id/textView21"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView" />
+
+            <TextView
+                    android:id="@+id/textView22"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView" />
+
+            <TextView
+                    android:id="@+id/textView23"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView" />
+
+            <TextView
+                    android:id="@+id/textView25"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView" />
+
+            <TextView
+                    android:id="@+id/textView24"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView" />
+        </LinearLayout>
+    </ScrollView>
+
     <ImageView
             android:id="@+id/story_title_banner_image"
             android:layout_width="wrap_content"
@@ -23,6 +77,31 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/fespida3" />
+
+    <ImageView
+            android:id="@+id/gridBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="300dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toTopOf="@+id/boatScore"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/story_title_banner_image"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/grid_background" />
+
+    <android.support.constraint.ConstraintLayout
+            android:id="@+id/gridSizer"
+            android:layout_width="253dp"
+            android:layout_height="253dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="@+id/gridBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/gridBackground"
+            app:layout_constraintTop_toTopOf="@+id/gridBackground"
+            app:layout_constraintVertical_bias="0.48">
+
+    </android.support.constraint.ConstraintLayout>
 
     <ImageView
             android:id="@+id/breadScore"
@@ -47,7 +126,7 @@
             app:layout_constraintHorizontal_bias="0.568"
             app:layout_constraintStart_toEndOf="@+id/breadScore"
             app:layout_constraintTop_toTopOf="@+id/story_title_banner_image"
-            app:layout_constraintVertical_bias="0.939"
+            app:layout_constraintVertical_bias="0.93"
             app:srcCompat="@drawable/fish_clipart_md" />
 
     <ImageView
@@ -119,65 +198,5 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.087" />
-
-    <ImageView
-            android:id="@+id/gridBackground"
-            android:layout_width="wrap_content"
-            android:layout_height="300dp"
-            android:scaleType="fitCenter"
-            app:layout_constraintBottom_toTopOf="@+id/boatScore"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/story_title_banner_image"
-            app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/grid_background" />
-
-    <android.support.constraint.ConstraintLayout
-            android:id="@+id/gridSizer"
-            android:layout_width="253dp"
-            android:layout_height="253dp"
-            android:scaleType="fitXY"
-            app:layout_constraintBottom_toBottomOf="@+id/gridBackground"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/gridBackground"
-            app:layout_constraintTop_toTopOf="@+id/gridBackground"
-            app:layout_constraintVertical_bias="0.48">
-
-    </android.support.constraint.ConstraintLayout>
-
-    <ScrollView
-            android:layout_width="411dp"
-            android:layout_height="140dp"
-            app:layout_constraintBottom_toTopOf="@+id/fishScore"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/gridBackground"
-            app:layout_constraintVertical_bias="0.181">
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
-
-            <TextView
-                    android:id="@+id/textView12"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="TextView" />
-
-            <TextView
-                    android:id="@+id/textView13"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="TextView" />
-
-            <TextView
-                    android:id="@+id/textView14"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="TextView" />
-        </LinearLayout>
-    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>
