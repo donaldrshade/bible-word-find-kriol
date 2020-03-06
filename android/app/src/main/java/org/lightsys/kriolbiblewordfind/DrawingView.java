@@ -116,5 +116,6 @@ public class DrawingView extends View {
         drawPath.moveTo(startRect.exactCenterX(), startRect.exactCenterY());
         drawPath.lineTo(endRect.exactCenterX(), endRect.exactCenterY());
         this.invalidate();
+
     }
 }

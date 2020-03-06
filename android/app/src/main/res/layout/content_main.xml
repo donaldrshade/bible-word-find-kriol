@@ -26,19 +26,26 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_weight="5" />
+
     <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@id/story_title_banner_image"
-            app:layout_constraintEnd_toEndOf="@id/story_title_banner_image"
-            app:layout_constraintStart_toStartOf="@id/story_title_banner_image"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="23dp"
+            android:layout_marginRight="0dp"
+            android:gravity="center"
             android:text="@string/main_menu_title"
             android:textAlignment="gravity"
-            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="20sp"
             android:textStyle="bold"
-            android:textSize="40sp"
             app:fontFamily="@font/comic_sans"
-            android:textColor="@color/black"/>
+            app:layout_constraintBottom_toBottomOf="@id/story_title_banner_image"
+            app:layout_constraintEnd_toEndOf="@id/story_title_banner_image"
+            app:layout_constraintHorizontal_bias=".5"
+            app:layout_constraintStart_toStartOf="@id/story_title_banner_image"
+            app:layout_constraintTop_toTopOf="@+id/story_title_banner_image"
+            app:layout_constraintVertical_bias="0.0" />
 
 
 
