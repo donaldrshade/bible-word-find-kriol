@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity(){
         setContentView(R.layout.activity_main)
 
         val fab = findViewById<FloatingActionButton>(R.id.home_fab)
-        fab.setOnClickListener { view ->
+        fab.setOnClickListener {
             val intent = Intent(this,MainActivity::class.java)
             startActivity(intent)
         }
@@ -41,11 +41,16 @@ class MainActivity : AppCompatActivity(){
         }
         val listenBibleButton = findViewById<ConstraintLayout>(R.id.listen_bible_button)
         listenBibleButton.setOnClickListener {
-            val intent = Intent(this,Empty::class.java)
+            val intent = Intent(this,ListenActivity::class.java)
             startActivity(intent)
         }
         val watchBibleButton = findViewById<ConstraintLayout>(R.id.watch_bible_button)
         watchBibleButton.setOnClickListener {
+            val intent = Intent(this,Empty::class.java)
+            startActivity(intent)
+        }
+        val developer_button = findViewById<ConstraintLayout>(R.id.developer_button)
+        developer_button.setOnClickListener {
             val intent = Intent(this,Empty::class.java)
             startActivity(intent)
         }

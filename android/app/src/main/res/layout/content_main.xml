@@ -12,18 +12,7 @@
         tools:showIn="@layout/app_bar_main"
         android:background="@color/colorPrimary">
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@id/story_title_banner_image"
-            app:layout_constraintEnd_toEndOf="@id/story_title_banner_image"
-            app:layout_constraintStart_toStartOf="@id/story_title_banner_image"
-            android:text="@string/main_menu_title"
-            android:textAlignment="gravity"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:textSize="40sp"
-            app:fontFamily="@font/comic_sans"/>
+
 
     <ImageView
             android:id="@+id/story_title_banner_image"
@@ -48,7 +37,8 @@
             android:gravity="center"
             android:textStyle="bold"
             android:textSize="40sp"
-            app:fontFamily="@font/comic_sans"/>
+            app:fontFamily="@font/comic_sans"
+            android:textColor="@color/black"/>
 
 
 
