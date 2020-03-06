@@ -21,11 +21,11 @@ class MainActivity : AppCompatActivity(){
 
         val fab = findViewById<FloatingActionButton>(R.id.home_fab)
         fab.setOnClickListener { view ->
-            val intent = Intent(this,MainActivity::class.java)
+            val intent = Intent(this,sampleActivity::class.java)
             startActivity(intent)
         }
 
-        fab.isClickable=false
+        //fab.isClickable=false
 
         val button1 = findViewById<ImageView>(R.id.button1)
         button1.setOnClickListener { view ->

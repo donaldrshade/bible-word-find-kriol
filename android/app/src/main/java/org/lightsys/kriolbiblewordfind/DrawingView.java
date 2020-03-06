@@ -1,29 +1,33 @@
 package org.lightsys.kriolbiblewordfind;
 
-
 import android.content.Context;
 import android.graphics.*;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
+
 import java.util.ArrayList;
 
 public class DrawingView extends View {
 
+    private puzzleActivity activity;
     private Path drawPath;
-    private Paint drawPaint, canvasPaint;
+    private Paint drawPaint;
     private ArrayList<Path> paths = new ArrayList<Path>();
     private int paintColor = Color.BLUE;
-    private Canvas drawCanvas;
-    private Bitmap canvasBitmap;
+    private Rect rect;
+    private TextView text;
     private float startX;
     private float startY;
-    private int startRow;
-    private int startCol;
+    private float endX;
+    private float endY;
 
 
-    public DrawingView(Context context, AttributeSet attrs){
+    public DrawingView(Context context, AttributeSet attrs, puzzleActivity activity){
         super(context, attrs);
+        this.activity = activity;
+        rect = new Rect();
 
         drawPaint = new Paint();
         drawPaint.setColor(paintColor);
@@ -33,7 +37,6 @@ public class DrawingView extends View {
         drawPaint.setStyle(Paint.Style.STROKE);
         drawPaint.setStrokeJoin(Paint.Join.ROUND);
         drawPaint.setStrokeCap(Paint.Cap.ROUND);
-        canvasPaint = new Paint(Paint.DITHER_FLAG);
     }
 
     //setup drawing
@@ -41,7 +44,7 @@ public class DrawingView extends View {
 
         //generate new path
         drawPath = new Path();
-       paths.add(drawPath);
+        paths.add(drawPath);
 
     }
 
@@ -63,13 +66,13 @@ public class DrawingView extends View {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 initPath();
-                //startRow = 0;
-                //startCol = 0;
-                drawPath.moveTo(touchX, touchY);
-                startX = touchX;
-                startY = touchY;
+                activity.getGridCell(touchX, touchY).getHitRect(rect);
+                startX = rect.exactCenterX();
+                startY = rect.exactCenterY();
+                drawPath.moveTo(startX, startY);
                 break;
             case MotionEvent.ACTION_MOVE:
+                this.getHitRect(rect);
                 drawPath.rewind();
                 drawPath.moveTo(startX, startY);
                 drawPath.lineTo(touchX, touchY);
@@ -77,16 +80,24 @@ public class DrawingView extends View {
             case MotionEvent.ACTION_UP:
                 drawPath.rewind();
                 drawPath.moveTo(startX, startY);
-                drawPath.lineTo(touchX, touchY);
-                checkWord(startRow, startCol, 0, 0);
+                activity.getGridCell(touchX, touchY).getHitRect(rect);
+                endX = rect.exactCenterX();
+                endY = rect.exactCenterY();
+                drawPath.lineTo(endX, endY);
+                //TODO: This
+                if(activity.isValidWord(startX, startY, endX, endY)){
+                    //paths.remove(paths.size()-1);
+                } else {
+                    paths.remove(paths.size()-1);
+                }
                 break;
             default:
                 return false;
         }
+
         //redraw
         invalidate();
         return true;
-
     }
 
     //update color
@@ -95,10 +106,4 @@ public class DrawingView extends View {
         paintColor = Color.parseColor(newColor);
         drawPaint.setColor(paintColor);
     }
-
-    public void checkWord(int row1, int col1, int row2, int col2) {
-        if(false)//check if word in list
-            paths.remove(paths.size()-1);
-    }
-
 }
