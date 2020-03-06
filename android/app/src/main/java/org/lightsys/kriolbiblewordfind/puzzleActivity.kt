@@ -39,6 +39,8 @@ class puzzleActivity : AppCompatActivity() {
     lateinit var puzzleEngine:PuzzleEngine
     lateinit var sp:SharedPreferences
     lateinit var media:MediaPlayer
+    lateinit var soundEffect:MediaPlayer
+    lateinit var completePuzzle:MediaPlayer
 
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -213,13 +215,11 @@ class puzzleActivity : AppCompatActivity() {
         val levelName = currentLevel.title
         val levelBanner = currentLevel.picture
 
-
         //Setting the level title
         val levelTitleText = findViewById<TextView>(R.id.levelTitle)
         levelTitleText.textSize = 20F
         levelTitleText.setBackgroundColor(Color.argb(150,200,255,255))
         levelTitleText.setText(levelName)
-
 
         //Setting the banner
         val bannerRes: Resources = resources;
@@ -278,6 +278,8 @@ class puzzleActivity : AppCompatActivity() {
                 || word!!.getEndPt()[0] == row1 && word.getEndPt()[1] == col1 && word.getStartPt()[0] == row2 && word.getStartPt()[1] == col2){
                 wordList[i] = null
                 gainBread()
+                soundEffect = createMedia("WordReward")
+                soundEffect.start()
 
                 //Update wordCounter and cross off word from word bank
                 wordCounter++
@@ -296,6 +298,8 @@ class puzzleActivity : AppCompatActivity() {
                     val levelComplete = db.markPuzzleCompleted(puzzleEngine.puzzle.id)
                     if(levelComplete){
                         gainBoat()
+                        soundEffect = createMedia("CompletePuzzle")
+                        soundEffect.start()
                         //TODO: Re-enable level change on popup
                         PopUp(this, hasText = true, setText = "Level Win", hasTick = false)
                     } else {

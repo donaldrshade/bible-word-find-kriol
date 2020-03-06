@@ -1,5 +1,6 @@
 package org.lightsys.kriolbiblewordfind
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
@@ -17,6 +18,7 @@ import android.widget.TableRow
 import android.widget.TextView
 
 import kotlinx.android.synthetic.main.activity_empty.*
+import kotlinx.android.synthetic.main.activity_level_select.*
 import kotlinx.android.synthetic.main.how_to_play.*
 
 class LevelSelect : AppCompatActivity() {
@@ -33,6 +35,8 @@ class LevelSelect : AppCompatActivity() {
 
         val levelTable = findViewById<TableLayout>(R.id.levelTable)
 
+        val sp = this.getSharedPreferences(getString(R.string.points_file_key), Context.MODE_PRIVATE)
+        levelSelectBoatText.text = sp.getInt(getString(R.string.boat_key),0).toString()
 
         val db = Database(this)
         val levels = db.getLevelList()
