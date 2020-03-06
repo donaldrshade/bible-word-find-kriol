@@ -7,13 +7,17 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Resources
 import android.graphics.Color
+import android.graphics.Typeface
+
 import android.graphics.Paint
 import android.media.MediaPlayer
 import android.nfc.FormatException
+
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.ConstraintSet
 import android.support.design.widget.FloatingActionButton
+import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.Gravity
 import android.view.View
@@ -26,7 +30,6 @@ import java.lang.Math.floor
 
 
 class puzzleActivity : AppCompatActivity() {
-
     var puzzleSize = 0
     var letters = arrayOf<TextView?>()
     var wordList = arrayOf<Word?>()
@@ -63,7 +66,12 @@ class puzzleActivity : AppCompatActivity() {
         }
 
         val intent = intent
+
+        val comicSansFont : Typeface? = ResourcesCompat.getFont(this,R.font.comic_sans_b)
+        //TODO: Get pnum from strings file
+
         val pnum = intent.getIntExtra(getString(R.string.puzzle_num),-1)
+
         sp = this.getSharedPreferences(getString(R.string.points_file_key), Context.MODE_PRIVATE)
         val boatCount = sp.getInt(getString(R.string.boat_key),0)
         val fishCount = sp.getInt(getString(R.string.fish_key),0)
@@ -78,6 +86,7 @@ class puzzleActivity : AppCompatActivity() {
         //Initiate Database and load puzzle engine
         db = Database(this)
         var puzzle = db.getPuzzle(pnum)
+        var levelnum = puzzle.level_id
         puzzleEngine = PuzzleEngine(puzzle, this)
 
         var puzzleGrid = puzzleEngine.grid
@@ -140,7 +149,12 @@ class puzzleActivity : AppCompatActivity() {
                 textView.gravity = Gravity.CENTER
                 textView.text = wordList[w]!!.word
                 textView.id = w + 2000
+
+                textView.typeface = comicSansFont
+                wordBank.addView(textView, params)
+
                 row.addView(textView)
+
             }
         }
 
@@ -155,7 +169,7 @@ class puzzleActivity : AppCompatActivity() {
                 textView.id = 1000+r*puzzleSize+c
                 letters[r*puzzleSize+c] = textView
                 textView.text = puzzleGrid[r][c].toString()
-
+                textView.typeface = comicSansFont
                 textView.gravity = Gravity.CENTER
                 //textView.setBackgroundColor(40)
                 val lp = ConstraintLayout.LayoutParams(ConstraintSet.MATCH_CONSTRAINT, ConstraintSet.MATCH_CONSTRAINT)
@@ -198,9 +212,20 @@ class puzzleActivity : AppCompatActivity() {
         cset.applyTo(gridSizer)
 
         //String that contains the banner name
-        val levelBanner = "eijah"//TODO
+        val currentLevel = db.getLevel(levelnum)
 
-        //Changing the banner
+        val levelName = currentLevel.title
+        val levelBanner = currentLevel.picture
+
+
+        //Setting the level title
+        val levelTitleText = findViewById<TextView>(R.id.levelTitle)
+        levelTitleText.textSize = 20F
+        levelTitleText.setBackgroundColor(Color.argb(150,200,255,255))
+        levelTitleText.setText(levelName)
+
+
+        //Setting the banner
         val bannerRes: Resources = resources;
         val bannerResID = bannerRes.getIdentifier(levelBanner, "drawable", packageName);
         val levelBackground = findViewById<ConstraintLayout>(R.id.backgound)
@@ -209,10 +234,10 @@ class puzzleActivity : AppCompatActivity() {
         story_title_banner_image.setImageResource(bannerResID);
 
         when (rnds){
-            0-> levelBackground.setBackgroundColor(Color.rgb(0,188,212));
-            1-> levelBackground.setBackgroundColor(Color.rgb(152,228,146));
-            2-> levelBackground.setBackgroundColor(Color.rgb(220,195,154));
-            3-> levelBackground.setBackgroundColor(Color.rgb(173,166,227));
+            0-> levelBackground.setBackgroundColor(Color.rgb(0,188,212))
+            1-> levelBackground.setBackgroundColor(Color.rgb(152,228,146))
+            2-> levelBackground.setBackgroundColor(Color.rgb(220, 195, 154))
+            3->  levelBackground.setBackgroundColor(Color.rgb(173, 166, 227))
             4-> levelBackground.setBackgroundColor(Color.rgb(214,174,236));
             5-> levelBackground.setBackgroundColor(Color.rgb(180,218,217));
             6-> levelBackground.setBackgroundColor(Color.rgb(218,180,210));

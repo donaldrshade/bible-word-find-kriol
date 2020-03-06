@@ -15,12 +15,14 @@
             android:layout_width="411dp"
             android:layout_height="63dp"
             android:scaleType="fitXY"
+            android:fontFamily="@font/comic_sans"
             app:layout_constraintBottom_toTopOf="@+id/breadScore"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/gridBackground"
             app:layout_constraintVertical_bias="0.48000002">
+
 
             <TableLayout
                     android:id="@+id/wordBank"
@@ -115,6 +117,7 @@
             android:text="0"
             android:textColor="#000000"
             android:textStyle="bold"
+            android:fontFamily="@font/comic_sans"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/breadScore"
             app:layout_constraintHorizontal_bias="0.526"
@@ -130,6 +133,7 @@
             android:text="0"
             android:textColor="#000000"
             android:textStyle="bold"
+            android:fontFamily="@font/comic_sans"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/boatScore"
             app:layout_constraintHorizontal_bias="0.484"
@@ -144,6 +148,7 @@
             android:text="0"
             android:textColor="#000000"
             android:textStyle="bold"
+            android:fontFamily="@font/comic_sans"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/fishScore"
             app:layout_constraintHorizontal_bias=".5"
@@ -163,5 +168,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.087" />
+
+    <TextView
+            android:id="@+id/levelTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/comic_sans_b"
+            android:gravity="center"
+            android:text="Very long text lolz dab yolo yeet"
+            android:textColor="#000000"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="@+id/story_title_banner_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/story_title_banner_image"
+            app:layout_constraintVertical_bias="1.0" />
 
 </android.support.constraint.ConstraintLayout>
