@@ -8,6 +8,7 @@ import android.content.SharedPreferences
 import android.content.res.Resources
 import android.graphics.Paint
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.ConstraintSet
@@ -17,6 +18,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.widget.*
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
@@ -35,6 +37,7 @@ class puzzleActivity : AppCompatActivity() {
     lateinit var db:Database
     lateinit var puzzleEngine:PuzzleEngine
     lateinit var sp:SharedPreferences
+
 
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,7 +87,12 @@ class puzzleActivity : AppCompatActivity() {
         //If audio puzzle, add play/pause button and word counter
         wordCounter = 0
         isAudioPuzzle = db.isAudioPuzzle(puzzleEngine.puzzle.id)
+
+        var wordBank = findViewById<TableLayout>(R.id.wordBank)
+
         if(isAudioPuzzle){
+            val row = TableRow(this)
+            wordBank.addView(row)
             var audioView = ImageButton(this)
             var audioParams = LayoutParams(
                 LayoutParams.WRAP_CONTENT,
@@ -108,16 +116,21 @@ class puzzleActivity : AppCompatActivity() {
             wordBank.addView(audioView, audioParams)
             wordBank.addView(wordsLeft, wordParams)
         } else {
+
+
+            var row = TableRow(this)
             for(w in 0 until wordList.size){
+                if(w % 3 == 0){
+                    row = TableRow(this);
+                    wordBank.addView(row);
+                }
                 var textView = TextView(this)
-                var params = LinearLayout.LayoutParams(
-                    wordBank.layoutParams.width,
-                    wordBank.layoutParams.height
-                )
+
                 textView.textSize= 20F
+                textView.gravity = Gravity.CENTER
                 textView.text = wordList[w]!!.word
                 textView.id = w + 2000
-                wordBank.addView(textView, params)
+                row.addView(textView)
             }
         }
 
