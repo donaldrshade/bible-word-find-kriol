@@ -26,6 +26,7 @@ class puzzleActivity : AppCompatActivity() {
     var letters = arrayOf<TextView?>()
     var wordList = arrayOf<Word?>()
     var wordCounter = 0
+    var isAudioPuzzle = false
     lateinit var db:Database
     lateinit var puzzleEngine:PuzzleEngine
 
@@ -65,19 +66,23 @@ class puzzleActivity : AppCompatActivity() {
         var puzzleGrid = puzzleEngine.grid
         wordList = puzzleEngine.getWords()
 
-        //Load words into wordbank
-        //if(!audioStory){}
+        //Load words into wordbank, only populate it if not audio puzzle
         wordCounter = wordList.size
-        for(w in 0 until wordList.size){
-            var textView = TextView(this)
-            var params = LinearLayout.LayoutParams(
-                wordBank.layoutParams.width,
-                wordBank.layoutParams.height
-            )
-            textView.textSize= 20F
-            textView.text = wordList[w]!!.word
-            textView.id = w + 2000
-            wordBank.addView(textView, params)
+        isAudioPuzzle = db.isAudioPuzzle(puzzleEngine.puzzle.id)
+        if(isAudioPuzzle){
+
+        } else {
+            for(w in 0 until wordList.size){
+                var textView = TextView(this)
+                var params = LinearLayout.LayoutParams(
+                    wordBank.layoutParams.width,
+                    wordBank.layoutParams.height
+                )
+                textView.textSize= 20F
+                textView.text = wordList[w]!!.word
+                textView.id = w + 2000
+                wordBank.addView(textView, params)
+            }
         }
 
         val gridSizer = findViewById<ConstraintLayout>(R.id.gridSizer)
@@ -193,8 +198,12 @@ class puzzleActivity : AppCompatActivity() {
                 gainBread()
 
                 //Cross off word from word bank
-                var wordText = findViewById<TextView>(i + 2000)
-                wordText.paintFlags = wordText.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG
+                if(isAudioPuzzle){
+
+                } else {
+                    var wordText = findViewById<TextView>(i + 2000)
+                    wordText.paintFlags = wordText.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG
+                }
 
                 //Check how many words left, if all discovered, win level
                 wordCounter--
