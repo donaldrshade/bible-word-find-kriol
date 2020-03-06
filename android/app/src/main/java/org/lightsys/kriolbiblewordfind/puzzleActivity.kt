@@ -278,7 +278,7 @@ class puzzleActivity : AppCompatActivity() {
                 || word!!.getEndPt()[0] == row1 && word.getEndPt()[1] == col1 && word.getStartPt()[0] == row2 && word.getStartPt()[1] == col2){
                 wordList[i] = null
                 gainBread()
-                soundEffect = createMedia("WordReward")
+                soundEffect = createMedia("word_reward")
                 soundEffect.start()
 
                 //Update wordCounter and cross off word from word bank
@@ -298,7 +298,7 @@ class puzzleActivity : AppCompatActivity() {
                     val levelComplete = db.markPuzzleCompleted(puzzleEngine.puzzle.id)
                     if(levelComplete){
                         gainBoat()
-                        soundEffect = createMedia("CompletePuzzle")
+                        soundEffect = createMedia("complete_puzzle")
                         soundEffect.start()
                         //TODO: Re-enable level change on popup
                         PopUp(this, hasText = true, setText = "Level Win", hasTick = false)
