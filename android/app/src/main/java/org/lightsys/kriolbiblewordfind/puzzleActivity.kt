@@ -52,7 +52,7 @@ class puzzleActivity : AppCompatActivity() {
 
         val intent = intent
         //TODO: Get pnum from strings file
-        val pnum = 2//intent.getIntExtra(getString(R.string.puzzle_num),-1)
+        val pnum = 3//intent.getIntExtra(getString(R.string.puzzle_num),-1)
 
         var puzzle = Puzzle()
 
@@ -62,6 +62,19 @@ class puzzleActivity : AppCompatActivity() {
         var puzzleEngine = PuzzleEngine(puzzle, this)
         var puzzleGrid = puzzleEngine.grid
         wordList = puzzleEngine.getWords()
+
+        //Load words into wordbank
+        //if(!audioStory){}
+        for(w in 0 until wordList.size){
+            var textView = TextView(this)
+            var params = LinearLayout.LayoutParams(
+                wordBank.layoutParams.width,
+                wordBank.layoutParams.height
+            )
+            textView.text = wordList[w]!!.word
+            textView.id = w + 2000
+            wordBank.addView(textView, params)
+        }
 
         val gridSizer = findViewById<ConstraintLayout>(R.id.gridSizer)
         val cset = ConstraintSet()
@@ -189,10 +202,10 @@ class puzzleActivity : AppCompatActivity() {
         var boatString = boatScoreNumber.text.toString()
         var boatInt = boatString.toInt()
 
-        if (boatInt > 0){
-            boatInt--
+        if (boatInt > 2){
+            boatInt -= 3
             boatScoreNumber.text = boatInt.toString()
-            //TODO: Reveal one random letter
+            //TODO: Spend 3 boats to unlock a level
         }
     }
 
@@ -215,10 +228,10 @@ class puzzleActivity : AppCompatActivity() {
         var breadString = breadScoreNumber.text.toString()
         var breadInt = breadString.toInt()
 
-        if (breadInt > 2) {
-            breadInt -= 3
+        if (breadInt > 0) {
+            breadInt--
             breadScoreNumber.text = breadInt.toString()
-            //TODO: Spend 3 boats to unlock a level
+            //TODO: Reveal one random letter
         }
     }
 
