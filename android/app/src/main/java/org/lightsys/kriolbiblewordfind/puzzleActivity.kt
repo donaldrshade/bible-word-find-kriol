@@ -6,9 +6,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Resources
-import android.graphics.Paint
 import android.graphics.Color
-import android.graphics.drawable.Drawable
+import android.graphics.Paint
+import android.media.MediaPlayer
+import android.nfc.FormatException
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.ConstraintSet
@@ -19,13 +20,10 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.*
-import android.widget.ImageButton
-import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
-import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_puzzle.*
-import kotlinx.android.synthetic.main.nav_header_main.*
 import java.lang.Math.floor
+
 
 class puzzleActivity : AppCompatActivity() {
 
@@ -37,7 +35,7 @@ class puzzleActivity : AppCompatActivity() {
     lateinit var db:Database
     lateinit var puzzleEngine:PuzzleEngine
     lateinit var sp:SharedPreferences
-
+    lateinit var media:MediaPlayer
 
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,13 +56,14 @@ class puzzleActivity : AppCompatActivity() {
         gridSizer.addView(canvas, params)
         canvas.bringToFront()
 
+        //Set Home Button
         val fab = findViewById<FloatingActionButton>(R.id.home_fab)
         fab.setOnClickListener { view ->
             finish()
         }
 
         val intent = intent
-        val pnum = 33//intent.getIntExtra(getString(R.string.puzzle_num),-1)
+        val pnum = intent.getIntExtra(getString(R.string.puzzle_num),-1) //TODO: Don't leave hardcoded
         sp = this.getSharedPreferences(getString(R.string.points_file_key), Context.MODE_PRIVATE)
         val boatCount = sp.getInt(getString(R.string.boat_key),0)
         val fishCount = sp.getInt(getString(R.string.fish_key),0)
@@ -93,31 +92,41 @@ class puzzleActivity : AppCompatActivity() {
         if(isAudioPuzzle){
             val row = TableRow(this)
             wordBank.addView(row)
+            var rowParams = TableRow.LayoutParams(row.layoutParams.width / 3, row.layoutParams.height)
+            row.addView(TextView(this), rowParams)
             var audioView = ImageButton(this)
-            var audioParams = LayoutParams(
-                LayoutParams.WRAP_CONTENT,
-                LayoutParams.MATCH_PARENT
-            )
+            audioView.layoutParams = rowParams
             audioView.setImageResource(R.drawable.headphones)
+            audioView.setBackgroundResource(0)
             audioView.id = 2000
 
-            //TODO: setOnClickListener
+            //Initialize media player
+            try {
+                media = createMedia(puzzle.audioFile)
+            } catch (e : FormatException) {
+                Toast.makeText(getApplicationContext(), "Incorrect file format", Toast.LENGTH_SHORT).show()
+                finish()
+            }
+
+            //If audio is playing, clicking audio button pauses it
+            //Otherwise, play audio
+            audioView.setOnClickListener {
+                if(media.isPlaying()){
+                    media.pause();
+                } else {
+                    media.start();
+                }
+            }
 
             var wordsLeft = TextView(this)
             wordsLeft.textSize = 20F
             wordsLeft.text = "$wordCounter / " + wordList.size
+            wordsLeft.layoutParams = rowParams
             wordsLeft.id = 2001
 
-            var wordParams = LayoutParams(
-                wordBank.layoutParams.width,
-                wordBank.layoutParams.height
-            )
-
-            wordBank.addView(audioView, audioParams)
-            wordBank.addView(wordsLeft, wordParams)
+            row.addView(audioView)
+            row.addView(wordsLeft)
         } else {
-
-
             var row = TableRow(this)
             for(w in 0 until wordList.size){
                 if(w % 3 == 0){
@@ -262,7 +271,6 @@ class puzzleActivity : AppCompatActivity() {
                 //If all words discovered, win level
                 if(wordCounter == wordList.size){
                     gainFish()
-                    //TODO: winPuzzle() //Not sure if this function will be necessary
                     val levelComplete = db.markPuzzleCompleted(puzzleEngine.puzzle.id)
                     if(levelComplete){
                         gainBoat()
@@ -275,7 +283,6 @@ class puzzleActivity : AppCompatActivity() {
     }
 
     //Subtracts 1 from the boat number when tapped
-    //TODO: The boat number is set to 5 by default and must be changed
     fun useBoat(view: View) {
         var boatString = boatScoreNumber.text.toString()
         var boatInt = boatString.toInt()
@@ -288,7 +295,6 @@ class puzzleActivity : AppCompatActivity() {
     }
 
     //Subtracts 1 from the fish number when tapped
-    //TODO: The fish number is set to 5 by default and must be changed
     fun useFish(view: View) {
         var fishString = fishScoreNumber.text.toString()
         var fishInt = fishString.toInt()
@@ -301,7 +307,6 @@ class puzzleActivity : AppCompatActivity() {
     }
 
     //Subtracts 1 from the bread number when tapped
-    //TODO: The bread number is set to 5 by default and must be changed
     fun useBread(view: View) {
         var breadString = breadScoreNumber.text.toString()
         var breadInt = breadString.toInt()
@@ -345,57 +350,22 @@ class puzzleActivity : AppCompatActivity() {
         edit.commit()
     }
 
-    /*
-    //If audio is playing, clicking play button pauses it
-        //Otherwise, play audio
-        play = findViewById(R.id.play_button);
-        play.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
-        play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(media.isPlaying()){
-                    media.pause();
-                    play.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
-                    mIsPlaying = false;
-                } else {
-                    media.start();
-                    play.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause));
-                    mIsPlaying = true;
-                }
-            }
-        });
-
     //Creates and prepares media to be played
-    //Throws FormatException if file is not an mp3
-    private MediaPlayer createMedia(String mp3) throws FormatException {
-        if(mp3.contains(".mp3")) {
-            String file = mp3.replace(".mp3", "");
-            int id = getResources().getIdentifier(file,"raw", getPackageName());
-            MediaPlayer mediaPlayer = MediaPlayer.create(lessonActivity.this, id);
-            return mediaPlayer;
+//Throws FormatException if file is not an mp3
+    @Throws(FormatException::class)
+    private fun createMedia(mp3: String): MediaPlayer {
+        return if (!mp3.isNullOrEmpty()) {
+            val id = resources.getIdentifier(mp3, "raw", packageName)
+            MediaPlayer.create(this, id)
         } else {
-            throw new FormatException();
+            throw FormatException()
         }
     }
 
-    //When lesson activity closes, save information
-    //and close MediaPlayer before exiting
-    @Override
-    protected void onStop() {
-        //If we close before the audio is finished, save current position
-        int currentPosition = media.getCurrentPosition();
-        if(currentPosition != media.getDuration()){
-            DatabaseConnection db = new DatabaseConnection(getApplicationContext());
-            Lesson update = new Lesson();
-            update.setName(inputIntent.getStringExtra("lesson_name"));
-            update.setCourse(inputIntent.getStringExtra("course_name"));
-            update.setSeekTime(currentPosition);
-            db.updateLesson(update);
+    override fun onStop() {
+        if(isAudioPuzzle) {
+            media.release()
         }
-        media.release();
-        media = null;
-        super.onStop();
+        super.onStop()
     }
-
-    */
 }
