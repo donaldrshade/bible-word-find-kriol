@@ -39,7 +39,7 @@ class LevelSelect : AppCompatActivity() {
 
         //An integer that is the number of levels
         val numOfLevels = levels.size
-        val comicSansFont : Typeface? = ResourcesCompat.getFont(this,R.font.comic_sans)
+        val comicSansFont : Typeface? = ResourcesCompat.getFont(this,R.font.comic_sans_b)
         val audioLevels = intArrayOf(9, 10, 11, 12, 14, 15, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44)
         val rowLayout = TableLayout.LayoutParams()
         rowLayout.setMargins(0,30,0,0)

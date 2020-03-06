@@ -168,4 +168,19 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.087" />
 
+    <TextView
+            android:id="@+id/levelTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/comic_sans_b"
+            android:text="TextView"
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/story_title_banner_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/story_title_banner_image"
+            app:layout_constraintVertical_bias="0.92" />
+
 </android.support.constraint.ConstraintLayout>

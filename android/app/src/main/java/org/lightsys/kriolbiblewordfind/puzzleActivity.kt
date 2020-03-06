@@ -59,7 +59,7 @@ class puzzleActivity : AppCompatActivity() {
         }
 
         val intent = intent
-        val comicSansFont : Typeface? = ResourcesCompat.getFont(this,R.font.comic_sans)
+        val comicSansFont : Typeface? = ResourcesCompat.getFont(this,R.font.comic_sans_b)
         //TODO: Get pnum from strings file
         val pnum = intent.getIntExtra(getString(R.string.puzzle_num),-1)
 
@@ -158,9 +158,17 @@ class puzzleActivity : AppCompatActivity() {
 
         //String that contains the banner name
         val currentLevel = db.getLevel(levelnum)
+
+        val levelName = currentLevel.title
         val levelBanner = currentLevel.picture
 
-        //Changing the banner
+        //Setting the level title
+        val levelTitleText = findViewById<TextView>(R.id.levelTitle)
+        levelTitleText.textSize = 15F
+        levelTitleText.setText(levelName)
+
+
+        //Setting the banner
         val bannerRes: Resources = resources;
         val bannerResID = bannerRes.getIdentifier(levelBanner, "drawable", packageName);
         val levelBackground = findViewById<ConstraintLayout>(R.id.backgound)
@@ -169,10 +177,10 @@ class puzzleActivity : AppCompatActivity() {
         story_title_banner_image.setImageResource(bannerResID);
 
         when (rnds){
-            0-> levelBackground.setBackgroundColor(Color.rgb(0,188,212));
-            1-> levelBackground.setBackgroundColor(Color.rgb(152,228,146));
-            2-> levelBackground.setBackgroundColor(Color.rgb(220,195,154));
-            3-> levelBackground.setBackgroundColor(Color.rgb(173,166,227));
+            0-> levelBackground.setBackgroundColor(Color.rgb(0,188,212))
+            1-> levelBackground.setBackgroundColor(Color.rgb(152,228,146))
+            2-> levelBackground.setBackgroundColor(Color.rgb(220, 195, 154))
+            3->  levelBackground.setBackgroundColor(Color.rgb(173, 166, 227))
             4-> levelBackground.setBackgroundColor(Color.rgb(214,174,236));
             5-> levelBackground.setBackgroundColor(Color.rgb(180,218,217));
             6-> levelBackground.setBackgroundColor(Color.rgb(218,180,210));
