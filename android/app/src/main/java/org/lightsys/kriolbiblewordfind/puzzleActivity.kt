@@ -296,6 +296,10 @@ class puzzleActivity : AppCompatActivity() {
                     val levelComplete = db.markPuzzleCompleted(puzzleEngine.puzzle.id)
                     if(levelComplete){
                         gainBoat()
+                        //TODO: Re-enable level change on popup
+                        PopUp(this, hasText = true, setText = "Level Win", hasTick = false)
+                    } else {
+                        PopUp(this, hasText = false, setText = "", hasTick = true)
                     }
                 }
                 return true
@@ -373,7 +377,7 @@ class puzzleActivity : AppCompatActivity() {
     }
 
     //Creates and prepares media to be played
-//Throws FormatException if file is not an mp3
+    //Throws FormatException if file is not an mp3
     @Throws(FormatException::class)
     private fun createMedia(mp3: String): MediaPlayer {
         return if (!mp3.isNullOrEmpty()) {
