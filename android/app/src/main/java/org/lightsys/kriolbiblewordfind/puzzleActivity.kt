@@ -153,7 +153,6 @@ class puzzleActivity : AppCompatActivity() {
                 textView.typeface = comicSansFont
                 wordBank.addView(textView, params)
 
-                row.addView(textView)
 
             }
         }
