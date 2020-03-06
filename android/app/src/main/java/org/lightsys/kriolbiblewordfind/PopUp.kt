@@ -33,6 +33,7 @@ class PopUp(): Activity() {
                 finish()
                 val intent = Intent(this,puzzleActivity::class.java)
                 intent.putExtra(getString(R.string.puzzle_num),Database(this).getActivePuzzleNum())
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
                 startActivity(intent)
             }
         }
@@ -46,6 +47,7 @@ class PopUp(): Activity() {
                 finish()
                 val intent = Intent(this,puzzleActivity::class.java)
                 intent.putExtra(getString(R.string.puzzle_num),Database(this).getActivePuzzleNum())
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
                 startActivity(intent)
             }
         }else{

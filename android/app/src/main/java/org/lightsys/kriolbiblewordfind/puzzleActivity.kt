@@ -47,7 +47,6 @@ class puzzleActivity : AppCompatActivity() {
     lateinit var soundEffect:MediaPlayer
     lateinit var completePuzzle:MediaPlayer
 
-
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

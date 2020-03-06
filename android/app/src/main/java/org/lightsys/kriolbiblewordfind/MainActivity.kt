@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity(){
         playButton.setOnClickListener {
             val intent = Intent(this,puzzleActivity::class.java)
             intent.putExtra(getString(R.string.puzzle_num),Database(this).getActivePuzzleNum())
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
             startActivity(intent)
         }
         val howToPlayButton = findViewById<ConstraintLayout>(R.id.how_to_play_button)
