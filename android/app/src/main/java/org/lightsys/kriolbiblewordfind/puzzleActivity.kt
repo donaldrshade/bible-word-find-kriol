@@ -1,13 +1,18 @@
 package org.lightsys.kriolbiblewordfind
+
 import PuzzleEngine
 import Word
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Resources
-import android.graphics.Paint
 import android.graphics.Color
 import android.graphics.Typeface
+
+import android.graphics.Paint
+import android.media.MediaPlayer
+import android.nfc.FormatException
+
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.ConstraintSet
@@ -18,8 +23,8 @@ import android.view.Gravity
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
+import android.widget.LinearLayout.LayoutParams
 import kotlinx.android.synthetic.main.activity_puzzle.*
 import java.lang.Math.floor
 
@@ -33,6 +38,7 @@ class puzzleActivity : AppCompatActivity() {
     lateinit var db:Database
     lateinit var puzzleEngine:PuzzleEngine
     lateinit var sp:SharedPreferences
+    lateinit var media:MediaPlayer
 
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +51,7 @@ class puzzleActivity : AppCompatActivity() {
 
         //Create canvas to track swipes
         var canvas = DrawingView(this, null, this)
-        var params = LinearLayout.LayoutParams(
+        var params = LayoutParams(
             gridSizer.layoutParams.width,
             gridSizer.layoutParams.height
         )
@@ -53,14 +59,17 @@ class puzzleActivity : AppCompatActivity() {
         gridSizer.addView(canvas, params)
         canvas.bringToFront()
 
+        //Set Home Button
         val fab = findViewById<FloatingActionButton>(R.id.home_fab)
         fab.setOnClickListener { view ->
             finish()
         }
 
         val intent = intent
+
         val comicSansFont : Typeface? = ResourcesCompat.getFont(this,R.font.comic_sans_b)
         //TODO: Get pnum from strings file
+
         val pnum = intent.getIntExtra(getString(R.string.puzzle_num),-1)
 
         sp = this.getSharedPreferences(getString(R.string.points_file_key), Context.MODE_PRIVATE)
@@ -74,32 +83,78 @@ class puzzleActivity : AppCompatActivity() {
         val breadView = findViewById<TextView>(R.id.breadScoreNumber)
         breadView.setText(breadCount.toString())
 
-
         //Initiate Database and load puzzle engine
         db = Database(this)
         var puzzle = db.getPuzzle(pnum)
         var levelnum = puzzle.level_id
         puzzleEngine = PuzzleEngine(puzzle, this)
+
         var puzzleGrid = puzzleEngine.grid
         wordList = puzzleEngine.getWords()
 
         //Load words into wordbank, only populate it if not audio puzzle
-        wordCounter = wordList.size
+        //If audio puzzle, add play/pause button and word counter
+        wordCounter = 0
         isAudioPuzzle = db.isAudioPuzzle(puzzleEngine.puzzle.id)
-        if(isAudioPuzzle){
 
+        var wordBank = findViewById<TableLayout>(R.id.wordBank)
+
+        if(isAudioPuzzle){
+            val row = TableRow(this)
+            wordBank.addView(row)
+            var rowParams = TableRow.LayoutParams(row.layoutParams.width / 3, row.layoutParams.height)
+            row.addView(TextView(this), rowParams)
+            var audioView = ImageButton(this)
+            audioView.layoutParams = rowParams
+            audioView.setImageResource(R.drawable.headphones)
+            audioView.setBackgroundResource(0)
+            audioView.id = 2000
+
+            //Initialize media player
+            try {
+                media = createMedia(puzzle.audioFile)
+            } catch (e : FormatException) {
+                Toast.makeText(getApplicationContext(), "Incorrect file format", Toast.LENGTH_SHORT).show()
+                finish()
+            }
+
+            //If audio is playing, clicking audio button pauses it
+            //Otherwise, play audio
+            audioView.setOnClickListener {
+                if(media.isPlaying()){
+                    media.pause();
+                } else {
+                    media.start();
+                }
+            }
+
+            var wordsLeft = TextView(this)
+            wordsLeft.textSize = 20F
+            wordsLeft.text = "$wordCounter / " + wordList.size
+            wordsLeft.layoutParams = rowParams
+            wordsLeft.id = 2001
+
+            row.addView(audioView)
+            row.addView(wordsLeft)
         } else {
+            var row = TableRow(this)
             for(w in 0 until wordList.size){
+                if(w % 3 == 0){
+                    row = TableRow(this);
+                    wordBank.addView(row);
+                }
                 var textView = TextView(this)
-                var params = LinearLayout.LayoutParams(
-                    wordBank.layoutParams.width,
-                    wordBank.layoutParams.height
-                )
+
                 textView.textSize= 20F
+                textView.gravity = Gravity.CENTER
                 textView.text = wordList[w]!!.word
                 textView.id = w + 2000
+
                 textView.typeface = comicSansFont
                 wordBank.addView(textView, params)
+
+                row.addView(textView)
+
             }
         }
 
@@ -210,6 +265,7 @@ class puzzleActivity : AppCompatActivity() {
         return row * puzzleSize + col
     }
 
+    //Updated function allows words to be completed in either direction
     fun isValidWord(startX: Float, startY: Float, endX: Float, endY: Float) : Boolean{
         var ind1 = getGridCellIndex(startX, startY)
         var row1 = (ind1 / puzzleSize)
@@ -222,28 +278,29 @@ class puzzleActivity : AppCompatActivity() {
         for(i in 0 until wordList.size){
             val word = wordList[i]
             if(word == null) continue
-            if(word!!.getStartPt()[0] == row1 && word.getStartPt()[1] == col1 && word.getEndPt()[0] == row2 && word.getEndPt()[1] == col2){
+            if(word!!.getStartPt()[0] == row1 && word.getStartPt()[1] == col1 && word.getEndPt()[0] == row2 && word.getEndPt()[1] == col2
+                || word!!.getEndPt()[0] == row1 && word.getEndPt()[1] == col1 && word.getStartPt()[0] == row2 && word.getStartPt()[1] == col2){
                 wordList[i] = null
                 gainBread()
 
-                //Cross off word from word bank
+                //Update wordCounter and cross off word from word bank
+                wordCounter++
                 if(isAudioPuzzle){
-
+                    var id = 2001
+                    var wordsLeft = findViewById<TextView>(id)
+                    wordsLeft.text = "$wordCounter / " + wordList.size
                 } else {
                     var wordText = findViewById<TextView>(i + 2000)
                     wordText.paintFlags = wordText.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG
                 }
 
-                //Check how many words left, if all discovered, win level
-                wordCounter--
-                if(wordCounter == 0){
+                //If all words discovered, win level
+                if(wordCounter == wordList.size){
                     gainFish()
-                    //TODO: winPuzzle() //Not sure if this function will be necessary
                     val levelComplete = db.markPuzzleCompleted(puzzleEngine.puzzle.id)
                     if(levelComplete){
                         gainBoat()
                     }
-                    //
                 }
                 return true
             }
@@ -252,7 +309,6 @@ class puzzleActivity : AppCompatActivity() {
     }
 
     //Subtracts 1 from the boat number when tapped
-    //TODO: The boat number is set to 5 by default and must be changed
     fun useBoat(view: View) {
         var boatString = boatScoreNumber.text.toString()
         var boatInt = boatString.toInt()
@@ -265,7 +321,6 @@ class puzzleActivity : AppCompatActivity() {
     }
 
     //Subtracts 1 from the fish number when tapped
-    //TODO: The fish number is set to 5 by default and must be changed
     fun useFish(view: View) {
         var fishString = fishScoreNumber.text.toString()
         var fishInt = fishString.toInt()
@@ -278,7 +333,6 @@ class puzzleActivity : AppCompatActivity() {
     }
 
     //Subtracts 1 from the bread number when tapped
-    //TODO: The bread number is set to 5 by default and must be changed
     fun useBread(view: View) {
         var breadString = breadScoreNumber.text.toString()
         var breadInt = breadString.toInt()
@@ -320,5 +374,24 @@ class puzzleActivity : AppCompatActivity() {
         val edit = sp.edit()
         edit.putInt(getString(R.string.bread_key),breadInt)
         edit.commit()
+    }
+
+    //Creates and prepares media to be played
+//Throws FormatException if file is not an mp3
+    @Throws(FormatException::class)
+    private fun createMedia(mp3: String): MediaPlayer {
+        return if (!mp3.isNullOrEmpty()) {
+            val id = resources.getIdentifier(mp3, "raw", packageName)
+            MediaPlayer.create(this, id)
+        } else {
+            throw FormatException()
+        }
+    }
+
+    override fun onStop() {
+        if(isAudioPuzzle) {
+            media.release()
+        }
+        super.onStop()
     }
 }

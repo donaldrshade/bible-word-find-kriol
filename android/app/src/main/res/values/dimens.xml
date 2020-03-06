@@ -8,4 +8,6 @@
     <dimen name="main_menu_label">25sp</dimen>
     <dimen name="sub_menu_label">30sp</dimen>
     <dimen name="layout_margin">20dp</dimen>
+    <dimen name="pop_up_corner_radius">20dp</dimen>
+    <dimen name="pop_up_text">20sp</dimen>
 </resources>

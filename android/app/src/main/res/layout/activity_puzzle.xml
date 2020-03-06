@@ -11,6 +11,7 @@
 
 
     <ScrollView
+            android:id="@+id/wordBankScroller"
             android:layout_width="411dp"
             android:layout_height="63dp"
             android:scaleType="fitXY"
@@ -22,13 +23,13 @@
             app:layout_constraintTop_toBottomOf="@+id/gridBackground"
             app:layout_constraintVertical_bias="0.48000002">
 
-        <LinearLayout
-                android:id="@+id/wordBank"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical" >
 
-        </LinearLayout>
+            <TableLayout
+                    android:id="@+id/wordBank"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:stretchColumns="0,1,2"/>
+
     </ScrollView>
 
     <ImageView
@@ -109,12 +110,11 @@
             app:layout_constraintVertical_bias="0.939"
             app:srcCompat="@drawable/boat" />
 
-
     <TextView
             android:id="@+id/breadScoreNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="5"
+            android:text="0"
             android:textColor="#000000"
             android:textStyle="bold"
             android:fontFamily="@font/comic_sans"
@@ -130,7 +130,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
-            android:text="5"
+            android:text="0"
             android:textColor="#000000"
             android:textStyle="bold"
             android:fontFamily="@font/comic_sans"
@@ -145,7 +145,7 @@
             android:id="@+id/fishScoreNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="5"
+            android:text="0"
             android:textColor="#000000"
             android:textStyle="bold"
             android:fontFamily="@font/comic_sans"
