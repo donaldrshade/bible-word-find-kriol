@@ -7,6 +7,7 @@ import android.content.SharedPreferences
 import android.content.res.Resources
 import android.graphics.Paint
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.ConstraintSet
@@ -16,8 +17,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import kotlinx.android.synthetic.main.activity_puzzle.*
 import java.lang.Math.floor
 
@@ -32,6 +32,7 @@ class puzzleActivity : AppCompatActivity() {
     lateinit var db:Database
     lateinit var puzzleEngine:PuzzleEngine
     lateinit var sp:SharedPreferences
+
 
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,19 +83,30 @@ class puzzleActivity : AppCompatActivity() {
         //Load words into wordbank, only populate it if not audio puzzle
         wordCounter = wordList.size
         isAudioPuzzle = db.isAudioPuzzle(puzzleEngine.puzzle.id)
-        if(isAudioPuzzle){
 
+        var wordBank = findViewById<TableLayout>(R.id.wordBank)
+
+        if(isAudioPuzzle){
+            val row = TableRow(this)
+            wordBank.addView(row)
+
+            //row.addView(image)
         } else {
+
+
+            var row = TableRow(this)
             for(w in 0 until wordList.size){
+                if(w % 3 == 0){
+                    row = TableRow(this);
+                    wordBank.addView(row);
+                }
                 var textView = TextView(this)
-                var params = LinearLayout.LayoutParams(
-                    wordBank.layoutParams.width,
-                    wordBank.layoutParams.height
-                )
+
                 textView.textSize= 20F
+                textView.gravity = Gravity.CENTER
                 textView.text = wordList[w]!!.word
                 textView.id = w + 2000
-                wordBank.addView(textView, params)
+                row.addView(textView)
             }
         }
 
