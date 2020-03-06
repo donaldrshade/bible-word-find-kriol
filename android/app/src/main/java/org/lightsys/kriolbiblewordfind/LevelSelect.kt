@@ -6,7 +6,11 @@ import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView
+import android.view.Gravity
 import android.view.WindowManager
+import android.widget.ImageView
+import android.widget.TableLayout
+import android.widget.TableRow
 import android.widget.TextView
 
 import kotlinx.android.synthetic.main.activity_empty.*
@@ -24,7 +28,7 @@ class LevelSelect : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val recyclerView = findViewById<RecyclerView>(R.id.levellist)
+        val levelTable = findViewById<TableLayout>(R.id.levelTable)
 
 
         val db = Database(this)
@@ -33,15 +37,31 @@ class LevelSelect : AppCompatActivity() {
         //An integer that is the number of levels
         val numOfLevels = levels.size
 
-/*
+        val audioLevels = intArrayOf(9, 10, 11, 12, 14, 15, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44)
+        val rowLayout = TableLayout.LayoutParams()
+        rowLayout.setMargins(0,15,0,0)
+        var row = TableRow(this)
+        for (num in 1..numOfLevels){
+            if (num %5 == 1){
+                row =  TableRow(this)
+                levelTable.addView(row, rowLayout)
+            }
+            if(audioLevels.contains(num)){
+                val audioImage = ImageView(this)
+                audioImage.setImageResource(R.drawable.headphones)
+                audioImage.requestLayout();
+                val params = TableRow.LayoutParams(30,30)
+                audioImage.layoutParams = params
+                row.addView(audioImage)
+            } else {
+                val textView = TextView(this)
+                textView.text = num.toString()
+                textView.gravity = Gravity.CENTER
+                row.addView(textView)
+            }
 
-        for (num in 0..numOfLevels){
-            val textView = TextView(this)
-            textView.setText("Test Tex")
-            recyclerView!!.addView(textView)
         }
 
-*/
 
 
 
