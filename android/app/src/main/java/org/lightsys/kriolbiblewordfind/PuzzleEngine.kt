@@ -4,11 +4,13 @@ import java.util.*
 
 class PuzzleEngine(var puzzle: Puzzle, var context: Context) {
     private var display: Array<CharArray>
-    private val words: Array<Word?>
+    private var words: Array<Word?>
 
     private fun fillDisplayBasic() {
         var numWordsLeft = words.size
         var numLinesLeft = display.size
+
+
 
         //shuffle words
         for (i in words.indices) {
@@ -16,6 +18,11 @@ class PuzzleEngine(var puzzle: Puzzle, var context: Context) {
             val sv = words[i]
             words[i] = words[swap]
             words[swap] = sv
+        }
+        if(numWordsLeft > numLinesLeft) {
+            var newWords = Array<Word?>(numLinesLeft) {i -> words[i]}
+            words = newWords
+            numWordsLeft = numLinesLeft
         }
         for (r in display.indices) {
             if (numWordsLeft != numLinesLeft && (numWordsLeft == 0 || Math.random() > numWordsLeft / numLinesLeft.toDouble())) {
@@ -312,6 +319,7 @@ class PuzzleEngine(var puzzle: Puzzle, var context: Context) {
                 }
                 words[i] = insert //fills words up by decreasing length
             }
+            
             fillDisplay(true)
             Arrays.sort(words)
         }
