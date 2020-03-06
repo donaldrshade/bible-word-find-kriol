@@ -1,4 +1,5 @@
 package org.lightsys.kriolbiblewordfind
+
 import PuzzleEngine
 import Word
 import android.annotation.SuppressLint
@@ -23,7 +24,6 @@ import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_puzzle.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 import java.lang.Math.floor
-
 
 class puzzleActivity : AppCompatActivity() {
 
