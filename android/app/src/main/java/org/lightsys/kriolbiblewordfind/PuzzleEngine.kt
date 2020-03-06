@@ -251,35 +251,70 @@ class PuzzleEngine(var puzzle: Puzzle, var context: Context) {
 
     init {
         //get
-        val s = puzzle.size
-        val wCt = puzzle.numOfWords
-        display = Array(s) { CharArray(s) }
-        words = arrayOfNulls(wCt)
-        val pool = puzzle.getWordList(context)
-        var wordSizes = puzzle.getWordSizes()
-        val options = ArrayList<String>()
-        for (i in pool.indices) {
-            if (pool[i].length >= wordSizes[0] && pool[i].length <= wordSizes[1]) {
-                options.add(pool[i])
+        if(puzzle.id == -1){ //tutorial puzzle
+            display = Array(4) {CharArray(4)}
+            var i = 0;
+            for(c in "EDAM"){
+                display[0][i] = c;
+                i++
             }
-        }
-        for (i in words.indices) {
-            val rand = (Math.random() * options.size).toInt()
-            var insert: Word? = Word(options.removeAt(rand))
-            var x = 0
-            x = 0
-            while (x < i) {
-                if (words[x]!!.word.length < insert!!.word.length) {
-                    val sv = words[x]
-                    words[x] = insert
-                    insert = sv
+            i = 0;
+            for(c in "NAGO"){
+                display[1][i] = c;
+                i++;
+            }
+            i = 0;
+            for(c in "IGTA"){
+                display[2][i] = c;
+                i++;
+            }
+            i = 0;
+            for(c in "FABB"){
+                display[3][i] = c;
+                i++;
+            }
+            words = arrayOf(
+                    Word("EDAM"),
+                    Word("DAGA"),
+                    Word("MOAB")
+            )
+            words[0]!!.setStartPt(0,0);
+            words[0]!!.setEndPt(0,3);
+            words[1]!!.setStartPt(0,1);
+            words[1]!!.setEndPt(3,1);
+            words[2]!!.setStartPt(0,3);
+            words[2]!!.setEndPt(3,3);
+        } else {
+            val s = puzzle.size
+            val wCt = puzzle.numOfWords
+            display = Array(s) { CharArray(s) }
+            words = arrayOfNulls(wCt)
+            val pool = puzzle.getWordList(context)
+            var wordSizes = puzzle.getWordSizes()
+            val options = ArrayList<String>()
+            for (i in pool.indices) {
+                if (pool[i].length >= wordSizes[0] && pool[i].length <= wordSizes[1]) {
+                    options.add(pool[i])
                 }
-                x++
             }
-            words[i] = insert //fills words up by decreasing length
+            for (i in words.indices) {
+                val rand = (Math.random() * options.size).toInt()
+                var insert: Word? = Word(options.removeAt(rand))
+                var x = 0
+                x = 0
+                while (x < i) {
+                    if (words[x]!!.word.length < insert!!.word.length) {
+                        val sv = words[x]
+                        words[x] = insert
+                        insert = sv
+                    }
+                    x++
+                }
+                words[i] = insert //fills words up by decreasing length
+            }
+            fillDisplay(true)
+            Arrays.sort(words)
         }
-        fillDisplay(true)
-        Arrays.sort(words)
     }
 }
 

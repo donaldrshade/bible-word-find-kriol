@@ -64,6 +64,7 @@ class puzzleActivity : AppCompatActivity() {
         }
 
         val intent = intent
+
         val pnum = 33//intent.getIntExtra(getString(R.string.puzzle_num),-1)
         sp = this.getSharedPreferences(getString(R.string.points_file_key), Context.MODE_PRIVATE)
         val boatCount = sp.getInt(getString(R.string.boat_key),0)
@@ -80,6 +81,7 @@ class puzzleActivity : AppCompatActivity() {
         db = Database(this)
         var puzzle = db.getPuzzle(pnum)
         puzzleEngine = PuzzleEngine(puzzle, this)
+
         var puzzleGrid = puzzleEngine.grid
         wordList = puzzleEngine.getWords()
 
