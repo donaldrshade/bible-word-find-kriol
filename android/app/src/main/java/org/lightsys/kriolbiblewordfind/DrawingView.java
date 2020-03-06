@@ -85,10 +85,9 @@ public class DrawingView extends View {
                 endX = rect.exactCenterX();
                 endY = rect.exactCenterY();
                 drawPath.lineTo(endX, endY);
-                //TODO: This
-                if(activity.isValidWord(startX, startY, endX, endY)){
-                    //
-                } else {
+                
+                //If not a valid word, don't save path
+                if(!activity.isValidWord(startX, startY, endX, endY)){
                     paths.remove(paths.size()-1);
                 }
                 break;

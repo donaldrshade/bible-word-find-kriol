@@ -45,8 +45,8 @@ class puzzleActivity : AppCompatActivity() {
             finish()
         }
 
-        val intent = intent;
-        val pnum = 2//intent.getIntExtra(getString(R.string.puzzle_num),-1);
+        val intent = intent
+        val pnum = 2//intent.getIntExtra(getString(R.string.puzzle_num),-1)
 
         var puzzle = Puzzle()
         var db = Database(this)
@@ -57,7 +57,7 @@ class puzzleActivity : AppCompatActivity() {
 
         puzzleSize = puzzle.size
 
-        val gridSizer = findViewById<ConstraintLayout>(R.id.gridSizer);
+        val gridSizer = findViewById<ConstraintLayout>(R.id.gridSizer)
         val cset = ConstraintSet()
 
         letters = arrayOfNulls(puzzleSize*puzzleSize)
@@ -78,13 +78,13 @@ class puzzleActivity : AppCompatActivity() {
                /* textView.setOnTouchListener( ) {v: View, m: MotionEvent ->
                     when(m.actionMasked){
                         MotionEvent.ACTION_DOWN -> {
-                            this.setStartLetter(textView);
+                            this.setStartLetter(textView)
                         }
                         MotionEvent.ACTION_UP -> {
-                            this.setEndLetter(textView);
+                            this.setEndLetter(textView)
                         }
                     }
-                    true;
+                    true
                 }*/
             }
         }
@@ -92,7 +92,7 @@ class puzzleActivity : AppCompatActivity() {
         cset.clone(gridSizer)
 
         val dimensionBox = R.id.gridSizer
-        cset.setDimensionRatio(dimensionBox, ("$puzzleSize:$puzzleSize"));
+        cset.setDimensionRatio(dimensionBox, ("$puzzleSize:$puzzleSize"))
         for (r in 0 until puzzleSize) {
             val intarr = IntArray(puzzleSize)
             for (c in 0 until puzzleSize) {
@@ -100,7 +100,7 @@ class puzzleActivity : AppCompatActivity() {
                 val id = 1000+r*puzzleSize + c
                 cset.setDimensionRatio(id, "1:1")
                 if(r==0){
-                    cset.connect(id, ConstraintSet.TOP, dimensionBox, ConstraintSet.TOP);
+                    cset.connect(id, ConstraintSet.TOP, dimensionBox, ConstraintSet.TOP)
                 } else {
                     cset.connect(id, ConstraintSet.TOP, 1000+(r-1)*puzzleSize+c, ConstraintSet.BOTTOM)
                 }
@@ -114,8 +114,8 @@ class puzzleActivity : AppCompatActivity() {
         val levelBanner = "eijah"//TODO
 
         //Changing the banner
-        val res: Resources = resources;
-        val resID = res.getIdentifier(levelBanner, "drawable", packageName);
+        val res: Resources = resources
+        val resID = res.getIdentifier(levelBanner, "drawable", packageName)
         story_title_banner_image.setImageResource(resID)
     }
 
@@ -125,7 +125,7 @@ class puzzleActivity : AppCompatActivity() {
 
     private fun getGridCellIndex(x: Float, y: Float) : Int {
         val height = gridSizer.height
-        val split = height / puzzleSize;
+        val split = height / puzzleSize
 
         var row = floor(y.toDouble() / split).toInt()
         var col = floor(x.toDouble() / split).toInt()
@@ -139,11 +139,11 @@ class puzzleActivity : AppCompatActivity() {
     fun isValidWord(startX: Float, startY: Float, endX: Float, endY: Float) : Boolean{
 
         var ind1 = getGridCellIndex(startX, startY)
-        var row1 = (ind1 / puzzleSize).toInt()
+        var row1 = (ind1 / puzzleSize)
         var col1 = ind1 % puzzleSize
 
         var ind2 = getGridCellIndex(endX, endY)
-        var row2 = (ind2 / puzzleSize).toInt()
+        var row2 = (ind2 / puzzleSize)
         var col2 = ind2 % puzzleSize
 
         for(i in 0 until wordList.size ){
@@ -159,78 +159,63 @@ class puzzleActivity : AppCompatActivity() {
         return false
     }
 
-    /*fun setStartLetter( box: TextView){
-       // box.setText("Start");
-        //box.setText(box.left.toString())
-    }
-
-    fun setEndLetter(box : TextView){
-        box.setText(box.top.toString());
-    }
-*/
     //Subtracts 1 from the boat number when tapped.
     //TODO: The boat number is set to 5 by default and must be changed
     fun useBoat(view: View) {
-        var boatString = boatScoreNumber.text.toString();
+        var boatString = boatScoreNumber.text.toString()
         var boatInt = boatString.toInt()
 
         if (boatInt > 0){
             boatInt--
-            boatString = boatInt.toString()
-            boatScoreNumber.text = boatString
+            boatScoreNumber.text = boatInt.toString()
         }
     }
 
     //Subtracts 1 from the fish number when tapped
     //TODO: The fish number is set to 5 by default and must be changed
     fun useFish(view: View) {
-        var fishString = fishScoreNumber.text.toString();
+        var fishString = fishScoreNumber.text.toString()
         var fishInt = fishString.toInt()
 
         if (fishInt > 0){
             fishInt--
-            fishString = fishInt.toString()
-            fishScoreNumber.text = fishString
+            fishScoreNumber.text = fishInt.toString()
         }
     }
 
     //Subtracts 1 from the bread number when tapped
     //TODO: The bread number is set to 5 by default and must be changed
     fun useBread(view: View) {
-        var breadString = breadScoreNumber.text.toString();
+        var breadString = breadScoreNumber.text.toString()
         var breadInt = breadString.toInt()
 
         if (breadInt > 0) {
             breadInt--
-            breadString = breadInt.toString()
-            breadScoreNumber.text = breadString
+            breadScoreNumber.text = breadInt.toString()
         }
     }
 
     fun gainBoat(){
-       var boatString = boatScoreNumber.text.toString();
+       var boatString = boatScoreNumber.text.toString()
         var boatInt = boatString.toInt()
 
         boatInt++
-        boatString = boatInt.toString()
-        boatScoreNumber.text = boatString
+        boatScoreNumber.text = boatInt.toString()
     }
 
     fun gainFish(){
-        var fishString = fishScoreNumber.text.toString();
+        var fishString = fishScoreNumber.text.toString()
         var fishInt = fishString.toInt()
 
         fishInt++
-        fishString = fishInt.toString()
-        fishScoreNumber.text = fishString
+        fishScoreNumber.text = fishInt.toString()
     }
 
     fun gainBread(){
-       var breadString = breadScoreNumber.text.toString();
+       var breadString = breadScoreNumber.text.toString()
         var breadInt = breadString.toInt()
 
         breadInt++
-        breadString = breadInt.toString()
-        breadScoreNumber.text = breadString
+        breadScoreNumber.text = breadInt.toString()
     }
 }
