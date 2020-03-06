@@ -2,6 +2,8 @@ package org.lightsys.kriolbiblewordfind
 import PuzzleEngine
 import Word
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.SharedPreferences
 import android.content.res.Resources
 import android.graphics.Paint
 import android.graphics.Color
@@ -28,6 +30,7 @@ class puzzleActivity : AppCompatActivity() {
     var wordCounter = 0
     lateinit var db:Database
     lateinit var puzzleEngine:PuzzleEngine
+    lateinit var sp:SharedPreferences
 
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +59,16 @@ class puzzleActivity : AppCompatActivity() {
         val intent = intent
         //TODO: Get pnum from strings file
         val pnum = intent.getIntExtra(getString(R.string.puzzle_num),-1)
+        val sp = this.getSharedPreferences(getString(R.string.points_file_key), Context.MODE_PRIVATE)
+        val boatCount = sp.getInt(getString(R.string.boat_key),0)
+        val fishCount = sp.getInt(getString(R.string.fish_key),0)
+        val breadCount = sp.getInt(getString(R.string.bread_key),0)
+        val boatView = findViewById<TextView>(R.id.boatScoreNumber)
+        boatView.setText(boatCount.toString())
+        val fishView = findViewById<TextView>(R.id.fishScoreNumber)
+        fishView.setText(fishCount.toString())
+        val breadView = findViewById<TextView>(R.id.breadScoreNumber)
+        breadView.setText(breadCount.toString())
 
 
         //Initiate Database and load puzzle engine
@@ -255,9 +268,11 @@ class puzzleActivity : AppCompatActivity() {
     fun gainBoat(){
        var boatString = boatScoreNumber.text.toString()
         var boatInt = boatString.toInt()
-
         boatInt++
         boatScoreNumber.text = boatInt.toString()
+        val edit = sp.edit()
+        edit.putInt(getString(R.string.boat_key),boatInt)
+        edit.commit()
     }
 
     fun gainFish(){
@@ -266,6 +281,9 @@ class puzzleActivity : AppCompatActivity() {
 
         fishInt++
         fishScoreNumber.text = fishInt.toString()
+        val edit = sp.edit()
+        edit.putInt(getString(R.string.fish_key),fishInt)
+        edit.commit()
     }
 
     fun gainBread(){
@@ -274,5 +292,8 @@ class puzzleActivity : AppCompatActivity() {
 
         breadInt++
         breadScoreNumber.text = breadInt.toString()
+        val edit = sp.edit()
+        edit.putInt(getString(R.string.bread_key),breadInt)
+        edit.commit()
     }
 }

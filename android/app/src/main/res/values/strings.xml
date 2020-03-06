@@ -29,4 +29,11 @@
     <string name="listen_bible_link_1">Irim Baibul la Google Play</string>
     <string name="listen_bible_link_2">Irim Baibul la Aboriginal Bibles</string>
     <string name="listen_bible_link_3">Irim Baibul la e-Bible</string>
+
+
+    <!-- keys -->
+    <string name="points_file_key">POINTS_FILE_KEY</string>
+    <string name="boat_key">BOAT_KEY</string>
+    <string name="fish_key">FISH_KEY</string>
+    <string name="bread_key">BREAD_KEY</string>
 </resources>
