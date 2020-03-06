@@ -285,24 +285,12 @@ class puzzleActivity : AppCompatActivity() {
 
                 foundWord(i)
                 gainBread()
-                soundEffect = createMedia("word_reward")
-                soundEffect.start()
 
 
                 //If all words discovered, win level
                 if(wordCounter == wordList.size){
                     gainFish()
-                    val levelComplete = db.markPuzzleCompleted(puzzleEngine.puzzle.id)
-                    if(levelComplete){
-                        gainBoat()
-                        soundEffect = createMedia("complete_puzzle")
-                        soundEffect.start()
-                        //TODO: Re-enable level change on popup
-                        PopUp(this, hasText = true, setText = "Level Win", hasTick = false)
-
-                    } else {
-                        PopUp(this, hasText = false, setText = "", hasTick = true)
-                    }
+                    winLevel()
                 }
                 return true
             }
@@ -323,14 +311,12 @@ class puzzleActivity : AppCompatActivity() {
             wordText.paintFlags = wordText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         }
 
+        soundEffect = createMedia("word_reward")
+        soundEffect.start()
+
         //If all words discovered, win level
         if(wordCounter == wordList.size){
-            gainFish()
-            //TODO: winPuzzle() //Not sure if this function will be necessary
-            val levelComplete = db.markPuzzleCompleted(puzzleEngine.puzzle.id)
-            if(levelComplete){
-                gainBoat()
-            }
+            winLevel()
         }
     }
 
@@ -403,7 +389,6 @@ class puzzleActivity : AppCompatActivity() {
                 Don't highlight = bold/background letters.
                 ..pick a random pos in the board, cycle until find a pos in a word
              */
-            //TODO: Reveal one random letter
         }
     }
 
@@ -495,6 +480,19 @@ class puzzleActivity : AppCompatActivity() {
         val edit = sp.edit()
         edit.putInt(getString(R.string.bread_key),breadInt)
         edit.commit()
+    }
+
+    fun winLevel(){
+        val levelComplete = db.markPuzzleCompleted(puzzleEngine.puzzle.id)
+        if(levelComplete){
+            gainBoat()
+            soundEffect = createMedia("complete_puzzle")
+            soundEffect.start()
+            PopUp(this, hasText = true, setText = "Level Win", hasTick = false)
+
+        } else {
+            PopUp(this, hasText = false, setText = "", hasTick = true)
+        }
     }
 
     //Creates and prepares media to be played
