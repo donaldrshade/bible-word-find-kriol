@@ -13,7 +13,6 @@
             android:layout_marginTop="20dp"
             android:layout_marginLeft="10dp"
             app:backgroundTint="@color/colorHomeButton"
-
             android:src="@drawable/homebutton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -26,7 +25,7 @@
             android:contentDescription="TODO"
             android:scaleType="fitXY"
             android:src="@drawable/fespida3"
-            app:layout_constraintBottom_toTopOf="@id/listen_bible_link_1"
+            app:layout_constraintBottom_toTopOf="@id/listen_bible_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -45,13 +44,29 @@
             app:fontFamily="@font/comic_sans"
             android:textColor="@color/black"/>
 
+    <TextView
+            android:text="@string/listen_bible"
+            android:id="@+id/listen_bible_title"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintVertical_weight="2"
+            app:layout_constraintTop_toBottomOf="@id/story_title_banner_image"
+            app:layout_constraintBottom_toTopOf="@id/listen_bible_link_1"
+            android:textSize="@dimen/sub_menu_label"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:fontFamily="@font/comic_sans_b"
+            android:background="@color/colorPrimary"/>
+
     <include android:id="@+id/listen_bible_link_1"
             layout="@layout/listen_bible_link_1"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintVertical_weight="3"
-            app:layout_constraintTop_toBottomOf="@id/story_title_banner_image"
+            app:layout_constraintTop_toBottomOf="@id/listen_bible_title"
             app:layout_constraintBottom_toTopOf="@id/listen_bible_link_2"
+
 
             />
     <include android:id="@+id/listen_bible_link_2"
@@ -67,7 +82,7 @@
             layout="@layout/listen_bible_link_3"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintVertical_weight="2"
+            app:layout_constraintVertical_weight="3"
             app:layout_constraintTop_toBottomOf="@id/listen_bible_link_2"
             app:layout_constraintBottom_toBottomOf="parent"
 
