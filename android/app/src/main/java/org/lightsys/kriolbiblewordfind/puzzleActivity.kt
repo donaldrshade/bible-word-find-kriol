@@ -162,9 +162,11 @@ class puzzleActivity : AppCompatActivity() {
         val levelName = currentLevel.title
         val levelBanner = currentLevel.picture
 
+
         //Setting the level title
         val levelTitleText = findViewById<TextView>(R.id.levelTitle)
-        levelTitleText.textSize = 15F
+        levelTitleText.textSize = 20F
+        levelTitleText.setBackgroundColor(Color.argb(150,200,255,255))
         levelTitleText.setText(levelName)
 
 

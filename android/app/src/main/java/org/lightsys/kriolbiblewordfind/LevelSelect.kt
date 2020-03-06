@@ -73,7 +73,7 @@ class LevelSelect : AppCompatActivity() {
 
                 //Send the player to the selected level
                 textView.setOnClickListener{
-                    textView.setTextColor(Color.BLACK)
+                    textView.setTextColor(Color.GREEN)
                     setResult(num)
                     finish()
                 }
