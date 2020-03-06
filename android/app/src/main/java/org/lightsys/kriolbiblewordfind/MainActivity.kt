@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity(){
         }
         val gameLevelButton = findViewById<ConstraintLayout>(R.id.game_level_button)
         gameLevelButton.setOnClickListener {
-            val intent = Intent(this,Empty::class.java)
+            val intent = Intent(this,LevelSelect::class.java)
             startActivity(intent)
         }
         val listenBibleButton = findViewById<ConstraintLayout>(R.id.listen_bible_button)
