@@ -14,4 +14,7 @@
     <string name="listen_bible">Irim Baibul</string>
     <string name="watch_video">Lunkinat video</string>
     <string name="package_name">org.lightsys.kriolbiblewordfind</string>
+    <string name="main_menu_title">Faindimbat Baibul wed</string>
+    <string name="sound">Nois</string>
+    <string name="writers">Pipul hu bin wek la dijan geim</string>
 </resources>
