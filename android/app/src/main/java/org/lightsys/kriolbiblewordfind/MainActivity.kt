@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity(){
         }
         val watchBibleButton = findViewById<ConstraintLayout>(R.id.watch_bible_button)
         watchBibleButton.setOnClickListener {
-            val intent = Intent(this,Empty::class.java)
+            val intent = Intent(this,WatchActivity::class.java)
             startActivity(intent)
         }
         val developer_button = findViewById<ConstraintLayout>(R.id.developer_button)

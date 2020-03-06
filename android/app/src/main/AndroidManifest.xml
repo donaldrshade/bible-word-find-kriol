@@ -14,6 +14,10 @@
                 android:label="@string/title_activity_listen"
                 android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
+                android:name=".WatchActivity"
+                android:label="@string/title_activity_listen"
+                android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
                 android:name=".Empty"
                 android:label="@string/title_activity_empty"
                 android:theme="@style/AppTheme.NoActionBar"></activity>
