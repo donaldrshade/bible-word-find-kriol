@@ -1,4 +1,5 @@
 package org.lightsys.kriolbiblewordfind
+
 import PuzzleEngine
 import Word
 import android.annotation.SuppressLint
@@ -16,11 +17,13 @@ import android.view.Gravity
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.LinearLayout.LayoutParams
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_puzzle.*
+import kotlinx.android.synthetic.main.nav_header_main.*
 import java.lang.Math.floor
-
 
 class puzzleActivity : AppCompatActivity() {
 
@@ -44,7 +47,7 @@ class puzzleActivity : AppCompatActivity() {
 
         //Create canvas to track swipes
         var canvas = DrawingView(this, null, this)
-        var params = LinearLayout.LayoutParams(
+        var params = LayoutParams(
             gridSizer.layoutParams.width,
             gridSizer.layoutParams.height
         )
@@ -58,8 +61,7 @@ class puzzleActivity : AppCompatActivity() {
         }
 
         val intent = intent
-        //TODO: Get pnum from strings file
-        val pnum = intent.getIntExtra(getString(R.string.puzzle_num),-1)
+        val pnum = 33//intent.getIntExtra(getString(R.string.puzzle_num),-1)
         sp = this.getSharedPreferences(getString(R.string.points_file_key), Context.MODE_PRIVATE)
         val boatCount = sp.getInt(getString(R.string.boat_key),0)
         val fishCount = sp.getInt(getString(R.string.fish_key),0)
@@ -71,7 +73,6 @@ class puzzleActivity : AppCompatActivity() {
         val breadView = findViewById<TextView>(R.id.breadScoreNumber)
         breadView.setText(breadCount.toString())
 
-
         //Initiate Database and load puzzle engine
         db = Database(this)
         var puzzle = db.getPuzzle(pnum)
@@ -80,10 +81,32 @@ class puzzleActivity : AppCompatActivity() {
         wordList = puzzleEngine.getWords()
 
         //Load words into wordbank, only populate it if not audio puzzle
-        wordCounter = wordList.size
+        //If audio puzzle, add play/pause button and word counter
+        wordCounter = 0
         isAudioPuzzle = db.isAudioPuzzle(puzzleEngine.puzzle.id)
         if(isAudioPuzzle){
+            var audioView = ImageButton(this)
+            var audioParams = LayoutParams(
+                LayoutParams.WRAP_CONTENT,
+                LayoutParams.MATCH_PARENT
+            )
+            audioView.setImageResource(R.drawable.headphones)
+            audioView.id = 2000
 
+            //TODO: setOnClickListener
+
+            var wordsLeft = TextView(this)
+            wordsLeft.textSize = 20F
+            wordsLeft.text = "$wordCounter / " + wordList.size
+            wordsLeft.id = 2001
+
+            var wordParams = LayoutParams(
+                wordBank.layoutParams.width,
+                wordBank.layoutParams.height
+            )
+
+            wordBank.addView(audioView, audioParams)
+            wordBank.addView(wordsLeft, wordParams)
         } else {
             for(w in 0 until wordList.size){
                 var textView = TextView(this)
@@ -194,6 +217,7 @@ class puzzleActivity : AppCompatActivity() {
         return row * puzzleSize + col
     }
 
+    //Updated function allows words to be completed in either direction
     fun isValidWord(startX: Float, startY: Float, endX: Float, endY: Float) : Boolean{
         var ind1 = getGridCellIndex(startX, startY)
         var row1 = (ind1 / puzzleSize)
@@ -206,28 +230,30 @@ class puzzleActivity : AppCompatActivity() {
         for(i in 0 until wordList.size){
             val word = wordList[i]
             if(word == null) continue
-            if(word!!.getStartPt()[0] == row1 && word.getStartPt()[1] == col1 && word.getEndPt()[0] == row2 && word.getEndPt()[1] == col2){
+            if(word!!.getStartPt()[0] == row1 && word.getStartPt()[1] == col1 && word.getEndPt()[0] == row2 && word.getEndPt()[1] == col2
+                || word!!.getEndPt()[0] == row1 && word.getEndPt()[1] == col1 && word.getStartPt()[0] == row2 && word.getStartPt()[1] == col2){
                 wordList[i] = null
                 gainBread()
 
-                //Cross off word from word bank
+                //Update wordCounter and cross off word from word bank
+                wordCounter++
                 if(isAudioPuzzle){
-
+                    var id = 2001
+                    var wordsLeft = findViewById<TextView>(id)
+                    wordsLeft.text = "$wordCounter / " + wordList.size
                 } else {
                     var wordText = findViewById<TextView>(i + 2000)
                     wordText.paintFlags = wordText.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG
                 }
 
-                //Check how many words left, if all discovered, win level
-                wordCounter--
-                if(wordCounter == 0){
+                //If all words discovered, win level
+                if(wordCounter == wordList.size){
                     gainFish()
                     //TODO: winPuzzle() //Not sure if this function will be necessary
                     val levelComplete = db.markPuzzleCompleted(puzzleEngine.puzzle.id)
                     if(levelComplete){
                         gainBoat()
                     }
-                    //
                 }
                 return true
             }
@@ -305,4 +331,58 @@ class puzzleActivity : AppCompatActivity() {
         edit.putInt(getString(R.string.bread_key),breadInt)
         edit.commit()
     }
+
+    /*
+    //If audio is playing, clicking play button pauses it
+        //Otherwise, play audio
+        play = findViewById(R.id.play_button);
+        play.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(media.isPlaying()){
+                    media.pause();
+                    play.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
+                    mIsPlaying = false;
+                } else {
+                    media.start();
+                    play.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause));
+                    mIsPlaying = true;
+                }
+            }
+        });
+
+    //Creates and prepares media to be played
+    //Throws FormatException if file is not an mp3
+    private MediaPlayer createMedia(String mp3) throws FormatException {
+        if(mp3.contains(".mp3")) {
+            String file = mp3.replace(".mp3", "");
+            int id = getResources().getIdentifier(file,"raw", getPackageName());
+            MediaPlayer mediaPlayer = MediaPlayer.create(lessonActivity.this, id);
+            return mediaPlayer;
+        } else {
+            throw new FormatException();
+        }
+    }
+
+    //When lesson activity closes, save information
+    //and close MediaPlayer before exiting
+    @Override
+    protected void onStop() {
+        //If we close before the audio is finished, save current position
+        int currentPosition = media.getCurrentPosition();
+        if(currentPosition != media.getDuration()){
+            DatabaseConnection db = new DatabaseConnection(getApplicationContext());
+            Lesson update = new Lesson();
+            update.setName(inputIntent.getStringExtra("lesson_name"));
+            update.setCourse(inputIntent.getStringExtra("course_name"));
+            update.setSeekTime(currentPosition);
+            db.updateLesson(update);
+        }
+        media.release();
+        media = null;
+        super.onStop();
+    }
+
+    */
 }
