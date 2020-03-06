@@ -16,9 +16,11 @@ import android.view.Gravity
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_puzzle.*
+import kotlinx.android.synthetic.main.nav_header_main.*
 import java.lang.Math.floor
 
 
@@ -58,7 +60,6 @@ class puzzleActivity : AppCompatActivity() {
         }
 
         val intent = intent
-        //TODO: Get pnum from strings file
         val pnum = intent.getIntExtra(getString(R.string.puzzle_num),-1)
         sp = this.getSharedPreferences(getString(R.string.points_file_key), Context.MODE_PRIVATE)
         val boatCount = sp.getInt(getString(R.string.boat_key),0)
@@ -71,7 +72,6 @@ class puzzleActivity : AppCompatActivity() {
         val breadView = findViewById<TextView>(R.id.breadScoreNumber)
         breadView.setText(breadCount.toString())
 
-
         //Initiate Database and load puzzle engine
         db = Database(this)
         var puzzle = db.getPuzzle(pnum)
@@ -80,10 +80,28 @@ class puzzleActivity : AppCompatActivity() {
         wordList = puzzleEngine.getWords()
 
         //Load words into wordbank, only populate it if not audio puzzle
-        wordCounter = wordList.size
+        //If audio puzzle, add play/pause button and word counter
+        wordCounter = 0
         isAudioPuzzle = db.isAudioPuzzle(puzzleEngine.puzzle.id)
         if(isAudioPuzzle){
+            var audioView = ImageButton(this)
+            audioView.setImageResource(R.drawable.headphones)
+            audioView.id = 2000
 
+            //TODO: setOnClickListened
+
+            var wordsLeft = TextView(this)
+            wordsLeft.textSize = 20F
+            wordsLeft.text = "$wordCounter / " + wordList.size
+            wordsLeft.id = 2001
+
+            var params = LinearLayout.LayoutParams(
+                wordBank.layoutParams.width,
+                wordBank.layoutParams.height
+            )
+
+            wordBank.addView(audioView, params)
+            wordBank.addView(wordsLeft, params)
         } else {
             for(w in 0 until wordList.size){
                 var textView = TextView(this)
@@ -194,6 +212,7 @@ class puzzleActivity : AppCompatActivity() {
         return row * puzzleSize + col
     }
 
+    //Updated function allows words to be completed in either direction
     fun isValidWord(startX: Float, startY: Float, endX: Float, endY: Float) : Boolean{
         var ind1 = getGridCellIndex(startX, startY)
         var row1 = (ind1 / puzzleSize)
@@ -206,28 +225,30 @@ class puzzleActivity : AppCompatActivity() {
         for(i in 0 until wordList.size){
             val word = wordList[i]
             if(word == null) continue
-            if(word!!.getStartPt()[0] == row1 && word.getStartPt()[1] == col1 && word.getEndPt()[0] == row2 && word.getEndPt()[1] == col2){
+            if(word!!.getStartPt()[0] == row1 && word.getStartPt()[1] == col1 && word.getEndPt()[0] == row2 && word.getEndPt()[1] == col2
+                || word!!.getEndPt()[0] == row1 && word.getEndPt()[1] == col1 && word.getStartPt()[0] == row2 && word.getStartPt()[1] == col2){
                 wordList[i] = null
                 gainBread()
 
-                //Cross off word from word bank
+                //Update wordCounter and cross off word from word bank
+                wordCounter++
                 if(isAudioPuzzle){
-
+                    var id = 2001
+                    var wordsLeft = findViewById<TextView>(id)
+                    wordsLeft.text = "$wordCounter / " + wordList.size
                 } else {
                     var wordText = findViewById<TextView>(i + 2000)
                     wordText.paintFlags = wordText.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG
                 }
 
-                //Check how many words left, if all discovered, win level
-                wordCounter--
-                if(wordCounter == 0){
+                //If all words discovered, win level
+                if(wordCounter == wordList.size){
                     gainFish()
                     //TODO: winPuzzle() //Not sure if this function will be necessary
                     val levelComplete = db.markPuzzleCompleted(puzzleEngine.puzzle.id)
                     if(levelComplete){
                         gainBoat()
                     }
-                    //
                 }
                 return true
             }
