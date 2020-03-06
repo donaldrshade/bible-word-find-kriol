@@ -4,6 +4,7 @@ import Word
 import android.annotation.SuppressLint
 import android.content.res.Resources
 import android.graphics.Paint
+import android.graphics.Color
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.ConstraintSet
@@ -119,9 +120,26 @@ class puzzleActivity : AppCompatActivity() {
         val levelBanner = "eijah"//TODO
 
         //Changing the banner
-        val res: Resources = resources
-        val resID = res.getIdentifier(levelBanner, "drawable", packageName)
-        story_title_banner_image.setImageResource(resID)
+        val bannerRes: Resources = resources;
+        val bannerResID = bannerRes.getIdentifier(levelBanner, "drawable", packageName);
+        val levelBackground = findViewById<ConstraintLayout>(R.id.backgound)
+        val rnds = (0..10).random()
+
+        story_title_banner_image.setImageResource(bannerResID);
+
+        when (rnds){
+            0-> levelBackground.setBackgroundColor(Color.rgb(0,188,212));
+            1-> levelBackground.setBackgroundColor(Color.rgb(152,228,146));
+            2-> levelBackground.setBackgroundColor(Color.rgb(220,195,154));
+            3-> levelBackground.setBackgroundColor(Color.rgb(173,166,227));
+            4-> levelBackground.setBackgroundColor(Color.rgb(214,174,236));
+            5-> levelBackground.setBackgroundColor(Color.rgb(180,218,217));
+            6-> levelBackground.setBackgroundColor(Color.rgb(218,180,210));
+            7-> levelBackground.setBackgroundColor(Color.rgb(185,209,175));
+            8-> levelBackground.setBackgroundColor(Color.rgb(166,225,195));
+            9-> levelBackground.setBackgroundColor(Color.rgb(20,180,180));
+            else -> {levelBackground.setBackgroundColor(Color.rgb(20,180,180));}
+        }
     }
 
     fun getGridCell(x: Float, y: Float) : TextView?{

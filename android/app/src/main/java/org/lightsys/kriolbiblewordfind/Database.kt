@@ -247,6 +247,16 @@ class Database(context: Context) :
         }
         return Level()
     }
+    fun getLevelList():ArrayList<Level>{
+        val db = this.writableDatabase
+        val query = "select * from $LEVEL_TABLE_NAME"
+        val res = db.rawQuery(query, arrayOf())
+        val returnList = ArrayList<Level>()
+        while (res.moveToNext()) {
+            returnList.add( Level(res.getInt(0),res.getString(1),res.getInt(2)==1,res.getString(3),res.getString(4)))
+        }
+        return returnList
+    }
     fun getPuzzle(puzzleId:Int):Puzzle{
         val db = this.writableDatabase
         val query = "select * from $PUZZLE_TABLE_NAME WHERE $PUZZLE_COL_1 = ? "
