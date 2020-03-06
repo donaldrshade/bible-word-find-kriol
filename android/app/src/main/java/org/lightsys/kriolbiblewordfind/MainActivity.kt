@@ -21,7 +21,6 @@ class MainActivity : AppCompatActivity(){
             val intent = Intent(this,MainActivity::class.java)
             startActivity(intent)
         }
-
         fab.isClickable=false
 
         val playButton = findViewById<ImageView>(R.id.play_button)
