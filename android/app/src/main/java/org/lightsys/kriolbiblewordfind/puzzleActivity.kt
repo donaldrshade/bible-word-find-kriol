@@ -27,6 +27,8 @@ import android.widget.*
 import android.widget.LinearLayout.LayoutParams
 import kotlinx.android.synthetic.main.activity_puzzle.*
 import java.lang.Math.floor
+import java.lang.Math.random
+import kotlin.math.abs
 
 
 class puzzleActivity : AppCompatActivity() {
@@ -38,11 +40,15 @@ class puzzleActivity : AppCompatActivity() {
     lateinit var db:Database
     lateinit var puzzleEngine:PuzzleEngine
     lateinit var sp:SharedPreferences
+    lateinit var canvas : DrawingView
+    lateinit var breadHighlights : Array<BooleanArray>
     lateinit var media:MediaPlayer
+
 
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        canvas = DrawingView(this, null, this)
 
         //Set Activity to full screen
         requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -50,7 +56,7 @@ class puzzleActivity : AppCompatActivity() {
         setContentView(R.layout.activity_puzzle)
 
         //Create canvas to track swipes
-        var canvas = DrawingView(this, null, this)
+
         var params = LayoutParams(
             gridSizer.layoutParams.width,
             gridSizer.layoutParams.height
@@ -88,7 +94,7 @@ class puzzleActivity : AppCompatActivity() {
 
         var puzzleGrid = puzzleEngine.grid
         wordList = puzzleEngine.getWords()
-
+        breadHighlights = Array<BooleanArray>(puzzleGrid.size){BooleanArray(puzzleGrid.size)}
         //Load words into wordbank, only populate it if not audio puzzle
         //If audio puzzle, add play/pause button and word counter
         wordCounter = 0
@@ -276,19 +282,10 @@ class puzzleActivity : AppCompatActivity() {
             if(word == null) continue
             if(word!!.getStartPt()[0] == row1 && word.getStartPt()[1] == col1 && word.getEndPt()[0] == row2 && word.getEndPt()[1] == col2
                 || word!!.getEndPt()[0] == row1 && word.getEndPt()[1] == col1 && word.getStartPt()[0] == row2 && word.getStartPt()[1] == col2){
-                wordList[i] = null
+
+                foundWord(i)
                 gainBread()
 
-                //Update wordCounter and cross off word from word bank
-                wordCounter++
-                if(isAudioPuzzle){
-                    var id = 2001
-                    var wordsLeft = findViewById<TextView>(id)
-                    wordsLeft.text = "$wordCounter / " + wordList.size
-                } else {
-                    var wordText = findViewById<TextView>(i + 2000)
-                    wordText.paintFlags = wordText.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG
-                }
 
                 //If all words discovered, win level
                 if(wordCounter == wordList.size){
@@ -298,10 +295,35 @@ class puzzleActivity : AppCompatActivity() {
                         gainBoat()
                     }
                 }
+
                 return true
             }
         }
         return false
+    }
+
+    fun foundWord(index: Int){
+        wordList[index] = null
+        //Update wordCounter and cross off word from word bank
+        wordCounter++
+        if(isAudioPuzzle){
+            var id = 2001
+            var wordsLeft = findViewById<TextView>(id)
+            wordsLeft.text = "$wordCounter / " + wordList.size
+        } else {
+            var wordText = findViewById<TextView>(index + 2000)
+            wordText.paintFlags = wordText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+        }
+
+        //If all words discovered, win level
+        if(wordCounter == wordList.size){
+            gainFish()
+            //TODO: winPuzzle() //Not sure if this function will be necessary
+            val levelComplete = db.markPuzzleCompleted(puzzleEngine.puzzle.id)
+            if(levelComplete){
+                gainBoat()
+            }
+        }
     }
 
     //Subtracts 1 from the boat number when tapped
@@ -324,7 +346,24 @@ class puzzleActivity : AppCompatActivity() {
         if (fishInt > 0){
             fishInt--
             fishScoreNumber.text = fishInt.toString()
-            //TODO: Reveal an entire word
+            // Reveal a random entire word
+            val numWords = wordList.size - wordCounter
+            var ct = 0;
+            for(i in 0 until wordList.size){
+                val word = wordList[i]
+                if(word == null) continue
+                else{
+                    ct++;
+                    if(Math.random() < ct.toDouble() / numWords) {
+                        val startLetter = letters[word.getStartPt()[0]*puzzleSize + word.getStartPt()[1]]
+                        val endLetter = letters[word.getEndPt()[0]*puzzleSize + word.getEndPt()[1]]
+                        canvas.highlightLetters(startLetter, endLetter)
+                        //highlight word
+                        foundWord(i)
+                        break;
+                    }
+                }
+            }
         }
     }
 
@@ -336,8 +375,86 @@ class puzzleActivity : AppCompatActivity() {
         if (breadInt > 0) {
             breadInt--
             breadScoreNumber.text = breadInt.toString()
+
+            var randRow = (Math.random()*breadHighlights.size).toInt()
+            var randCol = (Math.random() * breadHighlights.size).toInt()
+
+            while(breadHighlights[randRow][randCol] || !isWordPos( intArrayOf(randRow,randCol) ) ) {
+                randCol++;
+                if(randCol % puzzleSize == 0) {
+                    randCol = 0;
+                    randRow = (randRow + 1) % puzzleSize
+                }
+                //there WILL be a spot left to highlight, otherwise a word got finished and not removed
+            }
+            breadHighlights[randRow][randCol] = true;
+            val tv = letters[(randRow * puzzleSize + randCol)]!!.setBackgroundResource(R.color.colorPrimary);
+            removeBreadWords()
+
+            /*
+                Don't highlight = bold/background letters.
+                ..pick a random pos in the board, cycle until find a pos in a word
+             */
             //TODO: Reveal one random letter
         }
+    }
+
+    fun removeBreadWords(){
+        for(i in wordList.indices){
+            val word = wordList[i];
+            if(word==null)continue;
+            var pointList = posInWord(word)
+            var wordAllHighlighted = true
+            for(arr in pointList){
+                if(!breadHighlights[arr[0]][arr[1]]){
+                    wordAllHighlighted = false
+                }
+            }
+            if(wordAllHighlighted){
+                foundWord(i)
+                val startLetter = letters[word.getStartPt()[0]*puzzleSize + word.getStartPt()[1]]
+                val endLetter = letters[word.getEndPt()[0]*puzzleSize + word.getEndPt()[1]]
+                canvas.highlightLetters(startLetter, endLetter)
+
+                for(arr in pointList){
+                    breadHighlights[arr[0]][arr[1]] = false
+                    letters[arr[0]*puzzleSize + arr[1]]!!.setBackgroundResource(0)
+                }
+
+            }
+
+        }
+    }
+
+    fun isWordPos(coords : IntArray) : Boolean{
+        for(word in wordList){
+            if(word == null) continue;
+            for(intarr in posInWord(word)){
+                if(coords.contentEquals(intarr)){
+                    return true;
+                }
+            }
+        }
+        return false
+    }
+
+    fun posInWord(word: Word) : Array<IntArray> {
+        val sr = word.getStartPt()[0]
+        val sc = word.getStartPt()[1]
+        val er = word.getEndPt()[0]
+        val ec = word.getEndPt()[1]
+        val len : Int
+        if(sr == er){
+            len = abs(sc - ec) + 1
+        } else {
+            len = abs(sr- er) +1
+        }
+        var toReturn = Array<IntArray>(len){intArrayOf(0,0)}
+        toReturn[0]=word.getStartPt()
+        for(i in 1 until len) {
+            toReturn[i] = intArrayOf( ((er-sr) * i / (len-1) + sr).toInt(), ((ec-sc) * i / (len-1) + sc).toInt())
+        }
+        return toReturn
     }
 
     fun gainBoat(){
