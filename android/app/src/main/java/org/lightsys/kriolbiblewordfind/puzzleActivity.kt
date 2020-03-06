@@ -102,12 +102,13 @@ class puzzleActivity : AppCompatActivity() {
         if(isAudioPuzzle){
             val row = TableRow(this)
             wordBank.addView(row)
-            var rowParams = TableRow.LayoutParams(row.layoutParams.width / 3, row.layoutParams.height)
+            var rowParams = TableRow.LayoutParams(row.layoutParams.width, row.layoutParams.height)
             row.addView(TextView(this), rowParams)
             var audioView = ImageButton(this)
             audioView.layoutParams = rowParams
             audioView.setImageResource(R.drawable.headphones)
             audioView.setBackgroundResource(0)
+            audioView.scaleType = ImageView.ScaleType.CENTER_INSIDE
             audioView.id = 2000
 
             //Initialize media player
@@ -175,17 +176,17 @@ class puzzleActivity : AppCompatActivity() {
 
 
                 gridSizer!!.addView(textView, lp)
-               /* textView.setOnTouchListener( ) {v: View, m: MotionEvent ->
-                    when(m.actionMasked){
-                        MotionEvent.ACTION_DOWN -> {
-                            this.setStartLetter(textView)
-                        }
-                        MotionEvent.ACTION_UP -> {
-                            this.setEndLetter(textView)
-                        }
-                    }
-                    true
-                }*/
+                /* textView.setOnTouchListener( ) {v: View, m: MotionEvent ->
+                     when(m.actionMasked){
+                         MotionEvent.ACTION_DOWN -> {
+                             this.setStartLetter(textView)
+                         }
+                         MotionEvent.ACTION_UP -> {
+                             this.setEndLetter(textView)
+                         }
+                     }
+                     true
+                 }*/
             }
         }
 
@@ -344,7 +345,7 @@ class puzzleActivity : AppCompatActivity() {
     }
 
     fun gainBoat(){
-       var boatString = boatScoreNumber.text.toString()
+        var boatString = boatScoreNumber.text.toString()
         var boatInt = boatString.toInt()
         boatInt++
         boatScoreNumber.text = boatInt.toString()
@@ -365,7 +366,7 @@ class puzzleActivity : AppCompatActivity() {
     }
 
     fun gainBread(){
-       var breadString = breadScoreNumber.text.toString()
+        var breadString = breadScoreNumber.text.toString()
         var breadInt = breadString.toInt()
 
         breadInt++
