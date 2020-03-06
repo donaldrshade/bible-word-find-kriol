@@ -3,16 +3,19 @@ import PuzzleEngine
 import Word
 import android.annotation.SuppressLint
 import android.content.res.Resources
+import android.graphics.Paint
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.ConstraintSet
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
-import android.view.*
+import android.view.Gravity
+import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_puzzle.*
-import kotlinx.android.synthetic.main.activity_puzzle.story_title_banner_image
 import java.lang.Math.floor
 
 
@@ -31,6 +34,7 @@ class puzzleActivity : AppCompatActivity() {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_puzzle)
 
+        //Create canvas to track swipes
         var canvas = DrawingView(this, null, this)
         var params = LinearLayout.LayoutParams(
             gridSizer.layoutParams.width,
@@ -46,22 +50,23 @@ class puzzleActivity : AppCompatActivity() {
         }
 
         val intent = intent
+        //TODO: Get pnum from strings file
         val pnum = 2//intent.getIntExtra(getString(R.string.puzzle_num),-1)
 
         var puzzle = Puzzle()
+
+        //Initiate Database and load puzzle engine
         var db = Database(this)
         puzzle = db.getPuzzle(pnum)
         var puzzleEngine = PuzzleEngine(puzzle, this)
         var puzzleGrid = puzzleEngine.grid
         wordList = puzzleEngine.getWords()
 
-        puzzleSize = puzzle.size
-
         val gridSizer = findViewById<ConstraintLayout>(R.id.gridSizer)
         val cset = ConstraintSet()
 
+        puzzleSize = puzzle.size
         letters = arrayOfNulls(puzzleSize*puzzleSize)
-
         for (r in 0 until puzzleSize) {
             for (c in 0 until puzzleSize) {
                 var textView = TextView(this)
@@ -146,12 +151,13 @@ class puzzleActivity : AppCompatActivity() {
         var row2 = (ind2 / puzzleSize)
         var col2 = ind2 % puzzleSize
 
-        for(i in 0 until wordList.size ){
+        for(i in 0 until wordList.size){
             val word = wordList[i]
             if(word == null) continue
             if(word!!.getStartPt()[0] == row1 && word.getStartPt()[1] == col1 && word.getEndPt()[0] == row2 && word.getEndPt()[1] == col2){
                 wordList[i] = null
                 gainBread()
+                boatScoreNumber.paintFlags = boatScoreNumber.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG
                 //TODO: Cross word off from listy-list
                 return true
             }
@@ -159,7 +165,7 @@ class puzzleActivity : AppCompatActivity() {
         return false
     }
 
-    //Subtracts 1 from the boat number when tapped.
+    //Subtracts 1 from the boat number when tapped
     //TODO: The boat number is set to 5 by default and must be changed
     fun useBoat(view: View) {
         var boatString = boatScoreNumber.text.toString()
@@ -168,6 +174,7 @@ class puzzleActivity : AppCompatActivity() {
         if (boatInt > 0){
             boatInt--
             boatScoreNumber.text = boatInt.toString()
+            //TODO: Reveal one random letter
         }
     }
 
@@ -180,6 +187,7 @@ class puzzleActivity : AppCompatActivity() {
         if (fishInt > 0){
             fishInt--
             fishScoreNumber.text = fishInt.toString()
+            //TODO: Reveal an entire word
         }
     }
 
@@ -189,9 +197,10 @@ class puzzleActivity : AppCompatActivity() {
         var breadString = breadScoreNumber.text.toString()
         var breadInt = breadString.toInt()
 
-        if (breadInt > 0) {
-            breadInt--
+        if (breadInt > 2) {
+            breadInt -= 3
             breadScoreNumber.text = breadInt.toString()
+            //TODO: Spend 3 boats to unlock a level
         }
     }
 
