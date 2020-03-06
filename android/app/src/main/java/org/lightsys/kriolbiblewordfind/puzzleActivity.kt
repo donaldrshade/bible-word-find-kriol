@@ -102,7 +102,7 @@ class puzzleActivity : AppCompatActivity() {
         if(isAudioPuzzle){
             val row = TableRow(this)
             wordBank.addView(row)
-            var rowParams = TableRow.LayoutParams(row.layoutParams.width, row.layoutParams.height)
+            var rowParams = TableRow.LayoutParams(row.layoutParams.width / 3, row.layoutParams.height)
             row.addView(TextView(this), rowParams)
             var audioView = ImageButton(this)
             audioView.layoutParams = rowParams
@@ -145,16 +145,13 @@ class puzzleActivity : AppCompatActivity() {
                     wordBank.addView(row);
                 }
                 var textView = TextView(this)
-
                 textView.textSize= 20F
                 textView.gravity = Gravity.CENTER
                 textView.text = wordList[w]!!.word
                 textView.id = w + 2000
 
                 textView.typeface = comicSansFont
-                wordBank.addView(textView, params)
-
-
+                row.addView(textView)
             }
         }
 
