@@ -43,6 +43,8 @@ class puzzleActivity : AppCompatActivity() {
     lateinit var canvas : DrawingView
     lateinit var breadHighlights : Array<BooleanArray>
     lateinit var media:MediaPlayer
+    lateinit var soundEffect:MediaPlayer
+    lateinit var completePuzzle:MediaPlayer
 
 
     @SuppressLint("ResourceType")
@@ -219,13 +221,11 @@ class puzzleActivity : AppCompatActivity() {
         val levelName = currentLevel.title
         val levelBanner = currentLevel.picture
 
-
         //Setting the level title
         val levelTitleText = findViewById<TextView>(R.id.levelTitle)
         levelTitleText.textSize = 20F
         levelTitleText.setBackgroundColor(Color.argb(150,200,255,255))
         levelTitleText.setText(levelName)
-
 
         //Setting the banner
         val bannerRes: Resources = resources;
@@ -285,6 +285,8 @@ class puzzleActivity : AppCompatActivity() {
 
                 foundWord(i)
                 gainBread()
+                soundEffect = createMedia("word_reward")
+                soundEffect.start()
 
 
                 //If all words discovered, win level
@@ -293,6 +295,12 @@ class puzzleActivity : AppCompatActivity() {
                     val levelComplete = db.markPuzzleCompleted(puzzleEngine.puzzle.id)
                     if(levelComplete){
                         gainBoat()
+                        soundEffect = createMedia("complete_puzzle")
+                        soundEffect.start()
+                        //TODO: Re-enable level change on popup
+                        PopUp(this, hasText = true, setText = "Level Win", hasTick = false)
+                    } else {
+                        PopUp(this, hasText = false, setText = "", hasTick = true)
                     }
                 }
 
@@ -490,7 +498,7 @@ class puzzleActivity : AppCompatActivity() {
     }
 
     //Creates and prepares media to be played
-//Throws FormatException if file is not an mp3
+    //Throws FormatException if file is not an mp3
     @Throws(FormatException::class)
     private fun createMedia(mp3: String): MediaPlayer {
         return if (!mp3.isNullOrEmpty()) {
