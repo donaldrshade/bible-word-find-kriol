@@ -18,10 +18,10 @@ class MainActivity : AppCompatActivity(){
 
         val fab = findViewById<FloatingActionButton>(R.id.home_fab)
         fab.setOnClickListener {
-            val intent = Intent(this,MainActivity::class.java)
+            val intent = Intent(this,PopUp(hasTick = true)::class.java)
             startActivity(intent)
         }
-        fab.isClickable=false
+        //fab.isClickable=false
 
         val playButton = findViewById<ImageView>(R.id.play_button)
         playButton.setOnClickListener {
@@ -49,8 +49,8 @@ class MainActivity : AppCompatActivity(){
             val intent = Intent(this,WatchActivity::class.java)
             startActivity(intent)
         }
-        val developer_button = findViewById<ConstraintLayout>(R.id.developer_button)
-        developer_button.setOnClickListener {
+        val developerButton = findViewById<ConstraintLayout>(R.id.developer_button)
+        developerButton.setOnClickListener {
             val intent = Intent(this,Empty::class.java)
             startActivity(intent)
         }
