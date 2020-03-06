@@ -306,7 +306,7 @@ class puzzleActivity : AppCompatActivity() {
         var fishInt = fishString.toInt()
 
         if (fishInt > 0){
-            //fishInt--
+            fishInt--
             fishScoreNumber.text = fishInt.toString()
             // Reveal a random entire word
             val numWords = wordList.size - wordCounter
@@ -336,7 +336,7 @@ class puzzleActivity : AppCompatActivity() {
         var breadInt = breadString.toInt()
 
         if (breadInt > 0) {
-            //breadInt--
+            breadInt--
             breadScoreNumber.text = breadInt.toString()
 
             var randRow = (Math.random()*breadHighlights.size).toInt()
