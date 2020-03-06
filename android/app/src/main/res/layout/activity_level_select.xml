@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".Empty"
+        android:orientation="horizontal"
+        android:background="@color/colorPrimary">
+
+    <android.support.design.widget.FloatingActionButton
+            android:id="@+id/home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|start"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/homebutton"
+            app:backgroundTint="@color/colorHomeButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+            android:id="@+id/story_title_banner_image"
+            android:layout_width="wrap_content"
+            android:layout_height="230dp"
+            android:layout_gravity="top|start"
+            android:contentDescription="TODO"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/fespida3" />
+
+    <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="74dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:text="Faindim wed"
+            android:textColor="@color/black"
+            android:textSize="20dp" />
+
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="501dp"
+            android:layout_gravity="bottom"
+            android:orientation="vertical">
+
+        <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:gravity="center"
+                android:text="Geim Lebul"
+                android:textColor="@color/black"
+                android:textSize="30dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.359"
+                app:layout_constraintStart_toEndOf="@+id/imageView2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="71dp"
+                android:layout_height="84dp"
+                android:layout_gravity="clip_horizontal"
+                android:layout_marginTop="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.076"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/game_level" />
+
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView2"
+                android:layout_width="408dp"
+                android:layout_height="268dp"
+                tools:layout_editor_absoluteX="1dp"
+                tools:layout_editor_absoluteY="98dp">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="TextView"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                app:layout_constraintBottom_toTopOf="@+id/imageView3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recyclerView2" />
+
+        <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="117dp"
+                android:layout_height="56dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recyclerView2"
+                app:layout_constraintVertical_bias="0.655"
+                app:srcCompat="@drawable/boat" />
+
+        <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:text="5"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</FrameLayout>

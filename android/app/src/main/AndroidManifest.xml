@@ -16,6 +16,9 @@
         </activity>
         <activity android:name=".puzzleActivity">
         </activity>
+        <activity android:name=".LevelSelect">
+        </activity>
+
         <activity android:name=".sampleActivity">
         </activity>
         <activity

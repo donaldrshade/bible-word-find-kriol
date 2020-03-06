@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity(){
         val button3 = findViewById<ConstraintLayout>(R.id.button3)
         button3.setOnClickListener { view ->
             System.out.println("button3")
-            val intent = Intent(this,Empty::class.java)
+            val intent = Intent(this,LevelSelect::class.java)
             startActivity(intent)
         }
         val button4 = findViewById<ConstraintLayout>(R.id.button4)
