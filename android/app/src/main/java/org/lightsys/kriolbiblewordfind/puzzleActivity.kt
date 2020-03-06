@@ -59,7 +59,7 @@ class puzzleActivity : AppCompatActivity() {
         val intent = intent
         //TODO: Get pnum from strings file
         val pnum = intent.getIntExtra(getString(R.string.puzzle_num),-1)
-        val sp = this.getSharedPreferences(getString(R.string.points_file_key), Context.MODE_PRIVATE)
+        sp = this.getSharedPreferences(getString(R.string.points_file_key), Context.MODE_PRIVATE)
         val boatCount = sp.getInt(getString(R.string.boat_key),0)
         val fishCount = sp.getInt(getString(R.string.fish_key),0)
         val breadCount = sp.getInt(getString(R.string.bread_key),0)
