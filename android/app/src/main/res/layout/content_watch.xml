@@ -12,12 +12,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="top|start"
             android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
             app:backgroundTint="@color/colorHomeButton"
             android:src="@drawable/homebutton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            />
+    />
 
     <ImageView
     android:id="@+id/story_title_banner_image"

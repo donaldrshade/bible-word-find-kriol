@@ -22,11 +22,6 @@
                 android:label="@string/title_activity_empty"
                 android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".puzzleActivity"></activity>
-        <activity android:name=".sampleActivity"></activity>
-                android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity android:name=".puzzleActivity">
-        </activity>
         <activity android:name=".LevelSelect">
         </activity>
         <activity
