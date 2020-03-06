@@ -18,6 +18,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.LinearLayout.LayoutParams
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_puzzle.*
 import kotlinx.android.synthetic.main.nav_header_main.*
@@ -46,7 +47,7 @@ class puzzleActivity : AppCompatActivity() {
 
         //Create canvas to track swipes
         var canvas = DrawingView(this, null, this)
-        var params = LinearLayout.LayoutParams(
+        var params = LayoutParams(
             gridSizer.layoutParams.width,
             gridSizer.layoutParams.height
         )
@@ -60,7 +61,7 @@ class puzzleActivity : AppCompatActivity() {
         }
 
         val intent = intent
-        val pnum = intent.getIntExtra(getString(R.string.puzzle_num),-1)
+        val pnum = 33//intent.getIntExtra(getString(R.string.puzzle_num),-1)
         sp = this.getSharedPreferences(getString(R.string.points_file_key), Context.MODE_PRIVATE)
         val boatCount = sp.getInt(getString(R.string.boat_key),0)
         val fishCount = sp.getInt(getString(R.string.fish_key),0)
@@ -85,23 +86,27 @@ class puzzleActivity : AppCompatActivity() {
         isAudioPuzzle = db.isAudioPuzzle(puzzleEngine.puzzle.id)
         if(isAudioPuzzle){
             var audioView = ImageButton(this)
+            var audioParams = LayoutParams(
+                LayoutParams.WRAP_CONTENT,
+                LayoutParams.MATCH_PARENT
+            )
             audioView.setImageResource(R.drawable.headphones)
             audioView.id = 2000
 
-            //TODO: setOnClickListened
+            //TODO: setOnClickListener
 
             var wordsLeft = TextView(this)
             wordsLeft.textSize = 20F
             wordsLeft.text = "$wordCounter / " + wordList.size
             wordsLeft.id = 2001
 
-            var params = LinearLayout.LayoutParams(
+            var wordParams = LayoutParams(
                 wordBank.layoutParams.width,
                 wordBank.layoutParams.height
             )
 
-            wordBank.addView(audioView, params)
-            wordBank.addView(wordsLeft, params)
+            wordBank.addView(audioView, audioParams)
+            wordBank.addView(wordsLeft, wordParams)
         } else {
             for(w in 0 until wordList.size){
                 var textView = TextView(this)
@@ -326,4 +331,58 @@ class puzzleActivity : AppCompatActivity() {
         edit.putInt(getString(R.string.bread_key),breadInt)
         edit.commit()
     }
+
+    /*
+    //If audio is playing, clicking play button pauses it
+        //Otherwise, play audio
+        play = findViewById(R.id.play_button);
+        play.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(media.isPlaying()){
+                    media.pause();
+                    play.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
+                    mIsPlaying = false;
+                } else {
+                    media.start();
+                    play.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause));
+                    mIsPlaying = true;
+                }
+            }
+        });
+
+    //Creates and prepares media to be played
+    //Throws FormatException if file is not an mp3
+    private MediaPlayer createMedia(String mp3) throws FormatException {
+        if(mp3.contains(".mp3")) {
+            String file = mp3.replace(".mp3", "");
+            int id = getResources().getIdentifier(file,"raw", getPackageName());
+            MediaPlayer mediaPlayer = MediaPlayer.create(lessonActivity.this, id);
+            return mediaPlayer;
+        } else {
+            throw new FormatException();
+        }
+    }
+
+    //When lesson activity closes, save information
+    //and close MediaPlayer before exiting
+    @Override
+    protected void onStop() {
+        //If we close before the audio is finished, save current position
+        int currentPosition = media.getCurrentPosition();
+        if(currentPosition != media.getDuration()){
+            DatabaseConnection db = new DatabaseConnection(getApplicationContext());
+            Lesson update = new Lesson();
+            update.setName(inputIntent.getStringExtra("lesson_name"));
+            update.setCourse(inputIntent.getStringExtra("course_name"));
+            update.setSeekTime(currentPosition);
+            db.updateLesson(update);
+        }
+        media.release();
+        media = null;
+        super.onStop();
+    }
+
+    */
 }
