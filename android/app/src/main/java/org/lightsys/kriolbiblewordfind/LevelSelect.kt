@@ -27,6 +27,7 @@ import kotlinx.android.synthetic.main.how_to_play.*
 class LevelSelect : AppCompatActivity() {
     lateinit var sp : SharedPreferences
     lateinit var db : Database
+    var num = 0;
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -128,7 +129,7 @@ class LevelSelect : AppCompatActivity() {
             }
 
 
-           // db.markLevelCompleted(curLevel)
+           db.markLevelCompleted(curLevel)
 
 
 
