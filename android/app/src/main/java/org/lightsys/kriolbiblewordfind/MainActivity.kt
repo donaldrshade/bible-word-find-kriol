@@ -37,11 +37,11 @@ class MainActivity : AppCompatActivity(){
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
             startActivity(intent)
         }
-        val howToPlayButton = findViewById<ConstraintLayout>(R.id.how_to_play_button)
-        howToPlayButton.setOnClickListener {
-            val intent = Intent(this,Empty::class.java)
-            startActivity(intent)
-        }
+//        val howToPlayButton = findViewById<ConstraintLayout>(R.id.how_to_play_button)
+//        howToPlayButton.setOnClickListener {
+//            val intent = Intent(this,Empty::class.java)
+//            startActivity(intent)
+//        }
         val gameLevelButton = findViewById<ConstraintLayout>(R.id.game_level_button)
         gameLevelButton.setOnClickListener {
             val intent = Intent(this,LevelSelect::class.java)
@@ -61,11 +61,9 @@ class MainActivity : AppCompatActivity(){
         val sp = this.getSharedPreferences(getString(R.string.points_file_key), Context.MODE_PRIVATE)
         noise.isChecked = sp.getBoolean(getString(R.string.points_file_key),false)
         noise.setOnCheckedChangeListener { buttonView, isChecked ->
-            if(isChecked){
-                val edit = sp.edit()
-                edit.putBoolean(getString(R.string.SOUNDS),isChecked)
-                edit.apply()
-        }
+            val edit = sp.edit()
+            edit.putBoolean(getString(R.string.SOUNDS),isChecked)
+            edit.apply()
         }
         val developerButton = findViewById<ConstraintLayout>(R.id.developer_button)
         developerButton.setOnClickListener {

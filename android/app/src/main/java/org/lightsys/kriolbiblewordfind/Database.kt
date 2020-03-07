@@ -294,7 +294,7 @@ class Database(context: Context) :
         return getActivePuzzle(levelId+1)
     }
     fun getActivePuzzleNum():Int{
-        val temp = getActivePuzzle(getActiveLevel().id).id //TODO: FIX
+        val temp = getActivePuzzle(getActiveLevel().id).id
         return temp
     }
     fun markLevelCompleted(levelId: Int):Boolean {
