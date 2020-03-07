@@ -64,6 +64,7 @@ class MainActivity : AppCompatActivity(){
             if(isChecked){
                 val edit = sp.edit()
                 edit.putBoolean(getString(R.string.SOUNDS),isChecked)
+                edit.apply()
         }
         }
         val developerButton = findViewById<ConstraintLayout>(R.id.developer_button)
