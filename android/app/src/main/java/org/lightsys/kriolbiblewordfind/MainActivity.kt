@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity(){
 
         val playButton = findViewById<ImageView>(R.id.play_button)
         playButton.setOnClickListener {
-            // playButton.setImageResource(R.drawable.plei_buton_active)
+            playButton.setImageResource(R.drawable.plei_buton_active)
             val intent = Intent(this,puzzleActivity::class.java)
             intent.putExtra(getString(R.string.puzzle_num),Database(this).getActivePuzzleNum())
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
