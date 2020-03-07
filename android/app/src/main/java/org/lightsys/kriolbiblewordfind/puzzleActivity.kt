@@ -388,6 +388,7 @@ class puzzleActivity : AppCompatActivity() {
                 //there WILL be a spot left to highlight, otherwise a word got finished and not removed
             }
             breadHighlights[randRow][randCol] = true;
+            breadHighlights[randRow][randCol] = true;
             val tv = letters[(randRow * puzzleSize + randCol)]!!.setBackgroundResource(R.color.colorPrimary);
             removeBreadWords()
 
@@ -495,7 +496,7 @@ class puzzleActivity : AppCompatActivity() {
             soundEffect = createMedia("complete_puzzle")
             soundEffect.start()
             PopUp(this, hasText = true, setText = "Level Win", hasTick = false)
-
+            //TODO: Currently, popup clicks always go to latest active level, not old ones
         } else {
             PopUp(this, hasText = false, setText = "", hasTick = true)
         }
