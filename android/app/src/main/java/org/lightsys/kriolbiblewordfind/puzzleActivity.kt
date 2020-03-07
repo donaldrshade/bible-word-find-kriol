@@ -283,15 +283,13 @@ class puzzleActivity : AppCompatActivity() {
             if(word!!.getStartPt()[0] == row1 && word.getStartPt()[1] == col1 && word.getEndPt()[0] == row2 && word.getEndPt()[1] == col2
                 || word!!.getEndPt()[0] == row1 && word.getEndPt()[1] == col1 && word.getStartPt()[0] == row2 && word.getStartPt()[1] == col2){
 
-                foundWord(i)
-                gainBread()
-
-
                 //If all words discovered, win level
                 if(wordCounter == wordList.size){
                     gainFish()
-                    winLevel()
                 }
+
+                foundWord(i)
+                gainBread()
                 return true
             }
         }
@@ -316,9 +314,11 @@ class puzzleActivity : AppCompatActivity() {
             var wordText = findViewById<TextView>(index + 2000)
             wordText.paintFlags = wordText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         }
+        if(sp.getBoolean(getString(R.string.SOUNDS),false)){
+            soundEffect = createMedia("word_reward")
+            soundEffect.start()
+        }
 
-        soundEffect = createMedia("word_reward")
-        soundEffect.start()
 
         //If all words discovered, win level
         if(wordCounter == wordList.size){
@@ -494,8 +494,10 @@ class puzzleActivity : AppCompatActivity() {
         val levelComplete = db.markPuzzleCompleted(puzzleEngine.puzzle.id)
         if(levelComplete){
             gainBoat()
-            soundEffect = createMedia("complete_puzzle")
-            soundEffect.start()
+            if(sp.getBoolean(getString(R.string.SOUNDS),false)){
+                soundEffect = createMedia("complete_puzzle")
+                soundEffect.start()
+            }
             PopUp(this, hasText = true, setText = "Level Win", hasTick = false)
 
         } else {
