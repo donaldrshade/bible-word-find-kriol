@@ -1,0 +1,6 @@
+> Missing/No Credits Page
+> Missing/No Tutorial
+> Level Select doesn't work
+> Home Button acts as a "back" button
+> Level-End Check Mark takes you to the last (unlocked) level, not the next level
+> Level Win Text is hardcoded and in English
