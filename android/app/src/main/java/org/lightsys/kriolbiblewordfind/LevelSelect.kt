@@ -50,7 +50,7 @@ class LevelSelect : AppCompatActivity() {
         levelSelectBoatText.text = sp.getInt(getString(R.string.boat_key),0).toString()
         db = Database(this)
         val levels = db.getLevelList()
-        val lastLevel = db.getActiveLevel()
+
 
 
         //An integer that is the number of levels
@@ -74,9 +74,12 @@ class LevelSelect : AppCompatActivity() {
                 row.addView(audioImage)
 
                 //Enable button if the level is unlocked
-                if (lastLevel.id >= num) {
                     //Send the player to the selected level
-                    audioImage.setOnClickListener {
+                audioImage.setOnClickListener {
+
+                    val lastLevel = db.getActiveLevel()
+
+                    if (lastLevel.id >= num) {
                         audioImage.setImageResource(R.drawable.headphones_active)
                         setResult(num)
                         finish()
@@ -93,6 +96,7 @@ class LevelSelect : AppCompatActivity() {
 
                 //Send the player to the selected level
                 textView.setOnClickListener{
+                    val lastLevel = db.getActiveLevel()
                     //Enable button if the level is unlocked
                     if (lastLevel.id >= num) {
                         textView.setTextColor(Color.GREEN)
