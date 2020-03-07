@@ -55,29 +55,29 @@
             android:layout_height="0dp"
             android:scaleType="fitXY"
             android:src="@drawable/plei_buton"
-            app:layout_constraintBottom_toTopOf="@id/how_to_play_button"
+            app:layout_constraintBottom_toTopOf="@id/game_level_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/story_title_banner_image"
             app:layout_constraintVertical_weight="3"
             android:layout_marginHorizontal="@dimen/layout_margin"/>
 
-    <include android:id="@+id/how_to_play_button"
-             layout="@layout/how_to_play"
-             android:layout_width="match_parent"
-             android:layout_height="0dp"
-             app:layout_constraintVertical_weight="2"
-             app:layout_constraintTop_toBottomOf="@id/play_button"
-             app:layout_constraintBottom_toTopOf="@+id/game_level_button"
-            android:layout_marginHorizontal="@dimen/layout_margin"
+<!--    <include android:id="@+id/how_to_play_button"-->
+<!--             layout="@layout/how_to_play"-->
+<!--             android:layout_width="match_parent"-->
+<!--             android:layout_height="0dp"-->
+<!--             app:layout_constraintVertical_weight="2"-->
+<!--             app:layout_constraintTop_toBottomOf="@id/play_button"-->
+<!--             app:layout_constraintBottom_toTopOf="@+id/game_level_button"-->
+<!--            android:layout_marginHorizontal="@dimen/layout_margin"-->
 
-    />
+<!--    />-->
     <include android:id="@+id/game_level_button"
             layout="@layout/game_level_button"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintVertical_weight="2"
-            app:layout_constraintTop_toBottomOf="@id/how_to_play_button"
+            app:layout_constraintTop_toBottomOf="@id/play_button"
             app:layout_constraintBottom_toBottomOf="@id/listen_bible_button"
             android:layout_marginHorizontal="@dimen/layout_margin"
             />
