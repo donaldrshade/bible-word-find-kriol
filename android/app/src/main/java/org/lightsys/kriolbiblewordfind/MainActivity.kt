@@ -61,11 +61,9 @@ class MainActivity : AppCompatActivity(){
         val sp = this.getSharedPreferences(getString(R.string.points_file_key), Context.MODE_PRIVATE)
         noise.isChecked = sp.getBoolean(getString(R.string.points_file_key),false)
         noise.setOnCheckedChangeListener { buttonView, isChecked ->
-            if(isChecked){
-                val edit = sp.edit()
-                edit.putBoolean(getString(R.string.SOUNDS),isChecked)
-                edit.apply()
-        }
+            val edit = sp.edit()
+            edit.putBoolean(getString(R.string.SOUNDS),isChecked)
+            edit.apply()
         }
         val developerButton = findViewById<ConstraintLayout>(R.id.developer_button)
         developerButton.setOnClickListener {
