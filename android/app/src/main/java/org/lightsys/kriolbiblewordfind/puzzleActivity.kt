@@ -106,14 +106,16 @@ class puzzleActivity : AppCompatActivity() {
 
         if(isAudioPuzzle){
             val row = TableRow(this)
+            var rowParams = TableRow.LayoutParams(100,100)
             wordBank.addView(row)
-            var rowParams = TableRow.LayoutParams(row.layoutParams.width / 3, row.layoutParams.height)
             row.addView(TextView(this), rowParams)
+
+
             var audioView = ImageButton(this)
             audioView.layoutParams = rowParams
             audioView.setImageResource(R.drawable.headphones)
             audioView.setBackgroundResource(0)
-            audioView.layoutParams.height = 200
+
             audioView.adjustViewBounds = true
             audioView.id = 2000
 
@@ -141,6 +143,7 @@ class puzzleActivity : AppCompatActivity() {
             wordsLeft.layoutParams = rowParams
             wordsLeft.id = 2001
             wordsLeft.typeface = comicSansFont
+            wordsLeft.gravity = 1400
 
             row.addView(audioView)
             row.addView(wordsLeft)

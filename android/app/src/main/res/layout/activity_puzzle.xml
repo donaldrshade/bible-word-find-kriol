@@ -13,24 +13,24 @@
     <ScrollView
             android:id="@+id/wordBankScroller"
             android:layout_width="411dp"
-            android:layout_height="63dp"
-            android:scaleType="fitXY"
+            android:layout_height="wrap_content"
             android:fontFamily="@font/comic_sans"
+            android:scaleType="fitXY"
             app:layout_constraintBottom_toTopOf="@+id/breadScore"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias=".5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/gridBackground"
             app:layout_constraintVertical_bias="0.48000002">
 
 
-            <TableLayout
-                    android:id="@+id/wordBank"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="12dp"
-                    android:layout_gravity="center"
-                    android:stretchColumns="0,1,2"/>
+        <TableLayout
+                android:id="@+id/wordBank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="12dp"
+                android:stretchColumns="0,1,2" />
 
     </ScrollView>
 

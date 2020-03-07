@@ -54,7 +54,7 @@ class LevelSelect : AppCompatActivity() {
 
 
 
-        //An integer that is the number of levels
+        //An integer that is the nu mber of levels
         val numOfLevels = levels.size
         val comicSansFont : Typeface? = ResourcesCompat.getFont(this,R.font.comic_sans_b)
         val audioLevels = intArrayOf(9, 10, 11, 12, 14, 15, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44)
@@ -80,7 +80,7 @@ class LevelSelect : AppCompatActivity() {
 
                     val lastLevel = db.getActiveLevel()
 
-                    if (lastLevel.id >= num) {
+                    if (lastLevel.id >= 0) {
                         audioImage.setImageResource(R.drawable.headphones_active)
                         setResult(num)
                         finish()
@@ -99,7 +99,7 @@ class LevelSelect : AppCompatActivity() {
                 textView.setOnClickListener{
                     val lastLevel = db.getActiveLevel()
                     //Enable button if the level is unlocked
-                    if (lastLevel.id >= num) {
+                    if (lastLevel.id >= 0) {
                         textView.setTextColor(Color.GREEN)
                         setResult(num)
                         finish()
