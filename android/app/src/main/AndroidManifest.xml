@@ -12,17 +12,17 @@
         <activity
                 android:name=".ListenActivity"
                 android:label="@string/title_activity_listen"
-                android:screenOrientation="portrait"
+
                 android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
                 android:name=".WatchActivity"
                 android:label="@string/title_activity_listen"
-                android:screenOrientation="portrait"
+
                 android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
                 android:name=".Empty"
                 android:label="@string/title_activity_empty"
-                android:screenOrientation="portrait"
+
                 android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".puzzleActivity"></activity>
         <activity android:name=".LevelSelect">
