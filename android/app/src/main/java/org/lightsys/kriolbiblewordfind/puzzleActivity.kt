@@ -15,20 +15,19 @@ import android.media.MediaPlayer
 import android.nfc.FormatException
 
 import android.os.Bundle
-import android.support.constraint.ConstraintLayout
-import android.support.constraint.ConstraintSet
-import android.support.design.widget.FloatingActionButton
-import android.support.v4.content.res.ResourcesCompat
-import android.support.v7.app.AppCompatActivity
 import android.view.Gravity
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.*
 import android.widget.LinearLayout.LayoutParams
+import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.content.res.ResourcesCompat
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_puzzle.*
 import java.lang.Math.floor
-import java.lang.Math.random
 import kotlin.math.abs
 
 
@@ -58,6 +57,9 @@ class puzzleActivity : AppCompatActivity() {
         setContentView(R.layout.activity_puzzle)
 
         //Create canvas to track swipes
+
+        val gridSizer = findViewById<ConstraintLayout>(R.id.gridSizer)
+        val cset = ConstraintSet()
 
         var params = LayoutParams(
             gridSizer.layoutParams.width,
@@ -164,9 +166,6 @@ class puzzleActivity : AppCompatActivity() {
                 row.addView(textView)
             }
         }
-
-        val gridSizer = findViewById<ConstraintLayout>(R.id.gridSizer)
-        val cset = ConstraintSet()
 
         puzzleSize = puzzle.size
         letters = arrayOfNulls(puzzleSize*puzzleSize)

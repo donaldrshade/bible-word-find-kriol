@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/backgound"
@@ -60,7 +60,7 @@
             app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/grid_background" />
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/gridSizer"
             android:layout_width="253dp"
             android:layout_height="253dp"
@@ -71,7 +71,7 @@
             app:layout_constraintTop_toTopOf="@+id/gridBackground"
             app:layout_constraintVertical_bias="0.48">
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
             android:id="@+id/breadScore"
@@ -157,7 +157,7 @@
             app:layout_constraintTop_toBottomOf="@+id/fishScore"
             app:layout_constraintVertical_bias="0.47000003" />
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/home_fab"
             android:layout_width="57dp"
             android:layout_height="59dp"
@@ -186,4 +186,4 @@
             app:layout_constraintTop_toTopOf="@+id/story_title_banner_image"
             app:layout_constraintVertical_bias="1.0" />
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

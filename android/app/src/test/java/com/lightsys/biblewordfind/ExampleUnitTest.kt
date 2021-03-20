@@ -1,4 +1,4 @@
-package org.lightsys.kriolbiblewordfind
+package com.lightsys.biblewordfind
 
 import org.junit.Test
 

@@ -3,13 +3,13 @@ package org.lightsys.kriolbiblewordfind
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.constraint.ConstraintLayout
-import android.support.design.widget.FloatingActionButton
-import android.support.v7.app.AppCompatActivity
 import android.view.Window
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.Switch
+import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 const val LEVEL_SELECT = 1
 class MainActivity : AppCompatActivity(){
