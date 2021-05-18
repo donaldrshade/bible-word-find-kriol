@@ -51,7 +51,7 @@ class LevelSelect : AppCompatActivity() {
 
 
 
-        //An integer that is the nu mber of levels
+        //An integer that is the number of levels
         val numOfLevels = levels.size
         val comicSansFont : Typeface? = ResourcesCompat.getFont(this,R.font.comic_sans_b)
         val audioLevels = intArrayOf(9, 10, 11, 12, 14, 15, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44)
@@ -63,7 +63,9 @@ class LevelSelect : AppCompatActivity() {
                 row =  TableRow(this)
                 levelTable.addView(row, rowLayout)
             }
-            if(audioLevels.contains(num)){
+            // I want level numbers instead of headphones for audio puzzles
+/*            if(audioLevels.contains(num)){
+
                 val audioImage = ImageView(this)
                 audioImage.setImageResource(R.drawable.headphones)
                 audioImage.requestLayout();
@@ -84,6 +86,7 @@ class LevelSelect : AppCompatActivity() {
                     }
                 }
             } else {
+ */
                 val textView = TextView(this)
                 textView.text = num.toString()
                 textView.gravity = Gravity.CENTER
@@ -100,7 +103,7 @@ class LevelSelect : AppCompatActivity() {
                         textView.setTextColor(Color.GREEN)
                         setResult(num)
                         finish()
-                    }
+//                    }
                 }
             }
 
