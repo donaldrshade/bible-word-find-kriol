@@ -15,6 +15,7 @@ import android.media.MediaPlayer
 import android.nfc.FormatException
 
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.Window
@@ -72,7 +73,8 @@ class puzzleActivity : AppCompatActivity() {
         //Set Home Button
         val fab = findViewById<FloatingActionButton>(R.id.home_fab)
         fab.setOnClickListener { view ->
-            finish()
+            val intent = Intent(this,MainActivity::class.java)
+            startActivity(intent)
         }
 
         val intent = intent
@@ -177,6 +179,7 @@ class puzzleActivity : AppCompatActivity() {
                 textView.text = puzzleGrid[r][c].toString()
                 textView.typeface = comicSansFont
                 textView.gravity = Gravity.CENTER
+                //textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,20.0F)
                 //textView.setBackgroundColor(40)
                 val lp = ConstraintLayout.LayoutParams(ConstraintSet.MATCH_CONSTRAINT, ConstraintSet.MATCH_CONSTRAINT)
 
@@ -285,12 +288,15 @@ class puzzleActivity : AppCompatActivity() {
             if(word!!.getStartPt()[0] == row1 && word.getStartPt()[1] == col1 && word.getEndPt()[0] == row2 && word.getEndPt()[1] == col2
                 || word!!.getEndPt()[0] == row1 && word.getEndPt()[1] == col1 && word.getStartPt()[0] == row2 && word.getStartPt()[1] == col2){
 
+
+
+                foundWord(i)
+
                 //If all words discovered, win level
                 if(wordCounter == wordList.size){
                     gainFish()
                 }
 
-                foundWord(i)
                 gainBread()
                 return true
             }

@@ -22,7 +22,8 @@ class WatchActivity : AppCompatActivity() {
 
         val fab = findViewById<FloatingActionButton>(R.id.home_fab)
         fab.setOnClickListener {
-            finish()
+            val intent = Intent(this,MainActivity::class.java)
+            startActivity(intent)
         }
         val watch_bible_link_button = findViewById<ImageView>(R.id.watch_bible_link)
         watch_bible_link_button.setOnClickListener{
