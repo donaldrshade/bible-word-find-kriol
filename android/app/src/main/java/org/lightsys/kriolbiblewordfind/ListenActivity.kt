@@ -22,7 +22,8 @@ class ListenActivity : AppCompatActivity() {
 
         val fab = findViewById<FloatingActionButton>(R.id.home_fab)
         fab.setOnClickListener {
-            finish()
+            val intent = Intent(this,MainActivity::class.java)
+            startActivity(intent)
         }
         val listen_bible_link_1 = findViewById<ConstraintLayout>(R.id.listen_bible_link_1)
         listen_bible_link_1.setOnClickListener {
@@ -45,6 +46,12 @@ class ListenActivity : AppCompatActivity() {
             intent.setData(Uri.parse(url))
             startActivity(intent)
         }
+    }
+
+    override fun onBackPressed() {
+        // go back to home screen when back button is pressed
+        val intent = Intent(this,MainActivity::class.java)
+        startActivity(intent)
     }
 
 }

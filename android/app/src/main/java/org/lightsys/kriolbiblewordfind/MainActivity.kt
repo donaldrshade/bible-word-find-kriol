@@ -87,4 +87,9 @@ class MainActivity : AppCompatActivity(){
             startActivity(intent)
         }
     }
+
+    override fun onBackPressed() {
+        // minimize  app when back button is pressed at the home screen (main activity)
+        this.moveTaskToBack(true);
+    }
 }

@@ -54,6 +54,12 @@ class PopUp(): Activity() {
             tickImage.visibility = ImageView.INVISIBLE
         }
     }
+
+    override fun onBackPressed() {
+        // go back to home screen when back button is pressed
+        val intent = Intent(this,MainActivity::class.java)
+        startActivity(intent)
+    }
 }
 public fun PopUp(act:Activity,hasText:Boolean = false,setText:String = "",hasTick:Boolean = false){
     val intent = Intent(act,PopUp()::class.java)

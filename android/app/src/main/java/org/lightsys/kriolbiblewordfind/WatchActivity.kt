@@ -35,4 +35,10 @@ class WatchActivity : AppCompatActivity() {
 
     }
 
+    override fun onBackPressed() {
+        // go back to home screen when back button is pressed
+        val intent = Intent(this,MainActivity::class.java)
+        startActivity(intent)
+    }
+
 }

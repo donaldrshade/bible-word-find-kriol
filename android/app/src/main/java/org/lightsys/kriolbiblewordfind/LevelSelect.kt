@@ -108,6 +108,12 @@ class LevelSelect : AppCompatActivity() {
 
     }
 
+    override fun onBackPressed() {
+        // go back to home screen when back button is pressed
+        val intent = Intent(this,MainActivity::class.java)
+        startActivity(intent)
+    }
+
     //Subtracts 1 from the boat number when tapped
     fun useBoat() {
         var boatString = levelSelectBoatText.text.toString()
