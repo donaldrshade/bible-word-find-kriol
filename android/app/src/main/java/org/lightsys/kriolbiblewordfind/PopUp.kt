@@ -10,7 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import kotlinx.android.synthetic.main.pop_up.*
 
-class PopUp : Activity() {
+class PopUp(): Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +25,8 @@ class PopUp : Activity() {
         val hasTick: Boolean = intent.getBooleanExtra(getString(R.string.hasTick),false)
         val popUpText = findViewById<TextView>(R.id.pop_up_text)
         val tickImage = findViewById<ImageView>(R.id.tick_image)
-        // we removed the "level won" popup so hasText is never true, it's always hasTick
+        //TODO : fix tick background
+        //tickImage.setBackground("@android:color/transparent")
         if(hasText){
             popUpText.visibility = TextView.VISIBLE
             popUpText.text = setText

@@ -51,6 +51,7 @@ class LevelSelect : AppCompatActivity() {
 
 
 
+
         //An integer that is the number of levels
         val numOfLevels = levels.size
         val comicSansFont : Typeface? = ResourcesCompat.getFont(this,R.font.comic_sans_b)
@@ -58,7 +59,8 @@ class LevelSelect : AppCompatActivity() {
         val rowLayout = TableLayout.LayoutParams()
         rowLayout.setMargins(0,30,0,0)
         var row = TableRow(this)
-        for (num in 1..numOfLevels){
+        //TODO : remove literal
+        for (num in 1..119){
             if (num %5 == 1){
                 row =  TableRow(this)
                 levelTable.addView(row, rowLayout)

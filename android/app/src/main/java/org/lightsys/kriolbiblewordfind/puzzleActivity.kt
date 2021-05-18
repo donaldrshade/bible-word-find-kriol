@@ -513,8 +513,6 @@ class puzzleActivity : AppCompatActivity() {
         if(levelComplete){
             gainBoat()
             //TODO: Currently, popup clicks always go to latest active level, not old ones
-        } else {
-
         }
         if(sp.getBoolean(getString(R.string.SOUNDS),false)){
             soundEffect = createMedia("complete_puzzle")
