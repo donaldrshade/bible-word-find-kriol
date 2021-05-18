@@ -65,9 +65,7 @@
         app:layout_constraintBottom_toTopOf="@id/wordBankScroller"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/story_title_banner_image">
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintTop_toBottomOf="@+id/story_title_banner_image"/>
 
     <ImageView
         android:id="@+id/breadScore"
@@ -179,5 +177,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/story_title_banner_image"
         app:layout_constraintVertical_bias="1.0" />
+
+    <ImageView
+        android:id="@+id/levelBackground"
+        android:layout_width="73dp"
+        android:layout_height="63dp"
+        android:adjustViewBounds="false"
+        android:cropToPadding="false"
+        app:layout_constraintBottom_toBottomOf="@id/home_fab"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias=".95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/home_fab"
+        app:layout_constraintVertical_bias=".5"
+        app:srcCompat="@color/colorHomeButton" />
+
+    <TextView
+        android:id="@+id/levelPuzzleNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="33-3"
+        android:textColor="@android:color/primary_text_dark"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/levelBackground"
+        app:layout_constraintEnd_toEndOf="@+id/levelBackground"
+        app:layout_constraintStart_toStartOf="@+id/levelBackground"
+        app:layout_constraintTop_toTopOf="@+id/levelBackground"
+        app:layout_constraintVertical_bias="0.55" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

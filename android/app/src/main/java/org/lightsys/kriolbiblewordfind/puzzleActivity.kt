@@ -238,6 +238,11 @@ class puzzleActivity : AppCompatActivity() {
 
         story_title_banner_image.setImageResource(bannerResID);
 
+        //setting the level number
+        val levelNumber = findViewById<TextView>(R.id.levelPuzzleNumber)
+        val levelNumString = levelnum.toString() + "-" + puzzle.id.toString()
+        levelNumber.setText(levelNumString)
+
         when (rnds){
             0-> levelBackground.setBackgroundColor(Color.rgb(0,188,212))
             1-> levelBackground.setBackgroundColor(Color.rgb(152,228,146))
