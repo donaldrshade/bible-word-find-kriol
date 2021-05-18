@@ -117,7 +117,7 @@ class LevelSelect : AppCompatActivity() {
         startActivity(intent)
     }
 
-    //Subtracts 1 from the boat number when tapped
+    //Subtracts 3 from the boat number when tapped
     fun useBoat() {
         var boatString = levelSelectBoatText.text.toString()
         var boatInt = boatString.toInt()
