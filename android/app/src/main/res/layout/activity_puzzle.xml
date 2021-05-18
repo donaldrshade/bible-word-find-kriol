@@ -59,8 +59,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/gridSizer"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:scaleType="center"
         app:layout_constraintBottom_toTopOf="@id/wordBankScroller"
         app:layout_constraintEnd_toEndOf="parent"

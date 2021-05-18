@@ -62,6 +62,8 @@ class puzzleActivity : AppCompatActivity() {
         val gridSizer = findViewById<ConstraintLayout>(R.id.gridSizer)
         val cset = ConstraintSet()
 
+
+
         var params = LayoutParams(
             gridSizer.layoutParams.width,
             gridSizer.layoutParams.height
