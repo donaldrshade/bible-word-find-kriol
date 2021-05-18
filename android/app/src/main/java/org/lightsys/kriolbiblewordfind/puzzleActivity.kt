@@ -16,10 +16,7 @@ import android.nfc.FormatException
 
 import android.os.Bundle
 import android.util.TypedValue
-import android.view.Gravity
-import android.view.View
-import android.view.Window
-import android.view.WindowManager
+import android.view.*
 import android.widget.*
 import android.widget.LinearLayout.LayoutParams
 import androidx.appcompat.app.AppCompatActivity
@@ -65,8 +62,8 @@ class puzzleActivity : AppCompatActivity() {
 
 
         var params = LayoutParams(
-            gridSizer.layoutParams.width,
-            gridSizer.layoutParams.height
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
         )
         canvas.id = 999
         gridSizer.addView(canvas, params)
