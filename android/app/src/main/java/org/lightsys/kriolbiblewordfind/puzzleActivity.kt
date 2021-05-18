@@ -15,7 +15,6 @@ import android.media.MediaPlayer
 import android.nfc.FormatException
 
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.*
 import android.widget.*
 import android.widget.LinearLayout.LayoutParams
@@ -234,7 +233,7 @@ class puzzleActivity : AppCompatActivity() {
         //Setting the banner
         val bannerRes: Resources = resources;
         val bannerResID = bannerRes.getIdentifier(levelBanner, "drawable", packageName);
-        val levelBackground = findViewById<ConstraintLayout>(R.id.backgound)
+        val levelBackground = findViewById<ConstraintLayout>(R.id.puzzleConstraintLayout)
         val rnds = (0..10).random()
 
         story_title_banner_image.setImageResource(bannerResID);
@@ -508,15 +507,15 @@ class puzzleActivity : AppCompatActivity() {
         val levelComplete = db.markPuzzleCompleted(puzzleEngine.puzzle.id)
         if(levelComplete){
             gainBoat()
-            if(sp.getBoolean(getString(R.string.SOUNDS),false)){
-                soundEffect = createMedia("complete_puzzle")
-                soundEffect.start()
-            }
-            PopUp(this, hasText = true, setText = "Level Win", hasTick = false)
             //TODO: Currently, popup clicks always go to latest active level, not old ones
         } else {
-            PopUp(this, hasText = false, setText = "", hasTick = true)
+
         }
+        if(sp.getBoolean(getString(R.string.SOUNDS),false)){
+            soundEffect = createMedia("complete_puzzle")
+            soundEffect.start()
+        }
+        PopUp(this, hasText = false, setText = "", hasTick = true)
     }
 
     //Creates and prepares media to be played
