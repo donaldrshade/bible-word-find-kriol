@@ -63,6 +63,7 @@ class LevelSelect : AppCompatActivity() {
                 row =  TableRow(this)
                 levelTable.addView(row, rowLayout)
             }
+
             // I want level numbers instead of headphones for audio puzzles
 /*            if(audioLevels.contains(num)){
 
