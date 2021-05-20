@@ -79,15 +79,6 @@ class MainActivity : AppCompatActivity(){
         playButton.setImageResource(R.drawable.plei_buton)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == LEVEL_SELECT){
-            val intent = Intent(this,puzzleActivity::class.java)
-            intent.putExtra(getString(R.string.puzzle_num),resultCode)
-            startActivity(intent)
-        }
-    }
-
     override fun onBackPressed() {
         // minimize  app when back button is pressed at the home screen (main activity)
         this.moveTaskToBack(true);

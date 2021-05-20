@@ -7,11 +7,9 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.Gravity
+import android.view.View
 import android.view.WindowManager
-import android.widget.ImageView
-import android.widget.TableLayout
-import android.widget.TableRow
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -102,20 +100,25 @@ class LevelSelect : AppCompatActivity() {
             textView.typeface = comicSansFont
             row.addView(textView)
 
-            puzzleNumInLevel++
+
 
             //Send the player to the selected level
-            textView.setOnClickListener{
+            textView.setOnClickListener {
                 val lastLevel = db.getActiveLevel()
+
                 //TODO Enable button if the level is unlocked
                 if (lastLevel.id >= 0) {
                     textView.setTextColor(Color.GREEN)
-                    setResult(num)
-                    finish()
-//
+                    val intent = Intent(this, puzzleActivity::class.java)
+                    intent.putExtra(getString(R.string.puzzle_num), lastLevel.id)
+                    //a roundabout way of displaying the level-puzzle value on the puzzle activity
+                    val localPuzzleNum = textView.text
+                    intent.putExtra(getString(R.string.local_puzzle_num), localPuzzleNum)
+
+                    startActivity(intent)
                 }
             }
-
+            puzzleNumInLevel++
         }
 
     }

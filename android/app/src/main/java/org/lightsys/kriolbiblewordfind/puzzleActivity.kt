@@ -240,8 +240,10 @@ class puzzleActivity : AppCompatActivity() {
 
         //setting the level number
         val levelNumber = findViewById<TextView>(R.id.levelPuzzleNumber)
-        val levelNumString = levelnum.toString() + "-" + puzzle.id.toString()
-        levelNumber.setText(levelNumString)
+        val localPuzzleNumber = intent.getStringExtra(getString(R.string.local_puzzle_num))
+        levelNumber.setText(localPuzzleNumber)
+
+
 
         when (rnds){
             0-> levelBackground.setBackgroundColor(Color.rgb(0,188,212))
