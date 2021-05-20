@@ -56,6 +56,7 @@ class puzzleActivity : AppCompatActivity() {
         //Create canvas to track swipes
 
         val gridSizer = findViewById<ConstraintLayout>(R.id.gridSizer)
+        gridSizer.bringToFront()
         val cset = ConstraintSet()
 
 
