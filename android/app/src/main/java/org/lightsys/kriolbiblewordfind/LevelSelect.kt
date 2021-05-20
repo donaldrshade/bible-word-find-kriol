@@ -47,20 +47,18 @@ class LevelSelect : AppCompatActivity() {
         sp = this.getSharedPreferences(getString(R.string.points_file_key), Context.MODE_PRIVATE)
         levelSelectBoatText.text = sp.getInt(getString(R.string.boat_key),0).toString()
         db = Database(this)
-        val levels = db.getLevelList()
 
-
-
-
-        //An integer that is the number of levels
-        val numOfLevels = levels.size
         val comicSansFont : Typeface? = ResourcesCompat.getFont(this,R.font.comic_sans_b)
         val audioLevels = intArrayOf(9, 10, 11, 12, 14, 15, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44)
         val rowLayout = TableLayout.LayoutParams()
         rowLayout.setMargins(0,30,0,0)
         var row = TableRow(this)
-        //TODO : remove literal
-        for (num in 1..119){
+
+        val puzzles = db.getPuzzleList()
+        val numPuzzles = puzzles.size
+        var prevLevel = -2
+        var puzzleNumInLevel = 1
+        for (num in 1..numPuzzles){
             if (num %5 == 1){
                 row =  TableRow(this)
                 levelTable.addView(row, rowLayout)
@@ -89,23 +87,31 @@ class LevelSelect : AppCompatActivity() {
                 }
             } else {
  */
-                val textView = TextView(this)
-                textView.text = num.toString()
-                textView.gravity = Gravity.CENTER
-                textView.setTextColor(Color.rgb(100,100,100))
-                textView.typeface = comicSansFont
-                row.addView(textView)
+            val textView = TextView(this)
+            //Implements 1-1, 2-2, 7-4, etc format
+            val levelID = db.getLevelIDFromPuzzleID(num)
+            if(prevLevel != levelID){
+                puzzleNumInLevel = 1
+                prevLevel = levelID
+            }
 
+            textView.text = levelID.toString() + "-" + puzzleNumInLevel.toString()
+            textView.gravity = Gravity.CENTER
+            textView.setTextColor(Color.rgb(100,100,100))
+            textView.typeface = comicSansFont
+            row.addView(textView)
 
-                //Send the player to the selected level
-                textView.setOnClickListener{
-                    val lastLevel = db.getActiveLevel()
-                    //Enable button if the level is unlocked
-                    if (lastLevel.id >= 0) {
-                        textView.setTextColor(Color.GREEN)
-                        setResult(num)
-                        finish()
-//                    }
+            puzzleNumInLevel++
+
+            //Send the player to the selected level
+            textView.setOnClickListener{
+                val lastLevel = db.getActiveLevel()
+                //TODO Enable button if the level is unlocked
+                if (lastLevel.id >= 0) {
+                    textView.setTextColor(Color.GREEN)
+                    setResult(num)
+                    finish()
+//
                 }
             }
 

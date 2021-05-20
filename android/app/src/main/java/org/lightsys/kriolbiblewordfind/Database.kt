@@ -258,6 +258,17 @@ class Database(context: Context) :
         return returnList
     }
 
+    fun getPuzzleList():ArrayList<Puzzle>{
+        val db = this.writableDatabase
+        val query = "select * from $PUZZLE_TABLE_NAME"
+        val res = db.rawQuery(query, arrayOf())
+        val returnList = ArrayList<Puzzle>()
+        while(res.moveToNext()){
+            returnList.add(Puzzle(res.getInt(0), res.getInt(1), res.getInt(2), res.getInt(3)==1, res.getString(4), res.getInt(5), res.getInt(6), res.getInt(7)))
+        }
+        return returnList
+    }
+
     fun getPuzzle(puzzleId:Int):Puzzle{
         val db = this.writableDatabase
         val query = "select * from $PUZZLE_TABLE_NAME WHERE $PUZZLE_COL_1 = ? "
@@ -358,11 +369,22 @@ class Database(context: Context) :
         val db = this.writableDatabase
         val query = "select $PUZZLE_COL_5 from $PUZZLE_TABLE_NAME WHERE $PUZZLE_COL_1 = ? "
         val res = db.rawQuery(query, arrayOf(puzzleId.toString()))
-        var puz:Puzzle
         if (res.moveToNext()) {
             return res.getString(0)!="NULL"
         }else {
             return false
+        }
+    }
+
+    //returns the LevelID that the puzzle belongs to
+    fun getLevelIDFromPuzzleID(puzzleID: Int):Int {
+        val db = this.writableDatabase
+        val query = "select $PUZZLE_COL_6 from $PUZZLE_TABLE_NAME WHERE $PUZZLE_COL_1 = ? "
+        val res = db.rawQuery(query, arrayOf(puzzleID.toString()))
+        if(res.moveToNext()){
+            return res.getString(0).toInt()
+        } else {
+            return -1
         }
     }
 
