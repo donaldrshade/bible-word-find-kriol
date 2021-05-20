@@ -57,10 +57,15 @@ class LevelSelect : AppCompatActivity() {
         var prevLevel = -2
         var puzzleNumInLevel = 1
         for (num in 1..numPuzzles){
+
+            // prev code for making rows
+            /*
             if (num %5 == 1){
                 row =  TableRow(this)
                 levelTable.addView(row, rowLayout)
             }
+            */
+
 
             // I want level numbers instead of headphones for audio puzzles
 /*            if(audioLevels.contains(num)){
@@ -90,6 +95,8 @@ class LevelSelect : AppCompatActivity() {
             //Implements 1-1, 2-2, 7-4, etc format
             val levelID = db.getLevelIDFromPuzzleID(num)
             if(prevLevel != levelID){
+                row = TableRow(this)
+                levelTable.addView(row, rowLayout)
                 puzzleNumInLevel = 1
                 prevLevel = levelID
             }
@@ -97,6 +104,9 @@ class LevelSelect : AppCompatActivity() {
             textView.text = levelID.toString() + "-" + puzzleNumInLevel.toString()
             textView.gravity = Gravity.CENTER
             textView.setTextColor(Color.rgb(100,100,100))
+            if (db.getPuzzle(num).completed) {
+                textView.setTextColor(Color.GREEN)
+            }
             textView.typeface = comicSansFont
             row.addView(textView)
 
@@ -108,7 +118,7 @@ class LevelSelect : AppCompatActivity() {
 
                 //TODO Enable button if the level is unlocked
                 if (lastLevel.id >= 0) {
-                    textView.setTextColor(Color.GREEN)
+                    textView.setTextColor(Color.BLUE)
                     val intent = Intent(this, puzzleActivity::class.java)
                     intent.putExtra(getString(R.string.puzzle_num), lastLevel.id)
                     //a roundabout way of displaying the level-puzzle value on the puzzle activity

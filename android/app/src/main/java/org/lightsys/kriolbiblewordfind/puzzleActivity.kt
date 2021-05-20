@@ -493,6 +493,9 @@ class puzzleActivity : AppCompatActivity() {
         var fishInt = fishString.toInt()
 
         fishInt++
+
+                fishInt = fishInt + 25
+
         fishScoreNumber.text = fishInt.toString()
         val edit = sp.edit()
         edit.putInt(getString(R.string.fish_key),fishInt)

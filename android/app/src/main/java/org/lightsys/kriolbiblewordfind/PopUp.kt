@@ -25,7 +25,7 @@ class PopUp() : Activity() {
         val hasTick: Boolean = intent.getBooleanExtra(getString(R.string.hasTick),false)
         val popUpText = findViewById<TextView>(R.id.pop_up_text)
         val tickImage = findViewById<ImageView>(R.id.tick_image)
-        val puzzleID: Int = intent.getIntExtra("puzzleID", -1)
+        val puzzleID: Int = intent.getIntExtra("puzzleID", 0)
         // we removed the "level won" popup so hasText is never true, it's always hasTick
         if(hasText){
             popUpText.visibility = TextView.VISIBLE
@@ -63,12 +63,17 @@ class PopUp() : Activity() {
         startActivity(intent)
     }
 }
-public fun PopUp(puzzleNum: Int = -1, act:Activity,hasText:Boolean = false,setText:String = "",hasTick:Boolean = false){
+public fun PopUp(puzzleNum: Int = 0, act:Activity,hasText:Boolean = false,setText:String = "",hasTick:Boolean = false){
     val intent = Intent(act,PopUp()::class.java)
     intent.putExtra(act.getString(R.string.hasText),hasText)
     intent.putExtra(act.getString(R.string.hasTick),hasTick)
     intent.putExtra(act.getString(R.string.setText),setText)
-    intent.putExtra("puzzleID", puzzleNum + 1)
+    // hard-coded to 119, should be changed to numPuzzles
+    var nextPuzzleNum = puzzleNum + 1
+    if (puzzleNum == 119) {
+        nextPuzzleNum = 1
+    }
+    intent.putExtra("puzzleID", nextPuzzleNum)
     intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
     act.startActivity(intent)
 }
