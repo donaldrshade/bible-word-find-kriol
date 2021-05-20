@@ -10,7 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import kotlinx.android.synthetic.main.pop_up.*
 
-class PopUp(): Activity() {
+class PopUp() : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,8 +25,8 @@ class PopUp(): Activity() {
         val hasTick: Boolean = intent.getBooleanExtra(getString(R.string.hasTick),false)
         val popUpText = findViewById<TextView>(R.id.pop_up_text)
         val tickImage = findViewById<ImageView>(R.id.tick_image)
-        //TODO : fix tick background
-        //tickImage.setBackground("@android:color/transparent")
+        val puzzleID: Int = intent.getIntExtra("puzzleID", -1)
+        // we removed the "level won" popup so hasText is never true, it's always hasTick
         if(hasText){
             popUpText.visibility = TextView.VISIBLE
             popUpText.text = setText
@@ -48,7 +48,7 @@ class PopUp(): Activity() {
             tickImage.setOnClickListener{
                 finish()
                 val intent = Intent(this,puzzleActivity::class.java)
-                intent.putExtra(getString(R.string.puzzle_num),Database(this).getActivePuzzleNum())
+                intent.putExtra(getString(R.string.puzzle_num), puzzleID)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
                 startActivity(intent)
             }
@@ -63,11 +63,12 @@ class PopUp(): Activity() {
         startActivity(intent)
     }
 }
-public fun PopUp(act:Activity,hasText:Boolean = false,setText:String = "",hasTick:Boolean = false){
+public fun PopUp(puzzleNum: Int = -1, act:Activity,hasText:Boolean = false,setText:String = "",hasTick:Boolean = false){
     val intent = Intent(act,PopUp()::class.java)
     intent.putExtra(act.getString(R.string.hasText),hasText)
     intent.putExtra(act.getString(R.string.hasTick),hasTick)
     intent.putExtra(act.getString(R.string.setText),setText)
+    intent.putExtra("puzzleID", puzzleNum + 1)
     intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
     act.startActivity(intent)
 }
