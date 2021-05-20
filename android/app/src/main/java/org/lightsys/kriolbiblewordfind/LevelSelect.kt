@@ -112,15 +112,16 @@ class LevelSelect : AppCompatActivity() {
 
 
 
-            //Send the player to the selected level
+            //Send the player to the selected puzzle
             textView.setOnClickListener {
                 val lastLevel = db.getActiveLevel()
 
-                //TODO Enable button if the level is unlocked
+
+                //TODO Enable button if the puzzle is unlocked
                 if (lastLevel.id >= 0) {
                     textView.setTextColor(Color.BLUE)
                     val intent = Intent(this, puzzleActivity::class.java)
-                    intent.putExtra(getString(R.string.puzzle_num), lastLevel.id)
+                    intent.putExtra(getString(R.string.puzzle_num), num)
                     //a roundabout way of displaying the level-puzzle value on the puzzle activity
                     val localPuzzleNum = textView.text
                     intent.putExtra(getString(R.string.local_puzzle_num), localPuzzleNum)
