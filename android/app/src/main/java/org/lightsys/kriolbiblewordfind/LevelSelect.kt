@@ -95,6 +95,7 @@ class LevelSelect : AppCompatActivity() {
             //Implements 1-1, 2-2, 7-4, etc format
             val levelID = db.getLevelIDFromPuzzleID(num)
             if(prevLevel != levelID){
+
                 row = TableRow(this)
                 levelTable.addView(row, rowLayout)
                 puzzleNumInLevel = 1
