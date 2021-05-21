@@ -333,10 +333,12 @@ class Database(context: Context) :
         while (res.moveToNext()) {
             if(res.getInt(2)==0){
                 level = Level(res.getInt(0),res.getString(1),res.getInt(2)==1,res.getString(3),res.getString(4))
-                break
+                return level
             }
         }
-        res.close()
+        //if no incomplete levels are found, returns the last level
+        res.moveToPrevious()
+        level = Level(res.getInt(0),res.getString(1),res.getInt(2)==1,res.getString(3),res.getString(4))
         return level
     }
 

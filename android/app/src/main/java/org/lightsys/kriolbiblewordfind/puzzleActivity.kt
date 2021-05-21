@@ -109,9 +109,8 @@ class puzzleActivity : AppCompatActivity() {
 
         if(isAudioPuzzle){
             val row = TableRow(this)
-            var rowParams = TableRow.LayoutParams(200,100)
+            var rowParams = TableRow.LayoutParams(LayoutParams.WRAP_CONTENT,100)
             wordBank.addView(row)
-            row.addView(TextView(this), rowParams)
 
 
             var audioViewHeadphones = ImageButton(this)
@@ -175,6 +174,7 @@ class puzzleActivity : AppCompatActivity() {
             row.addView(audioViewHeadphones)
             row.addView(audioViewPlay)
             row.addView(wordsLeft)
+
 
         } else {
             var row = TableRow(this)
