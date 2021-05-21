@@ -285,7 +285,7 @@ class Database(context: Context) :
         return returnList
     }
 
-    /*
+
     fun getLvlPuzzleList(levelId: Int): ArrayList<Puzzle> {
 
         val fullList = this.getPuzzleList()
@@ -308,7 +308,7 @@ class Database(context: Context) :
         return returnList
 
     }
-    */
+
 
     fun getPuzzle(puzzleId:Int):Puzzle{
         val db = this.writableDatabase
@@ -323,10 +323,9 @@ class Database(context: Context) :
         val db = this.writableDatabase
         val query = "select * from $LEVEL_TABLE_NAME"
         val res = db.rawQuery(query,arrayOf())
-        if (res.moveToNext()) {
-            if(res.getInt(3)==0){
-                val temp = Level(res.getInt(0),res.getString(1),res.getInt(2)==1,res.getString(3),res.getString(4))
-                return temp
+        while (res.moveToNext()) {
+            if(res.getInt(2)==0){
+                return Level(res.getInt(0),res.getString(1),res.getInt(2)==1,res.getString(3),res.getString(4))
             }
         }
         return Level(-2)
