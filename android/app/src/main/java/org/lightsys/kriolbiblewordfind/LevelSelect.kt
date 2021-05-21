@@ -7,17 +7,13 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.Gravity
-import android.view.View
 import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-import kotlinx.android.synthetic.main.activity_empty.*
 import kotlinx.android.synthetic.main.activity_level_select.*
-import kotlinx.android.synthetic.main.activity_puzzle.*
-import kotlinx.android.synthetic.main.how_to_play.*
 
 class LevelSelect : AppCompatActivity() {
     lateinit var sp : SharedPreferences
@@ -95,20 +91,10 @@ class LevelSelect : AppCompatActivity() {
             //Implements 1-1, 2-2, 7-4, etc format
             val levelID = db.getLevelIDFromPuzzleID(num)
             if(prevLevel != levelID){
-
                 row = TableRow(this)
                 levelTable.addView(row, rowLayout)
                 puzzleNumInLevel = 1
                 prevLevel = levelID
-
-             /*   textView.text = (levelID.toString() + '.')
-                textView.gravity = Gravity.CENTER
-                textView.setTextColor(Color.BLACK)
-                if (db.getPuzzle(num).completed) {
-                    textView.setTextColor(Color.GREEN)
-                }
-                textView.typeface = comicSansFont
-                row.addView(textView) */
             }
 
             textView.text = (levelID.toString() + "-" + puzzleNumInLevel.toString())
@@ -120,7 +106,7 @@ class LevelSelect : AppCompatActivity() {
             textView.typeface = comicSansFont
 
             //colors locked levels red
-            if (!db.getLevel(levelID).completed && db.getActiveLevel().id != levelID){
+            if (!db.getLevel(levelID).completed && levelID != db.getActiveLevel().id){
                 textView.setTextColor(Color.RED)
             }
 
@@ -136,8 +122,8 @@ class LevelSelect : AppCompatActivity() {
                     val intent = Intent(this, puzzleActivity::class.java)
                     intent.putExtra(getString(R.string.puzzle_num), num)
                     //a roundabout way of displaying the level-puzzle value on the puzzle activity
-                    val localPuzzleNum = textView.text
-                    intent.putExtra(getString(R.string.local_puzzle_num), localPuzzleNum)
+                    val puzzleTitle = textView.text
+                    intent.putExtra("puzzleTitle", puzzleTitle)
 
                     startActivity(intent)
                 }

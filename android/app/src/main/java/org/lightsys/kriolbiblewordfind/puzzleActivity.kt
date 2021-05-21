@@ -268,8 +268,9 @@ class puzzleActivity : AppCompatActivity() {
 
         //setting the level number
         val levelNumber = findViewById<TextView>(R.id.levelPuzzleNumber)
-        val localPuzzleNumber = intent.getStringExtra(getString(R.string.local_puzzle_num))
-        levelNumber.setText(localPuzzleNumber)
+
+        val puzzleLocal = db.getPuzzleIndInLevel(puzzleEngine.puzzle.id)
+        levelNumber.text = "" + puzzleEngine.puzzle.level_id + "-" + puzzleLocal
 
 
 
@@ -551,8 +552,7 @@ class puzzleActivity : AppCompatActivity() {
             soundEffect = createMedia("complete_puzzle")
             soundEffect.start()
         }
-        val title = levelPuzzleNumber.text.toString()
-        PopUp(puzzleEngine.puzzle.id, this, hasText = false, setText = "", hasTick = true, puzzleTitle = title)
+        PopUp(puzzleEngine.puzzle.id, this, false, "", true)
     }
 
     //Creates and prepares media to be played

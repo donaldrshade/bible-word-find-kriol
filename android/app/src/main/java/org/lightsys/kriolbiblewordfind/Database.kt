@@ -328,10 +328,12 @@ class Database(context: Context) :
         val db = this.writableDatabase
         val query = "select * from $LEVEL_TABLE_NAME"
         val res = db.rawQuery(query,arrayOf())
-        var level = Level(-2)
+        var level = Level(1)
+        //stops at first incomplete level. will break if levels can be completed out of order
         while (res.moveToNext()) {
             if(res.getInt(2)==0){
                 level = Level(res.getInt(0),res.getString(1),res.getInt(2)==1,res.getString(3),res.getString(4))
+                break
             }
         }
         res.close()
@@ -340,15 +342,17 @@ class Database(context: Context) :
 
     fun getActivePuzzle(levelId:Int):Puzzle{
         val db = this.writableDatabase
-        val query = "select * from $PUZZLE_TABLE_NAME WHERE $PUZZLE_COL_6=? AND $PUZZLE_COL_4==0"
+        val query = "select * from $PUZZLE_TABLE_NAME WHERE $PUZZLE_COL_6 = ?"
         val res = db.rawQuery(query,arrayOf(levelId.toString()))
-        if (res.moveToNext()) {
+        var puzz = Puzzle()
+        while (res.moveToNext()) {
             if(res.getInt(3)==0){
-                val temp = Puzzle(res.getInt(0),res.getInt(1),res.getInt(2),res.getInt(3)==1,res.getString(4),res.getInt(5),res.getInt(6),res.getInt(7))
+                puzz = Puzzle(res.getInt(0),res.getInt(1),res.getInt(2),res.getInt(3)==1,res.getString(4),res.getInt(5),res.getInt(6),res.getInt(7))
                 res.close()
-                return temp
+                return puzz
             }
         }
+        return puzz
         /*
         var pList: ArrayList<Puzzle> = this.getLvlPuzzleList(levelId)
         var lvlCompleted: Boolean = true
@@ -376,7 +380,6 @@ class Database(context: Context) :
             lvl=Level()
         }
         if(lvl.id != -1 && lvl.id != -2 ){
-            lvl.completed=true
             var set = ContentValues()
             set.put(LEVEL_COL_1,lvl.id)
             set.put(LEVEL_COL_2,lvl.title)
@@ -392,6 +395,7 @@ class Database(context: Context) :
         }
     }
 
+    //returns true if the entire level is now complete
     fun markPuzzleCompleted(puzzleId: Int):Boolean {
         val db = this.writableDatabase
         val query = "select * from $PUZZLE_TABLE_NAME WHERE $PUZZLE_COL_1 = ? "
@@ -415,22 +419,20 @@ class Database(context: Context) :
             set.put(PUZZLE_COL_8,puz.max_num_letters)
             db.update(PUZZLE_TABLE_NAME,set,"$PUZZLE_COL_1=?", arrayOf(puzzleId.toString()))
             val next = getPuzzle(puz.id+1)
-            if(next.level_id != puz.level_id){
-/*                var pList: ArrayList<Puzzle> = this.getLvlPuzzleList(puz.level_id)
-                var lvlCompleted: Boolean = true
-                for (puz in pList) {
-                    if (! puz.completed) {
-                        lvlCompleted = false
-                    }
+
+            //TODO finish level completion
+            val query = "select * from $PUZZLE_TABLE_NAME WHERE $PUZZLE_COL_6 = ? "
+            val res = db.rawQuery(query, arrayOf(puz.level_id.toString()))
+            //check if all puzzles of level are complete
+            while(res.moveToNext()){
+                if(res.getInt(3) == 0){
+                    res.close()
+                    return false
                 }
-*/
-//                if (lvlCompleted) {
-                res.close()
-                return markLevelCompleted(puz.level_id)
-//                }
             }
             res.close()
-            return false
+            return markLevelCompleted(puz.level_id)
+
         } else{
             res.close()
             return false
@@ -462,6 +464,21 @@ class Database(context: Context) :
         }
         res.close()
         return id
+    }
+
+    fun getPuzzleIndInLevel(puzzleID: Int):Int {
+        val db = this.writableDatabase
+        val query = "select $LEVEL_COL_6 from $LEVEL_TABLE_NAME"
+        val res = db.rawQuery(query, arrayOf())
+        //count backwords, subtracting off the levels
+        var count = puzzleID
+        while(res.moveToNext()) {
+            count -= res.getString(0).toInt()
+            if(count <= 0) break
+        }
+        count += res.getString(0).toInt()
+        res.close()
+        return count
     }
 
     companion object {
