@@ -18,7 +18,7 @@
         android:gravity="center"
         android:text=""
         android:textAlignment="center"
-        android:textColor="@color/colorAccent"
+        android:textColor="#000000"
         android:textSize="30sp" />
 
     <TextView
@@ -28,7 +28,7 @@
         android:gravity="center"
         android:text="Lightsys:"
         android:textAlignment="center"
-        android:textColor="@color/colorAccent"
+        android:textColor="#FFFFFF"
         android:textSize="30sp" />
 
     <TextView
@@ -38,7 +38,7 @@
         android:gravity="center"
         android:text="Jeremiah Bray"
         android:textAlignment="center"
-        android:textColor="@color/colorAccent"
+        android:textColor="#000000"
         android:textSize="30sp" />
 
     <TextView
@@ -48,7 +48,7 @@
         android:gravity="center"
         android:text="Daniel Garcia"
         android:textAlignment="center"
-        android:textColor="@color/colorAccent"
+        android:textColor="#000000"
         android:textSize="30sp" />
 
     <TextView
@@ -58,7 +58,7 @@
         android:gravity="center"
         android:text="Donald Shade"
         android:textAlignment="center"
-        android:textColor="@color/colorAccent"
+        android:textColor="#000000"
         android:textSize="30sp" />
 
     <TextView
@@ -68,7 +68,7 @@
         android:gravity="center"
         android:text="Corissa Smith"
         android:textAlignment="center"
-        android:textColor="@color/colorAccent"
+        android:textColor="#000000"
         android:textSize="30sp" />
 
     <TextView
@@ -78,7 +78,7 @@
         android:gravity="center"
         android:text="Patrick Dudenhofer"
         android:textAlignment="center"
-        android:textColor="@color/colorAccent"
+        android:textColor="#000000"
         android:textSize="30sp" />
 
     <TextView
@@ -88,7 +88,7 @@
         android:gravity="center"
         android:text="Bible Society Australia:"
         android:textAlignment="center"
-        android:textColor="@color/colorAccent"
+        android:textColor="#FFFFFF"
         android:textSize="30sp" />
 
     <TextView
@@ -98,7 +98,7 @@
         android:gravity="center"
         android:text="Paul Kube"
         android:textAlignment="center"
-        android:textColor="@color/colorAccent"
+        android:textColor="#000000"
         android:textSize="30sp" />
 
     <TextView
@@ -108,7 +108,7 @@
         android:gravity="center"
         android:text="Stuart Cameron"
         android:textAlignment="center"
-        android:textColor="@color/colorAccent"
+        android:textColor="#000000"
         android:textSize="30sp" />
 
     <TextView
@@ -118,7 +118,7 @@
         android:gravity="center"
         android:text="Scripture Union Australia:"
         android:textAlignment="center"
-        android:textColor="@color/colorAccent"
+        android:textColor="#FFFFFF"
         android:textSize="30sp" />
 
     <TextView
@@ -128,7 +128,7 @@
         android:gravity="center"
         android:text="Rachel Borneman"
         android:textAlignment="center"
-        android:textColor="@color/colorAccent"
+        android:textColor="#000000"
         android:textSize="30sp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
