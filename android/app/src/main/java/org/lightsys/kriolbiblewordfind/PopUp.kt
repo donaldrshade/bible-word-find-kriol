@@ -74,6 +74,9 @@ public fun PopUp(puzzleNum: Int = 0, act:Activity,hasText:Boolean = false,setTex
         nextPuzzleNum = 1
     }
     intent.putExtra("puzzleID", nextPuzzleNum)
+
+
+    //intent.putExtra(getString(R.string.local_puzzle_num), localPuzzleNum)
     intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
     act.startActivity(intent)
 }
