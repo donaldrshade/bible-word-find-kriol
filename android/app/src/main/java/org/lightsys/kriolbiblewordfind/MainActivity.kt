@@ -33,15 +33,28 @@ class MainActivity : AppCompatActivity(){
         playButton.setOnClickListener {
             playButton.setImageResource(R.drawable.plei_buton_active)
             val intent = Intent(this,puzzleActivity::class.java)
-            intent.putExtra(getString(R.string.puzzle_num),Database(this).getActivePuzzleNum())
+
+            val puzList: ArrayList<Puzzle> = Database(this).getPuzzleList()
+            var puz: Puzzle = puzList[0]
+            for (puz in puzList) {
+                if (! puz.completed) {
+                    break
+                }
+            }
+            val idOfFirstUncompletedPuzzle: Int = puz.id
+            intent.putExtra(getString(R.string.puzzle_num),idOfFirstUncompletedPuzzle)
+
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
             startActivity(intent)
         }
-//        val howToPlayButton = findViewById<ConstraintLayout>(R.id.how_to_play_button)
-//        howToPlayButton.setOnClickListener {
-//            val intent = Intent(this,Empty::class.java)
-//            startActivity(intent)
-//        }
+        /*
+        val howToPlayButton = findViewById<ConstraintLayout>(R.id.how_to_play_button)
+        howToPlayButton.setOnClickListener {
+            val intent = Intent(this,Empty::class.java)
+            startActivity(intent)
+        }
+        */
+
         val gameLevelButton = findViewById<ConstraintLayout>(R.id.game_level_button)
         gameLevelButton.setOnClickListener {
             val intent = Intent(this,LevelSelect::class.java)
