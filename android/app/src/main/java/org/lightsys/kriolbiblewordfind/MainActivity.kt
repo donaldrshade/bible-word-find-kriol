@@ -35,13 +35,14 @@ class MainActivity : AppCompatActivity(){
             val intent = Intent(this,puzzleActivity::class.java)
 
             val puzList: ArrayList<Puzzle> = Database(this).getPuzzleList()
-            var puz: Puzzle = puzList[0]
+            var thePuz: Puzzle = puzList[0]
             for (puz in puzList) {
                 if (! puz.completed) {
+                    thePuz = puz
                     break
                 }
             }
-            val idOfFirstUncompletedPuzzle: Int = puz.id
+            val idOfFirstUncompletedPuzzle: Int = thePuz.id
             intent.putExtra(getString(R.string.puzzle_num),idOfFirstUncompletedPuzzle)
 
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
