@@ -11,6 +11,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 import kotlinx.android.synthetic.main.activity_listen.*
 
+// this class deals with the screen that takes you to youtube
 class WatchActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

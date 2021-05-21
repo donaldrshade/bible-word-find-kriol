@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import kotlinx.android.synthetic.main.pop_up.*
 
+// this class deals with the checkmark popup at the end of puzzles
 class PopUp() : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,6 +29,7 @@ class PopUp() : Activity() {
         val tickImage = findViewById<ImageView>(R.id.tick_image)
         val puzzleID: Int = intent.getIntExtra("puzzleID", 0)
         // we removed the "level won" popup so hasText is never true, it's always hasTick
+        /*
         if(hasText){
             popUpText.visibility = TextView.VISIBLE
             popUpText.text = setText
@@ -40,10 +42,11 @@ class PopUp() : Activity() {
                 startActivity(intent)
             }
         }
-        else{
+        */
+//        else{
             popUpText.visibility = TextView.INVISIBLE
-        }
-        if(hasTick){
+//        }
+//        if(hasTick){
             tickImage.visibility = ImageView.VISIBLE
 
             tickImage.setOnClickListener{
@@ -61,9 +64,9 @@ class PopUp() : Activity() {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
                 startActivity(intent)
             }
-        }else{
-            tickImage.visibility = ImageView.INVISIBLE
-        }
+//        }else{
+//            tickImage.visibility = ImageView.INVISIBLE
+//        }
     }
 
     override fun onBackPressed() {

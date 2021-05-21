@@ -11,7 +11,6 @@ class PuzzleEngine(var puzzle: Puzzle, var context: Context) {
         var numLinesLeft = display.size
 
 
-
         //shuffle words
         for (i in words.indices) {
             val swap = (Math.random() * (words.size - i)).toInt()

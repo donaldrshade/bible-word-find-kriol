@@ -14,6 +14,7 @@ import android.content.ContentValues
 class Database(context: Context) :
     SQLiteOpenHelper(context, context.getString(R.string.app_name)+".db", null, versionNumber){
 
+    // maps level number to the number of puzzles in that level
     private val lvlPuzMap = mapOf(1 to 4,2 to 4,3 to 4,4 to 4, 5 to 4, 6 to 4, 7 to 4, 8 to 4, 9 to 1,
         10 to 1, 11 to 1, 12 to 1, 13 to 4, 14 to 4, 15 to 4, 16 to 4, 17 to 4, 18 to 4, 19 to 4,
         20 to 4, 21 to 4, 22 to 4, 23 to 4, 24 to 1, 25 to 1, 26 to 3, 27 to 3, 28 to 3, 29 to 3,
@@ -266,6 +267,7 @@ class Database(context: Context) :
         return returnList
     }
 
+    // returns an ArrayList of all (119) puzzles in the game
     fun getPuzzleList():ArrayList<Puzzle>{
         val db = this.writableDatabase
         val query = "select * from $PUZZLE_TABLE_NAME"
@@ -289,30 +291,7 @@ class Database(context: Context) :
         return returnList
     }
 
-
-    fun getLvlPuzzleList(levelId: Int): ArrayList<Puzzle> {
-
-        val fullList = this.getPuzzleList()
-        val levelList = this.getLevelList()
-
-        var firstPuzzleID: Int = 1
-        for (lev in levelList) {
-            if (lev.id == levelId) {
-                break
-            }
-            firstPuzzleID += this.lvlPuzMap.getValue(lev.id)
-        }
-
-        val numPuzzles: Int = this.lvlPuzMap.getValue(levelId)
-        var returnList = ArrayList<Puzzle>()
-        for (i in 1..numPuzzles) {
-            returnList.add(fullList[firstPuzzleID - 1])
-            firstPuzzleID++
-        }
-        return returnList
-    }
-
-
+    // return Puzzle object corresponding to the ID parm
     fun getPuzzle(puzzleId:Int):Puzzle{
         val db = this.writableDatabase
         val query = "select * from $PUZZLE_TABLE_NAME WHERE $PUZZLE_COL_1 = ? "
@@ -324,6 +303,8 @@ class Database(context: Context) :
         res.close()
         return puzzle
     }
+
+    // returns the most recent level unlocked (the highest numbered level you have unlocked)
     fun getActiveLevel():Level{
         val db = this.writableDatabase
         val query = "select * from $LEVEL_TABLE_NAME"
@@ -342,6 +323,7 @@ class Database(context: Context) :
         return level
     }
 
+    // returns most recently unlocked puzzle (I think)
     fun getActivePuzzle(levelId:Int):Puzzle{
         val db = this.writableDatabase
         val query = "select * from $PUZZLE_TABLE_NAME WHERE $PUZZLE_COL_6 = ?"
@@ -355,22 +337,15 @@ class Database(context: Context) :
             }
         }
         return puzz
-        /*
-        var pList: ArrayList<Puzzle> = this.getLvlPuzzleList(levelId)
-        var lvlCompleted: Boolean = true
-        for (puz in pList) {
-            if (! puz.completed) {
-                lvlCompleted = false
-            }
-        }
-        */
-        markLevelCompleted(levelId)
-        return getActivePuzzle(levelId+1)
     }
+
+
     fun getActivePuzzleNum():Int{
         val temp = getActivePuzzle(getActiveLevel().id).id
         return temp
     }
+
+    // returns true if successful (if no errors)
     fun markLevelCompleted(levelId: Int):Boolean {
         val db = this.writableDatabase
         val query = "select * from $LEVEL_TABLE_NAME WHERE $LEVEL_COL_1 = ? "
@@ -397,7 +372,7 @@ class Database(context: Context) :
         }
     }
 
-    //returns true if the entire level is now complete
+    // returns true if successful
     fun markPuzzleCompleted(puzzleId: Int):Boolean {
         val db = this.writableDatabase
         val query = "select * from $PUZZLE_TABLE_NAME WHERE $PUZZLE_COL_1 = ? "
@@ -468,6 +443,8 @@ class Database(context: Context) :
         return id
     }
 
+    // returns the number that a puzzle in its level
+    // - one based indexing, not zero based
     fun getPuzzleIndInLevel(puzzleID: Int):Int {
         val db = this.writableDatabase
         val query = "select $LEVEL_COL_6 from $LEVEL_TABLE_NAME"
