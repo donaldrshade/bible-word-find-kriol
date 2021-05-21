@@ -291,7 +291,7 @@ class puzzleActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         // go back to home screen when back button is pressed
-        val intent = Intent(this,MainActivity::class.java)
+        val intent = Intent(this,LevelSelect::class.java)
         startActivity(intent)
     }
 
@@ -523,7 +523,7 @@ class puzzleActivity : AppCompatActivity() {
         var fishInt = fishString.toInt()
         fishInt++
         //TODO revert change
-                fishInt = fishInt + 25
+                fishInt = fishInt + 99999
 
         fishScoreNumber.text = fishInt.toString()
         val edit = sp.edit()
