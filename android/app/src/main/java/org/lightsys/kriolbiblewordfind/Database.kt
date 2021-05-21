@@ -14,7 +14,11 @@ import android.content.ContentValues
 class Database(context: Context) :
     SQLiteOpenHelper(context, context.getString(R.string.app_name)+".db", null, versionNumber){
 
-
+    private val lvlPuzMap = mapOf(1 to 4,2 to 4,3 to 4,4 to 4, 5 to 4, 6 to 4, 7 to 4, 8 to 4, 9 to 1,
+        10 to 1, 11 to 1, 12 to 1, 13 to 4, 14 to 4, 15 to 4, 16 to 4, 17 to 4, 18 to 4, 19 to 4,
+        20 to 4, 21 to 4, 22 to 4, 23 to 4, 24 to 1, 25 to 1, 26 to 3, 27 to 3, 28 to 3, 29 to 3,
+        30 to 3, 31 to 3, 32 to 3, 33 to 3, 34 to 3, 35 to 1, 36 to 1, 37 to 1, 38 to 1, 39 to 1,
+        40 to 1, 41 to 1, 42 to 1, 43 to 1, 44 to 1)
 
     override fun onCreate(db: SQLiteDatabase) {
         //This function only runs the first time the app is run. See comment above.
@@ -281,6 +285,7 @@ class Database(context: Context) :
         return returnList
     }
 
+    /*
     fun getLvlPuzzleList(levelId: Int): ArrayList<Puzzle> {
 
         val fullList = this.getPuzzleList()
@@ -291,10 +296,10 @@ class Database(context: Context) :
             if (lev.id == levelId) {
                 break
             }
-            firstPuzzleID += getNumPuzzles(lev.id)
+            firstPuzzleID += this.lvlPuzMap.getValue(lev.id)
         }
 
-        val numPuzzles: Int = getNumPuzzles(levelId)
+        val numPuzzles: Int = this.lvlPuzMap.getValue(levelId)
         var returnList = ArrayList<Puzzle>()
         for (i in 1..numPuzzles) {
             returnList.add(fullList[firstPuzzleID - 1])
@@ -303,6 +308,7 @@ class Database(context: Context) :
         return returnList
 
     }
+    */
 
     fun getPuzzle(puzzleId:Int):Puzzle{
         val db = this.writableDatabase
@@ -326,17 +332,6 @@ class Database(context: Context) :
         return Level(-2)
     }
 
-    fun getNumPuzzles(levelID: Int):Int{
-        val numPuzzles = -1
-        val db = this.writableDatabase
-        val query = "SELECT $LEVEL_TABLE_NAME WHERE $LEVEL_COL_1 = ? "
-        val res = db.rawQuery(query, arrayOf(levelID.toString()))
-        while(res.moveToNext()){
-            return res.getInt(0)
-        }
-        return -1
-    }
-
     fun getActivePuzzle(levelId:Int):Puzzle{
         val db = this.writableDatabase
         val query = "select * from $PUZZLE_TABLE_NAME WHERE $PUZZLE_COL_6=? AND $PUZZLE_COL_4==0"
@@ -347,16 +342,18 @@ class Database(context: Context) :
                 return temp
             }
         }
-        var pList: ArrayList<Puzzle> = this.getLvlPuzzleList(levelId)
+/*        var pList: ArrayList<Puzzle> = this.getLvlPuzzleList(levelId)
         var lvlCompleted: Boolean = true
         for (puz in pList) {
             if (! puz.completed) {
                 lvlCompleted = false
             }
         }
-        if (lvlCompleted) {
+
+*/
+//        if (lvlCompleted) {
             markLevelCompleted(levelId)
-        }
+//        }
         return getActivePuzzle(levelId+1)
     }
     fun getActivePuzzleNum():Int{
@@ -412,16 +409,17 @@ class Database(context: Context) :
             db.update(PUZZLE_TABLE_NAME,set,"$PUZZLE_COL_1=?", arrayOf(puzzleId.toString()))
             val next = getPuzzle(puz.id+1)
             if(next.level_id != puz.level_id){
-                var pList: ArrayList<Puzzle> = this.getLvlPuzzleList(puz.level_id)
+/*                var pList: ArrayList<Puzzle> = this.getLvlPuzzleList(puz.level_id)
                 var lvlCompleted: Boolean = true
                 for (puz in pList) {
                     if (! puz.completed) {
                         lvlCompleted = false
                     }
                 }
-                if (lvlCompleted) {
+*/
+//                if (lvlCompleted) {
                     return markLevelCompleted(puz.level_id)
-                }
+//                }
             }
             return false
         } else{

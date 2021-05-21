@@ -100,14 +100,14 @@ class LevelSelect : AppCompatActivity() {
                 puzzleNumInLevel = 1
                 prevLevel = levelID
 
-                textView.text = (levelID.toString() + '.')
+             /*   textView.text = (levelID.toString() + '.')
                 textView.gravity = Gravity.CENTER
                 textView.setTextColor(Color.BLACK)
                 if (db.getPuzzle(num).completed) {
                     textView.setTextColor(Color.GREEN)
                 }
                 textView.typeface = comicSansFont
-                row.addView(textView)
+                row.addView(textView) */
             }
 
             textView.text = (levelID.toString() + "-" + puzzleNumInLevel.toString())
@@ -117,8 +117,10 @@ class LevelSelect : AppCompatActivity() {
                 textView.setTextColor(Color.GREEN)
             }
             textView.typeface = comicSansFont
+//            if (db.getLevel(levelID).completed) {
+//                textView.setTextColor(Color.RED)
+//            }
             row.addView(textView)
-
 
 
             //Send the player to the selected puzzle
@@ -168,10 +170,12 @@ class LevelSelect : AppCompatActivity() {
 
 
             db.markLevelCompleted(curLevel)
+            /*
             var pList: ArrayList<Puzzle> = db.getLvlPuzzleList(curPuzzle.level_id)
             for (puz in pList) {
                 puz.completed = true
             }
+            */
 
             val edit = sp.edit()
             edit.putInt(getString(R.string.boat_key),boatInt)
