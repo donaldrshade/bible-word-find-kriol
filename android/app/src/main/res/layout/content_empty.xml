@@ -18,7 +18,7 @@
         android:gravity="center"
         android:text=""
         android:textAlignment="center"
-        android:textColor="#000000"
+        android:textColor="#0000FF"
         android:textSize="30sp" />
 
     <TextView
@@ -28,7 +28,7 @@
         android:gravity="center"
         android:text="Lightsys:"
         android:textAlignment="center"
-        android:textColor="#FFFFFF"
+        android:textColor="#0000FF"
         android:textSize="30sp" />
 
     <TextView
@@ -86,9 +86,29 @@
         android:layout_height="match_parent"
         android:layout_margin="20dp"
         android:gravity="center"
+        android:text="David Stirn"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="30sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:text="Benjamin Smid"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="30sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:gravity="center"
         android:text="Bible Society Australia:"
         android:textAlignment="center"
-        android:textColor="#FFFFFF"
+        android:textColor="#0000FF"
         android:textSize="30sp" />
 
     <TextView
@@ -118,7 +138,7 @@
         android:gravity="center"
         android:text="Scripture Union Australia:"
         android:textAlignment="center"
-        android:textColor="#FFFFFF"
+        android:textColor="#0000FF"
         android:textSize="30sp" />
 
     <TextView
