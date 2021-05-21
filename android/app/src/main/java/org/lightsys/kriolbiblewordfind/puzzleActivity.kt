@@ -552,7 +552,7 @@ class puzzleActivity : AppCompatActivity() {
             soundEffect = createMedia("complete_puzzle")
             soundEffect.start()
         }
-        PopUp(puzzleEngine.puzzle.id, this, false, "", true)
+        PopUp(this, false, "", true, puzzleEngine.puzzle.id)
     }
 
     //Creates and prepares media to be played

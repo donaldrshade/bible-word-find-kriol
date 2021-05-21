@@ -48,9 +48,15 @@ class PopUp() : Activity() {
 
             tickImage.setOnClickListener{
                 finish()
-                val intent = Intent(this,puzzleActivity::class.java)
-
-                intent.putExtra(getString(R.string.puzzle_num), puzzleID)
+                val db = Database(this)
+                //checks to see if the level of the puzzle you are trying to advance to is unlocked
+                var intent : Intent
+                if(db.getActiveLevel().id != db.getLevelIDFromPuzzleID(puzzleID)){
+                    intent = Intent(this,LevelSelect::class.java)
+                } else {
+                    intent = Intent(this,puzzleActivity::class.java)
+                    intent.putExtra(getString(R.string.puzzle_num), puzzleID)
+                }
 
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
                 startActivity(intent)
@@ -66,7 +72,7 @@ class PopUp() : Activity() {
         startActivity(intent)
     }
 }
-public fun PopUp(puzzleNum: Int = 0, act:Activity,hasText:Boolean = false,setText:String = "",hasTick:Boolean = false){
+public fun PopUp(act:Activity,hasText:Boolean = false,setText:String = "",hasTick:Boolean = false, puzzleNum: Int = 0){
     val intent = Intent(act,PopUp()::class.java)
     intent.putExtra(act.getString(R.string.hasText),hasText)
     intent.putExtra(act.getString(R.string.hasTick),hasTick)
