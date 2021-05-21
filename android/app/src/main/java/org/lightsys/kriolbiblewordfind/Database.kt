@@ -199,7 +199,7 @@ class Database(context: Context) :
         db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(79,7 , 6,0,"+"\"NULL\""+",23,7,7)")
         db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(80,7 , 7,0,"+"\"NULL\""+",23,5, 7)")
         db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(81,8 , 12,0,"+"\"kriol_luk_4_1_13\""+",24,5, 7)")
-        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(82,8 , 12,0,"+"\"kriol_mrk_6_30_44_\""+",25,5, 7)")
+        db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(82,8 , 12,0,"+"\"kriol_mrk_6_30_44\""+",25,5, 7)")
         db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(83,10 , 5,0,"+"\"NULL\""+",26,7,7)")
         db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(84,10 , 7,0,"+"\"NULL\""+",26,7 , 8)")
         db.execSQL("INSERT INTO $PUZZLE_TABLE_NAME ( $PUZZLE_COL_1, $PUZZLE_COL_2, $PUZZLE_COL_3,$PUZZLE_COL_4,$PUZZLE_COL_5,$PUZZLE_COL_6,$PUZZLE_COL_7,$PUZZLE_COL_8) VALUES(85,10 , 10,0,"+"\"NULL\""+",26,7, 10)")
@@ -247,10 +247,12 @@ class Database(context: Context) :
         val db = this.writableDatabase
         val query = "select * from $LEVEL_TABLE_NAME WHERE $LEVEL_COL_1 = ? "
         val res = db.rawQuery(query, arrayOf(levelId.toString()))
+        var level = Level()
         if (res.moveToNext()) {
-            return Level(res.getInt(0),res.getString(1),res.getInt(2)==1,res.getString(3),res.getString(4))
+            level = Level(res.getInt(0),res.getString(1),res.getInt(2)==1,res.getString(3),res.getString(4))
         }
-        return Level()
+        res.close()
+        return level
     }
     fun getLevelList():ArrayList<Level>{
         val db = this.writableDatabase
@@ -260,6 +262,7 @@ class Database(context: Context) :
         while (res.moveToNext()) {
             returnList.add( Level(res.getInt(0),res.getString(1),res.getInt(2)==1,res.getString(3),res.getString(4)))
         }
+        res.close()
         return returnList
     }
 
@@ -282,6 +285,7 @@ class Database(context: Context) :
                 )
             )
         }
+        res.close()
         return returnList
     }
 
@@ -306,7 +310,6 @@ class Database(context: Context) :
             firstPuzzleID++
         }
         return returnList
-
     }
 
 
@@ -314,21 +317,25 @@ class Database(context: Context) :
         val db = this.writableDatabase
         val query = "select * from $PUZZLE_TABLE_NAME WHERE $PUZZLE_COL_1 = ? "
         val res = db.rawQuery(query, arrayOf(puzzleId.toString()))
+        var puzzle = Puzzle()
         if (res.moveToNext()) {
-            return Puzzle(res.getInt(0),res.getInt(1),res.getInt(2),res.getInt(3)==1,res.getString(4),res.getInt(5),res.getInt(6),res.getInt(7))
+            puzzle = Puzzle(res.getInt(0),res.getInt(1),res.getInt(2),res.getInt(3)==1,res.getString(4),res.getInt(5),res.getInt(6),res.getInt(7))
         }
-        return Puzzle()
+        res.close()
+        return puzzle
     }
     fun getActiveLevel():Level{
         val db = this.writableDatabase
         val query = "select * from $LEVEL_TABLE_NAME"
         val res = db.rawQuery(query,arrayOf())
+        var level = Level(-2)
         while (res.moveToNext()) {
             if(res.getInt(2)==0){
-                return Level(res.getInt(0),res.getString(1),res.getInt(2)==1,res.getString(3),res.getString(4))
+                level = Level(res.getInt(0),res.getString(1),res.getInt(2)==1,res.getString(3),res.getString(4))
             }
         }
-        return Level(-2)
+        res.close()
+        return level
     }
 
     fun getActivePuzzle(levelId:Int):Puzzle{
@@ -336,23 +343,22 @@ class Database(context: Context) :
         val query = "select * from $PUZZLE_TABLE_NAME WHERE $PUZZLE_COL_6=? AND $PUZZLE_COL_4==0"
         val res = db.rawQuery(query,arrayOf(levelId.toString()))
         if (res.moveToNext()) {
-            if(res.getInt(4)==0){
+            if(res.getInt(3)==0){
                 val temp = Puzzle(res.getInt(0),res.getInt(1),res.getInt(2),res.getInt(3)==1,res.getString(4),res.getInt(5),res.getInt(6),res.getInt(7))
+                res.close()
                 return temp
             }
         }
-/*        var pList: ArrayList<Puzzle> = this.getLvlPuzzleList(levelId)
+        /*
+        var pList: ArrayList<Puzzle> = this.getLvlPuzzleList(levelId)
         var lvlCompleted: Boolean = true
         for (puz in pList) {
             if (! puz.completed) {
                 lvlCompleted = false
             }
         }
-
-*/
-//        if (lvlCompleted) {
-            markLevelCompleted(levelId)
-//        }
+        */
+        markLevelCompleted(levelId)
         return getActivePuzzle(levelId+1)
     }
     fun getActivePuzzleNum():Int{
@@ -378,8 +384,10 @@ class Database(context: Context) :
             set.put(LEVEL_COL_4,lvl.picture)
             set.put(LEVEL_COL_5,lvl.word_file)
             db.update(LEVEL_TABLE_NAME,set,"$LEVEL_COL_1=?", arrayOf(levelId.toString()))
+            res.close()
             return true
         } else{
+            res.close()
             return false
         }
     }
@@ -417,11 +425,14 @@ class Database(context: Context) :
                 }
 */
 //                if (lvlCompleted) {
-                    return markLevelCompleted(puz.level_id)
+                res.close()
+                return markLevelCompleted(puz.level_id)
 //                }
             }
+            res.close()
             return false
         } else{
+            res.close()
             return false
         }
     }
@@ -431,8 +442,11 @@ class Database(context: Context) :
         val query = "select $PUZZLE_COL_5 from $PUZZLE_TABLE_NAME WHERE $PUZZLE_COL_1 = ? "
         val res = db.rawQuery(query, arrayOf(puzzleId.toString()))
         if (res.moveToNext()) {
-            return res.getString(0)!="NULL"
+            val ret = res.getString(0)!="NULL"
+            res.close()
+            return ret
         }else {
+            res.close()
             return false
         }
     }
@@ -442,11 +456,12 @@ class Database(context: Context) :
         val db = this.writableDatabase
         val query = "select $PUZZLE_COL_6 from $PUZZLE_TABLE_NAME WHERE $PUZZLE_COL_1 = ? "
         val res = db.rawQuery(query, arrayOf(puzzleID.toString()))
+        var id = -1
         if(res.moveToNext()){
-            return res.getString(0).toInt()
-        } else {
-            return -1
+            id = res.getString(0).toInt()
         }
+        res.close()
+        return id
     }
 
     companion object {

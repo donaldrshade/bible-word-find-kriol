@@ -133,13 +133,16 @@ class puzzleActivity : AppCompatActivity() {
             audioViewPlay.scaleY = 2.0F
 
             audioViewPlay.adjustViewBounds = true
-            audioViewPlay.id = 2001
+            audioViewPlay.id = 2002
 
             //Initialize media player
             try {
                 media = createMedia(puzzle.audioFile)
             } catch (e : FormatException) {
                 Toast.makeText(getApplicationContext(), "Incorrect file format", Toast.LENGTH_SHORT).show()
+                finish()
+            } catch(e : android.content.res.Resources.NotFoundException){
+                Toast.makeText(getApplicationContext(), puzzle.audioFile, Toast.LENGTH_SHORT).show()
                 finish()
             }
 

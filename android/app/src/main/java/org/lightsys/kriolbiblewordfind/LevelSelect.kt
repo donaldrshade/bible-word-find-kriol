@@ -144,7 +144,6 @@ class LevelSelect : AppCompatActivity() {
             }
             puzzleNumInLevel++
         }
-
     }
 
     override fun onBackPressed() {
