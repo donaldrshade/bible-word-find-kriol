@@ -506,7 +506,8 @@ class puzzleActivity : AppCompatActivity() {
     fun gainBoat(){
         var boatString = boatScoreNumber.text.toString()
         var boatInt = boatString.toInt()
-        boatInt++
+        //TODO revert change
+        boatInt+=51
         boatScoreNumber.text = boatInt.toString()
         val edit = sp.edit()
         edit.putInt(getString(R.string.boat_key),boatInt)
@@ -516,9 +517,8 @@ class puzzleActivity : AppCompatActivity() {
     fun gainFish(){
         var fishString = fishScoreNumber.text.toString()
         var fishInt = fishString.toInt()
-
         fishInt++
-
+        //TODO revert change
                 fishInt = fishInt + 25
 
         fishScoreNumber.text = fishInt.toString()

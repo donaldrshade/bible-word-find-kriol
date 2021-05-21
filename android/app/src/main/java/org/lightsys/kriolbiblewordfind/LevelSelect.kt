@@ -170,8 +170,37 @@ class LevelSelect : AppCompatActivity() {
                 curPuzzle = db.getActivePuzzle(curLevel)
             }
 
-
+            //allows access to the next level
             db.markLevelCompleted(curLevel)
+
+            //refreshes the colors
+            var puzzleNum = 1
+            for(i in 0..levelTable.childCount){
+                val levelTableRow = levelTable.getChildAt(i) as? TableRow
+                if(levelTableRow != null) {
+                    for (j in 0..levelTableRow.childCount) {
+                        val text = levelTableRow.getChildAt(j) as? TextView
+                        if (text != null) {
+                            val levelID = i + 1
+                            //all go to black...
+                            text.setTextColor(Color.BLACK)
+                            //and completed are green...
+                            if (db.getPuzzle(puzzleNum).completed) {
+                                text.setTextColor(Color.GREEN)
+                            }
+                            //and locked are red
+                            if (!db.getLevel(levelID).completed && db.getActiveLevel().id != levelID) {
+                                text.setTextColor(Color.RED)
+                            }
+                            puzzleNum++
+                        }
+                    }
+                }
+            }
+
+
+
+
             /*
             var pList: ArrayList<Puzzle> = db.getLvlPuzzleList(curPuzzle.level_id)
             for (puz in pList) {
