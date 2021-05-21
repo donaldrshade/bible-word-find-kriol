@@ -300,6 +300,7 @@ class PuzzleEngine(var puzzle: Puzzle, var context: Context) {
             var wordSizes = puzzle.getWordSizes()
             val options = ArrayList<String>()
             for (i in pool.indices) {
+                //disabled minimum word size
                 if (/* pool[i].length >= wordSizes[0] && */ pool[i].length <= wordSizes[1]) {
                     options.add(pool[i])
                 }

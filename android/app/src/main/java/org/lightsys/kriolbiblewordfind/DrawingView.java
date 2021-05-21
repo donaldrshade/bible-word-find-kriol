@@ -3,6 +3,7 @@ package org.lightsys.kriolbiblewordfind;
 import android.content.Context;
 import android.graphics.*;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -30,11 +31,18 @@ public class DrawingView extends View {
         rect = new Rect();
         paintColor = getResources().getColor(R.color.colorHomeButton);
 
+        //sets stroke width based on screen size
         drawPaint = new Paint();
+        DisplayMetrics metrics = new DisplayMetrics();
+        android.view.Display display = activity.getWindowManager().getDefaultDisplay();
+        display.getMetrics(metrics);
+        float rootX = metrics.heightPixels;
+        //float rootY = metrics.widthPixels;
+        drawPaint.setStrokeWidth(rootX / 24);
+
         drawPaint.setColor(paintColor);
         drawPaint.setAlpha(128);
         drawPaint.setAntiAlias(true);
-        drawPaint.setStrokeWidth(100F);
         drawPaint.setStyle(Paint.Style.STROKE);
         drawPaint.setStrokeJoin(Paint.Join.ROUND);
         drawPaint.setStrokeCap(Paint.Cap.ROUND);

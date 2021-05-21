@@ -100,6 +100,7 @@ class puzzleActivity : AppCompatActivity() {
         var puzzleGrid = puzzleEngine.grid
         wordList = puzzleEngine.getWords()
         breadHighlights = Array<BooleanArray>(puzzleGrid.size){BooleanArray(puzzleGrid.size)}
+
         //Load words into wordbank, only populate it if not audio puzzle
         //If audio puzzle, add play/pause button and word counter
         wordCounter = 0
@@ -112,17 +113,17 @@ class puzzleActivity : AppCompatActivity() {
             var rowParams = TableRow.LayoutParams(LayoutParams.WRAP_CONTENT,100)
             wordBank.addView(row)
 
-
+            //creates and designs Headphone icon
             var audioViewHeadphones = ImageButton(this)
             audioViewHeadphones.layoutParams = rowParams
             audioViewHeadphones.setImageResource(R.drawable.headphones)
             audioViewHeadphones.setBackgroundResource(0)
             audioViewHeadphones.scaleX = 2F
             audioViewHeadphones.scaleY = 2F
-
             audioViewHeadphones.adjustViewBounds = true
             audioViewHeadphones.id = 2000
 
+            //creates and designs Play icon
             var audioViewPlay = ImageButton(this)
             audioViewPlay.layoutParams = rowParams
             audioViewPlay.setImageResource(R.drawable.ic_menu_play)
@@ -130,7 +131,6 @@ class puzzleActivity : AppCompatActivity() {
             audioViewPlay.setColorFilter(Color.BLACK)
             audioViewPlay.scaleX = 2.0F
             audioViewPlay.scaleY = 2.0F
-
             audioViewPlay.adjustViewBounds = true
             audioViewPlay.id = 2002
 
@@ -162,6 +162,7 @@ class puzzleActivity : AppCompatActivity() {
                 }
             }
 
+            //creates and designs wordbank
             var wordsLeft = TextView(this)
             wordsLeft.textSize = 20F
             wordsLeft.text = "$wordCounter / " + wordList.size
@@ -174,8 +175,6 @@ class puzzleActivity : AppCompatActivity() {
             row.addView(audioViewHeadphones)
             row.addView(audioViewPlay)
             row.addView(wordsLeft)
-
-
         } else {
             var row = TableRow(this)
             for(w in 0 until wordList.size){
@@ -194,7 +193,7 @@ class puzzleActivity : AppCompatActivity() {
             }
         }
 
-
+        //creates letter grid
         puzzleSize = puzzle.size
         letters = arrayOfNulls(puzzleSize*puzzleSize)
         for (r in 0 until puzzleSize) {
@@ -209,24 +208,12 @@ class puzzleActivity : AppCompatActivity() {
                 //textView.setBackgroundColor(40)
                 val lp = ConstraintLayout.LayoutParams(ConstraintSet.MATCH_CONSTRAINT, ConstraintSet.MATCH_CONSTRAINT)
 
-
                 gridSizer!!.addView(textView, lp)
-                /* textView.setOnTouchListener( ) {v: View, m: MotionEvent ->
-                     when(m.actionMasked){
-                         MotionEvent.ACTION_DOWN -> {
-                             this.setStartLetter(textView)
-                         }
-                         MotionEvent.ACTION_UP -> {
-                             this.setEndLetter(textView)
-                         }
-                     }
-                     true
-                 }*/
             }
         }
 
-        cset.clone(gridSizer)
 
+        cset.clone(gridSizer)
         val dimensionBox = R.id.gridSizer
         cset.setDimensionRatio(dimensionBox, ("$puzzleSize:$puzzleSize"))
         for (r in 0 until puzzleSize) {
@@ -271,7 +258,6 @@ class puzzleActivity : AppCompatActivity() {
 
         val puzzleLocal = db.getPuzzleIndInLevel(puzzleEngine.puzzle.id)
         levelNumber.text = "" + puzzleEngine.puzzle.level_id + "-" + puzzleLocal
-
 
 
         when (rnds){
@@ -328,8 +314,6 @@ class puzzleActivity : AppCompatActivity() {
             if(word!!.getStartPt()[0] == row1 && word.getStartPt()[1] == col1 && word.getEndPt()[0] == row2 && word.getEndPt()[1] == col2
                 || word!!.getEndPt()[0] == row1 && word.getEndPt()[1] == col1 && word.getStartPt()[0] == row2 && word.getStartPt()[1] == col2){
 
-
-
                 foundWord(i)
 
                 //If all words discovered, win level
@@ -373,7 +357,6 @@ class puzzleActivity : AppCompatActivity() {
             winPuzzle()
         }
     }
-
 
 
     //Subtracts 1 from the fish number when tapped
@@ -510,8 +493,8 @@ class puzzleActivity : AppCompatActivity() {
     fun gainBoat(){
         var boatString = boatScoreNumber.text.toString()
         var boatInt = boatString.toInt()
-        //TODO revert change
-        boatInt+=51
+
+        boatInt++
         boatScoreNumber.text = boatInt.toString()
         val edit = sp.edit()
         edit.putInt(getString(R.string.boat_key),boatInt)
@@ -521,10 +504,8 @@ class puzzleActivity : AppCompatActivity() {
     fun gainFish(){
         var fishString = fishScoreNumber.text.toString()
         var fishInt = fishString.toInt()
-        fishInt++
-        //TODO revert change
-                fishInt = fishInt + 99999
 
+        fishInt++
         fishScoreNumber.text = fishInt.toString()
         val edit = sp.edit()
         edit.putInt(getString(R.string.fish_key),fishInt)

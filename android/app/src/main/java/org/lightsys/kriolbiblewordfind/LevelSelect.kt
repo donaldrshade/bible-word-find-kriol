@@ -54,16 +54,7 @@ class LevelSelect : AppCompatActivity() {
         var puzzleNumInLevel = 1
         for (num in 1..numPuzzles){
 
-            // prev code for making rows
-            /*
-            if (num %5 == 1){
-                row =  TableRow(this)
-                levelTable.addView(row, rowLayout)
-            }
-            */
-
-
-            // I want level numbers instead of headphones for audio puzzles
+            // This code replaces the puzzle numbers with a headphone icon on the level select
 /*            if(audioLevels.contains(num)){
 
                 val audioImage = ImageView(this)
@@ -146,7 +137,6 @@ class LevelSelect : AppCompatActivity() {
         if (boatInt > 2){
             boatInt -= 3
             levelSelectBoatText.text = boatInt.toString()
-            //TODO: Spend 3 boats to unlock a level
             val curLevel = db.getActiveLevel().id
 
             var curPuzzle = db.getActivePuzzle(curLevel)
@@ -182,21 +172,9 @@ class LevelSelect : AppCompatActivity() {
                     }
                 }
             }
-
-
-
-
-            /*
-            var pList: ArrayList<Puzzle> = db.getLvlPuzzleList(curPuzzle.level_id)
-            for (puz in pList) {
-                puz.completed = true
-            }
-            */
-
             val edit = sp.edit()
             edit.putInt(getString(R.string.boat_key),boatInt)
             edit.commit()
         }
     }
-
 }
