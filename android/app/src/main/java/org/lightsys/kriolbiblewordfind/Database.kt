@@ -291,10 +291,10 @@ class Database(context: Context) :
             if (lev.id == levelId) {
                 break
             }
-            firstPuzzleID += numPuzzles(lev.id)
+            firstPuzzleID += getNumPuzzles(lev.id)
         }
 
-        val numPuzzles: Int = numPuzzles(levelId)
+        val numPuzzles: Int = getNumPuzzles(levelId)
         var returnList = ArrayList<Puzzle>()
         for (i in 1..numPuzzles) {
             returnList.add(fullList[firstPuzzleID - 1])
@@ -324,6 +324,17 @@ class Database(context: Context) :
             }
         }
         return Level(-2)
+    }
+
+    fun getNumPuzzles(levelID: Int):Int{
+        val numPuzzles = -1
+        val db = this.writableDatabase
+        val query = "SELECT $LEVEL_TABLE_NAME WHERE $LEVEL_COL_1 = ? "
+        val res = db.rawQuery(query, arrayOf(levelID.toString()))
+        while(res.moveToNext()){
+            return res.getInt(0)
+        }
+        return -1
     }
 
     fun getActivePuzzle(levelId:Int):Puzzle{
