@@ -109,18 +109,31 @@ class puzzleActivity : AppCompatActivity() {
 
         if(isAudioPuzzle){
             val row = TableRow(this)
-            var rowParams = TableRow.LayoutParams(100,100)
+            var rowParams = TableRow.LayoutParams(200,100)
             wordBank.addView(row)
             row.addView(TextView(this), rowParams)
 
 
-            var audioView = ImageButton(this)
-            audioView.layoutParams = rowParams
-            audioView.setImageResource(R.drawable.headphones)
-            audioView.setBackgroundResource(0)
+            var audioViewHeadphones = ImageButton(this)
+            audioViewHeadphones.layoutParams = rowParams
+            audioViewHeadphones.setImageResource(R.drawable.headphones)
+            audioViewHeadphones.setBackgroundResource(0)
+            audioViewHeadphones.scaleX = 2F
+            audioViewHeadphones.scaleY = 2F
 
-            audioView.adjustViewBounds = true
-            audioView.id = 2000
+            audioViewHeadphones.adjustViewBounds = true
+            audioViewHeadphones.id = 2000
+
+            var audioViewPlay = ImageButton(this)
+            audioViewPlay.layoutParams = rowParams
+            audioViewPlay.setImageResource(R.drawable.ic_menu_play)
+            audioViewPlay.setBackgroundResource(0)
+            audioViewPlay.setColorFilter(Color.BLACK)
+            audioViewPlay.scaleX = 2.0F
+            audioViewPlay.scaleY = 2.0F
+
+            audioViewPlay.adjustViewBounds = true
+            audioViewPlay.id = 2001
 
             //Initialize media player
             try {
@@ -132,7 +145,14 @@ class puzzleActivity : AppCompatActivity() {
 
             //If audio is playing, clicking audio button pauses it
             //Otherwise, play audio
-            audioView.setOnClickListener {
+            audioViewHeadphones.setOnClickListener {
+                if(media.isPlaying()){
+                    media.pause();
+                } else {
+                    media.start();
+                }
+            }
+            audioViewPlay.setOnClickListener {
                 if(media.isPlaying()){
                     media.pause();
                 } else {
@@ -148,8 +168,11 @@ class puzzleActivity : AppCompatActivity() {
             wordsLeft.typeface = comicSansFont
             wordsLeft.gravity = 1400
 
-            row.addView(audioView)
+
+            row.addView(audioViewHeadphones)
+            row.addView(audioViewPlay)
             row.addView(wordsLeft)
+
         } else {
             var row = TableRow(this)
             for(w in 0 until wordList.size){
@@ -167,6 +190,7 @@ class puzzleActivity : AppCompatActivity() {
                 row.addView(textView)
             }
         }
+
 
         puzzleSize = puzzle.size
         letters = arrayOfNulls(puzzleSize*puzzleSize)
