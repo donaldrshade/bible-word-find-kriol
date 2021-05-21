@@ -51,7 +51,7 @@ class PopUp() : Activity() {
                 val db = Database(this)
                 //checks to see if the level of the puzzle you are trying to advance to is unlocked
                 var intent : Intent
-                if(db.getActiveLevel().id != db.getLevelIDFromPuzzleID(puzzleID)){
+                if(db.getActiveLevel().id < db.getLevelIDFromPuzzleID(puzzleID)){
                     intent = Intent(this,LevelSelect::class.java)
                 } else {
                     intent = Intent(this,puzzleActivity::class.java)
