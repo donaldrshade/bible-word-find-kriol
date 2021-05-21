@@ -118,19 +118,20 @@ class LevelSelect : AppCompatActivity() {
                 textView.setTextColor(Color.GREEN)
             }
             textView.typeface = comicSansFont
-//            if (db.getLevel(levelID).completed) {
-//                textView.setTextColor(Color.RED)
-//            }
+
+            //colors locked levels red
+            if (!db.getLevel(levelID).completed && db.getActiveLevel().id != levelID){
+                textView.setTextColor(Color.RED)
+            }
+
             row.addView(textView)
 
-
-            //Send the player to the selected puzzle
+            //Send the player to the selected puzzle, if the level is unlocked
             textView.setOnClickListener {
                 val lastLevel = db.getActiveLevel()
-
-
-                //TODO Enable button if the puzzle is unlocked
-                if (lastLevel.id >= 0) {
+                println(lastLevel.id)
+                //implements level locking
+                if (levelID <= lastLevel.id) {
                     textView.setTextColor(Color.BLUE)
                     val intent = Intent(this, puzzleActivity::class.java)
                     intent.putExtra(getString(R.string.puzzle_num), num)

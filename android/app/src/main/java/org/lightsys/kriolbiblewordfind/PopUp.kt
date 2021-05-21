@@ -2,6 +2,7 @@ package org.lightsys.kriolbiblewordfind
 
 import android.app.Activity
 import android.content.Intent
+import android.database.sqlite.SQLiteDatabase
 import android.opengl.Visibility
 import android.os.Bundle
 import android.text.Layout
@@ -49,6 +50,7 @@ class PopUp() : Activity() {
                 finish()
                 val intent = Intent(this,puzzleActivity::class.java)
                 intent.putExtra(getString(R.string.puzzle_num), puzzleID)
+
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
                 startActivity(intent)
             }
@@ -63,7 +65,7 @@ class PopUp() : Activity() {
         startActivity(intent)
     }
 }
-public fun PopUp(puzzleNum: Int = 0, act:Activity,hasText:Boolean = false,setText:String = "",hasTick:Boolean = false){
+public fun PopUp(puzzleNum: Int = 0, act:Activity,hasText:Boolean = false,setText:String = "",hasTick:Boolean = false, puzzleTitle: String = ""){
     val intent = Intent(act,PopUp()::class.java)
     intent.putExtra(act.getString(R.string.hasText),hasText)
     intent.putExtra(act.getString(R.string.hasTick),hasTick)
@@ -74,9 +76,8 @@ public fun PopUp(puzzleNum: Int = 0, act:Activity,hasText:Boolean = false,setTex
         nextPuzzleNum = 1
     }
     intent.putExtra("puzzleID", nextPuzzleNum)
+    intent.putExtra("puzzleTitle", puzzleTitle)
 
-
-    //intent.putExtra(getString(R.string.local_puzzle_num), localPuzzleNum)
     intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
     act.startActivity(intent)
 }

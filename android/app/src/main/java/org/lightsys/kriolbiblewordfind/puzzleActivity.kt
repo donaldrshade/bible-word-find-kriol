@@ -366,7 +366,7 @@ class puzzleActivity : AppCompatActivity() {
 
         //If all words discovered, win level
         if(wordCounter == wordList.size){
-            winLevel()
+            winPuzzle()
         }
     }
 
@@ -538,17 +538,18 @@ class puzzleActivity : AppCompatActivity() {
         edit.commit()
     }
 
-    fun winLevel(){
+    fun winPuzzle(){
         val levelComplete = db.markPuzzleCompleted(puzzleEngine.puzzle.id)
         if(levelComplete){
             gainBoat()
-            //TODO: Currently, popup clicks always go to latest active level, not old ones
+            puzzleEngine.puzzle.level_id
         }
         if(sp.getBoolean(getString(R.string.SOUNDS),false)){
             soundEffect = createMedia("complete_puzzle")
             soundEffect.start()
         }
-        PopUp(puzzleEngine.puzzle.id, this, hasText = false, setText = "", hasTick = true)
+        val title = levelPuzzleNumber.text.toString()
+        PopUp(puzzleEngine.puzzle.id, this, hasText = false, setText = "", hasTick = true, puzzleTitle = title)
     }
 
     //Creates and prepares media to be played
