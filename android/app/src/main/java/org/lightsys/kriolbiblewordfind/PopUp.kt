@@ -68,8 +68,8 @@ public fun PopUp(puzzleNum: Int = 0, act:Activity,hasText:Boolean = false,setTex
     intent.putExtra(act.getString(R.string.hasText),hasText)
     intent.putExtra(act.getString(R.string.hasTick),hasTick)
     intent.putExtra(act.getString(R.string.setText),setText)
-    // hard-coded to 119, should be changed to numPuzzles
     var nextPuzzleNum = puzzleNum + 1
+    // TODO: hard-coded to 119, should be changed to numPuzzles
     if (puzzleNum == 119) {
         nextPuzzleNum = 1
     }
