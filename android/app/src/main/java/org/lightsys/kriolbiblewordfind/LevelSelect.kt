@@ -106,7 +106,6 @@ class LevelSelect : AppCompatActivity() {
             //Send the player to the selected puzzle, if the level is unlocked
             textView.setOnClickListener {
                 val lastLevel = db.getActiveLevel()
-                println(lastLevel.id)
                 //implements level locking
                 if (levelID <= lastLevel.id) {
                     textView.setTextColor(Color.BLUE)
