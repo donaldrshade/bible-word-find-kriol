@@ -298,7 +298,7 @@ class puzzleActivity : AppCompatActivity() {
         return row * puzzleSize + col
     }
 
-    //Updated function allows words to be completed in either direction
+    // TODO: Update function to allow words to be completed in either direction
     fun isValidWord(startX: Float, startY: Float, endX: Float, endY: Float) : Boolean{
         var ind1 = getGridCellIndex(startX, startY)
         var row1 = (ind1 / puzzleSize)
@@ -352,7 +352,7 @@ class puzzleActivity : AppCompatActivity() {
         }
 
 
-        //If all words discovered, win level
+        //If all words discovered, win puzzle
         if(wordCounter == wordList.size){
             winPuzzle()
         }
@@ -493,7 +493,7 @@ class puzzleActivity : AppCompatActivity() {
     fun gainBoat(){
         var boatString = boatScoreNumber.text.toString()
         var boatInt = boatString.toInt()
-
+//boatInt += 200
         boatInt++
         boatScoreNumber.text = boatInt.toString()
         val edit = sp.edit()
@@ -504,7 +504,7 @@ class puzzleActivity : AppCompatActivity() {
     fun gainFish(){
         var fishString = fishScoreNumber.text.toString()
         var fishInt = fishString.toInt()
-
+//fishInt += 5000
         fishInt++
         fishScoreNumber.text = fishInt.toString()
         val edit = sp.edit()
