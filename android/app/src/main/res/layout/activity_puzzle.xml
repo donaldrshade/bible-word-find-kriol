@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="12dp"
-            android:stretchColumns="0,1,2" >
+            android:stretchColumns="0,1,2">
 
             <TableRow
                 android:layout_width="match_parent"
@@ -70,19 +70,20 @@
         app:layout_constraintBottom_toTopOf="@id/wordBankScroller"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/story_title_banner_image"/>
+        app:layout_constraintTop_toBottomOf="@+id/story_title_banner_image" />
 
     <ImageView
         android:id="@+id/breadScore"
         android:layout_width="46dp"
         android:layout_height="50dp"
+        android:layout_marginTop="645dp"
         android:onClick="useBread"
         app:layout_constraintBottom_toTopOf="@+id/breadScoreNumber"
         app:layout_constraintEnd_toStartOf="@+id/fishScore"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/wordBankScroller"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/bread" />
 
     <ImageView

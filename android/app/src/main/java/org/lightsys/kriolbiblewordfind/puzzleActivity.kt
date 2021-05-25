@@ -188,6 +188,7 @@ class puzzleActivity : AppCompatActivity() {
                 textView.text = wordList[w]!!.word
                 textView.id = w + 2000
                 textView.typeface = comicSansFont
+                textView.setTextColor(Color.BLACK)
 
                 row.addView(textView)
             }
@@ -204,6 +205,7 @@ class puzzleActivity : AppCompatActivity() {
                 textView.text = puzzleGrid[r][c].toString()
                 textView.typeface = comicSansFont
                 textView.gravity = Gravity.CENTER
+                textView.setTextColor(Color.BLACK)
                 //textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,20.0F)
                 //textView.setBackgroundColor(40)
                 val lp = ConstraintLayout.LayoutParams(ConstraintSet.MATCH_CONSTRAINT, ConstraintSet.MATCH_CONSTRAINT)
