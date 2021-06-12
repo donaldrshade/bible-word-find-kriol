@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#A6E1C3"
     android:orientation="vertical"
-    tools:context=".puzzleActivity">
+    tools:context=".PuzzleActivity">
 
 
     <ScrollView

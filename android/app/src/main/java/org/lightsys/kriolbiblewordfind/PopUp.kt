@@ -2,17 +2,13 @@ package org.lightsys.kriolbiblewordfind
 
 import android.app.Activity
 import android.content.Intent
-import android.database.sqlite.SQLiteDatabase
-import android.opengl.Visibility
 import android.os.Bundle
-import android.text.Layout
 import android.util.DisplayMetrics
 import android.widget.ImageView
 import android.widget.TextView
-import kotlinx.android.synthetic.main.pop_up.*
 
 // this class deals with the checkmark popup at the end of puzzles
-class PopUp() : Activity() {
+class PopUp : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,11 +49,11 @@ class PopUp() : Activity() {
                 finish()
                 val db = Database(this)
                 //checks to see if the level of the puzzle you are trying to advance to is unlocked
-                var intent : Intent
+                val intent : Intent
                 if(db.getActiveLevel().id < db.getLevelIDFromPuzzleID(puzzleID)){
                     intent = Intent(this,LevelSelect::class.java)
                 } else {
-                    intent = Intent(this,puzzleActivity::class.java)
+                    intent = Intent(this,PuzzleActivity::class.java)
                     intent.putExtra(getString(R.string.puzzle_num), puzzleID)
                 }
 
@@ -75,7 +71,7 @@ class PopUp() : Activity() {
         startActivity(intent)
     }
 }
-public fun PopUp(act:Activity,hasText:Boolean = false,setText:String = "",hasTick:Boolean = false, puzzleNum: Int = 0){
+fun showPopUp(act:Activity, hasText:Boolean = false, setText:String = "", hasTick:Boolean = false, puzzleNum: Int = 0){
     val intent = Intent(act,PopUp()::class.java)
     intent.putExtra(act.getString(R.string.hasText),hasText)
     intent.putExtra(act.getString(R.string.hasTick),hasTick)

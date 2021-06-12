@@ -14,13 +14,6 @@ import android.content.ContentValues
 class Database(context: Context) :
     SQLiteOpenHelper(context, context.getString(R.string.app_name)+".db", null, versionNumber){
 
-    // maps level number to the number of puzzles in that level
-    private val lvlPuzMap = mapOf(1 to 4,2 to 4,3 to 4,4 to 4, 5 to 4, 6 to 4, 7 to 4, 8 to 4, 9 to 1,
-        10 to 1, 11 to 1, 12 to 1, 13 to 4, 14 to 4, 15 to 4, 16 to 4, 17 to 4, 18 to 4, 19 to 4,
-        20 to 4, 21 to 4, 22 to 4, 23 to 4, 24 to 1, 25 to 1, 26 to 3, 27 to 3, 28 to 3, 29 to 3,
-        30 to 3, 31 to 3, 32 to 3, 33 to 3, 34 to 3, 35 to 1, 36 to 1, 37 to 1, 38 to 1, 39 to 1,
-        40 to 1, 41 to 1, 42 to 1, 43 to 1, 44 to 1)
-
     override fun onCreate(db: SQLiteDatabase) {
         //This function only runs the first time the app is run. See comment above.
         createTables(db)
@@ -31,9 +24,7 @@ class Database(context: Context) :
         //new code will go here for the upgrade
         //Use the Alter Table table_name ADD new_column_name column_default_data
         //find out more at https://www.techonthenet.com/sqlite/tables/alter_table.php
-        when (newVersion) {
 
-        }
     }
 
     /**
@@ -309,17 +300,19 @@ class Database(context: Context) :
         val db = this.writableDatabase
         val query = "select * from $LEVEL_TABLE_NAME"
         val res = db.rawQuery(query,arrayOf())
-        var level: Level
+        val level: Level
         //stops at first incomplete level. will break if levels can be completed out of order
         while (res.moveToNext()) {
             if(res.getInt(2)==0){
                 level = Level(res.getInt(0),res.getString(1),res.getInt(2)==1,res.getString(3),res.getString(4))
+                res.close()
                 return level
             }
         }
         //if no incomplete levels are found, returns the last level
         res.moveToPrevious()
         level = Level(res.getInt(0),res.getString(1),res.getInt(2)==1,res.getString(3),res.getString(4))
+        res.close()
         return level
     }
 
@@ -341,8 +334,7 @@ class Database(context: Context) :
 
 
     fun getActivePuzzleNum():Int{
-        val temp = getActivePuzzle(getActiveLevel().id).id
-        return temp
+        return getActivePuzzle(getActiveLevel().id).id
     }
 
     // returns true if successful (if no errors)
@@ -350,14 +342,14 @@ class Database(context: Context) :
         val db = this.writableDatabase
         val query = "select * from $LEVEL_TABLE_NAME WHERE $LEVEL_COL_1 = ? "
         val res = db.rawQuery(query, arrayOf(levelId.toString()))
-        var lvl:Level
-        if (res.moveToNext()) {
-            lvl=Level(res.getInt(0),res.getString(1),res.getInt(2)==1,res.getString(3),res.getString(4))
-        }else{
-            lvl=Level()
-        }
-        if(lvl.id != -1 && lvl.id != -2 ){
-            var set = ContentValues()
+        val lvl =
+            if (res.moveToNext()) {
+                Level(res.getInt(0),res.getString(1),res.getInt(2)==1,res.getString(3),res.getString(4))
+            }else{
+                Level()
+            }
+        return if(lvl.id != -1 && lvl.id != -2 ){
+            val set = ContentValues()
             set.put(LEVEL_COL_1,lvl.id)
             set.put(LEVEL_COL_2,lvl.title)
             set.put(LEVEL_COL_3,1)
@@ -365,10 +357,10 @@ class Database(context: Context) :
             set.put(LEVEL_COL_5,lvl.word_file)
             db.update(LEVEL_TABLE_NAME,set,"$LEVEL_COL_1=?", arrayOf(levelId.toString()))
             res.close()
-            return true
+            true
         } else{
             res.close()
-            return false
+            false
         }
     }
 
@@ -377,15 +369,15 @@ class Database(context: Context) :
         val db = this.writableDatabase
         val query = "select * from $PUZZLE_TABLE_NAME WHERE $PUZZLE_COL_1 = ? "
         val res = db.rawQuery(query, arrayOf(puzzleId.toString()))
-        var puz:Puzzle
-        if (res.moveToNext()) {
-            puz=Puzzle(res.getInt(0),res.getInt(1),res.getInt(2),res.getInt(3)==1,res.getString(4),res.getInt(5),res.getInt(6),res.getInt(7))
-        }else{
-            puz=Puzzle()
-        }
+        val puz =
+            if (res.moveToNext()) {
+                Puzzle(res.getInt(0),res.getInt(1),res.getInt(2),res.getInt(3)==1,res.getString(4),res.getInt(5),res.getInt(6),res.getInt(7))
+            }else{
+                Puzzle()
+            }
         if(puz.id != -1 && puz.id != -2 ){
             puz.completed=true
-            var set = ContentValues()
+            val set = ContentValues()
             set.put(PUZZLE_COL_1,puz.id)
             set.put(PUZZLE_COL_2,puz.size)
             set.put(PUZZLE_COL_3,puz.numOfWords)
@@ -396,7 +388,6 @@ class Database(context: Context) :
             set.put(PUZZLE_COL_8,puz.max_num_letters)
             db.update(PUZZLE_TABLE_NAME,set,"$PUZZLE_COL_1=?", arrayOf(puzzleId.toString()))
 
-            //TODO finish level completion
             val query2 = "select * from $PUZZLE_TABLE_NAME WHERE $PUZZLE_COL_6 = ? "
             val res2 = db.rawQuery(query2, arrayOf(puz.level_id.toString()))
             //check if all puzzles of level are complete
@@ -419,13 +410,13 @@ class Database(context: Context) :
         val db = this.writableDatabase
         val query = "select $PUZZLE_COL_5 from $PUZZLE_TABLE_NAME WHERE $PUZZLE_COL_1 = ? "
         val res = db.rawQuery(query, arrayOf(puzzleId.toString()))
-        if (res.moveToNext()) {
+        return if (res.moveToNext()) {
             val ret = res.getString(0)!="NULL"
             res.close()
-            return ret
+            ret
         }else {
             res.close()
-            return false
+            false
         }
     }
 

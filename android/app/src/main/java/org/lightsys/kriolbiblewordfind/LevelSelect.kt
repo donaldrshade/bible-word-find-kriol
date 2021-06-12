@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_level_select.*
 class LevelSelect : AppCompatActivity() {
     lateinit var sp : SharedPreferences
     lateinit var db : Database
-    var num = 0;
+    var num = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +26,7 @@ class LevelSelect : AppCompatActivity() {
         setContentView(R.layout.activity_level_select)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         val fab = findViewById<FloatingActionButton>(R.id.home)
-        fab.setOnClickListener { _ ->
+        fab.setOnClickListener {
             val intent = Intent(this,MainActivity::class.java)
             startActivity(intent)
         }
@@ -88,7 +88,7 @@ class LevelSelect : AppCompatActivity() {
                 prevLevel = levelID
             }
 
-            textView.text = (levelID.toString() + "-" + puzzleNumInLevel.toString())
+            textView.text = "$levelID-$puzzleNumInLevel"
             textView.gravity = Gravity.CENTER
             textView.setTextColor(Color.BLACK)
             if (db.getPuzzle(num).completed) {
@@ -109,7 +109,7 @@ class LevelSelect : AppCompatActivity() {
                 //implements level locking
                 if (levelID <= lastLevel.id) {
                     textView.setTextColor(Color.BLUE)
-                    val intent = Intent(this, puzzleActivity::class.java)
+                    val intent = Intent(this, PuzzleActivity::class.java)
                     intent.putExtra(getString(R.string.puzzle_num), num)
                     //a roundabout way of displaying the level-puzzle value on the puzzle activity
                     val puzzleTitle = textView.text
@@ -130,7 +130,7 @@ class LevelSelect : AppCompatActivity() {
 
     //Subtracts 3 from the boat number when tapped
     fun useBoat() {
-        var boatString = levelSelectBoatText.text.toString()
+        val boatString = levelSelectBoatText.text.toString()
         var boatInt = boatString.toInt()
 
         if (boatInt > 2){

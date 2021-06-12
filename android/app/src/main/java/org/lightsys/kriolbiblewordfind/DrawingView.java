@@ -12,20 +12,19 @@ import java.util.ArrayList;
 
 public class DrawingView extends View {
 
-    private puzzleActivity activity;
+    private PuzzleActivity activity;
     private Path drawPath;
     private Paint drawPaint;
-    private ArrayList<Path> paths = new ArrayList<Path>();
+    private ArrayList<Path> paths = new ArrayList<>();
     private int paintColor;
     private Rect rect;
-    private TextView text;
     private float startX;
     private float startY;
     private float endX;
     private float endY;
 
 
-    public DrawingView(Context context, AttributeSet attrs, puzzleActivity activity){
+    public DrawingView(Context context, AttributeSet attrs, PuzzleActivity activity){
         super(context, attrs);
         this.activity = activity;
         rect = new Rect();

@@ -35,7 +35,7 @@
 
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".puzzleActivity"
+            android:name=".PuzzleActivity"
 
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"></activity>

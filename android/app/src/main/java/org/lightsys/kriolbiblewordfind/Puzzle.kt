@@ -1,7 +1,6 @@
 package org.lightsys.kriolbiblewordfind
 
 import android.content.Context
-import android.content.res.Resources
 
 class Puzzle(var id:Int = -1,var size:Int = 4,var numOfWords:Int = 3,var completed:Boolean=false,var audioFile:String="",var level_id:Int=-1,var min_num_letters:Int=-1,var max_num_letters:Int=-1 ) {
     fun getWordList(context: Context): ArrayList<String> {
@@ -10,7 +9,7 @@ class Puzzle(var id:Int = -1,var size:Int = 4,var numOfWords:Int = 3,var complet
         return level.getWordList(context)
     }
     fun getAudioFileId(context: Context): Int {
-        return context.resources.getIdentifier(audioFile, "raw", context.getString(R.string.package_name));
+        return context.resources.getIdentifier(audioFile, "raw", context.getString(R.string.package_name))
     }
 
     fun getWordSizes(): IntArray{

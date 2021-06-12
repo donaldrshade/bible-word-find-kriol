@@ -1,7 +1,5 @@
 package org.lightsys.kriolbiblewordfind
 
-import PuzzleEngine
-import Word
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -24,24 +22,23 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_puzzle.*
-import java.lang.Math.floor
 import kotlin.math.abs
+import kotlin.math.min
 
 
-class puzzleActivity : AppCompatActivity() {
+class PuzzleActivity : AppCompatActivity() {
     var puzzleSize = 0
     var letters = arrayOf<TextView?>()
     var wordList = arrayOf<Word?>()
     var wordCounter = 0
     var isAudioPuzzle = false
     lateinit var db:Database
-    lateinit var puzzleEngine:PuzzleEngine
+    lateinit var puzzleEngine: PuzzleEngine
     lateinit var sp:SharedPreferences
     lateinit var canvas : DrawingView
     lateinit var breadHighlights : Array<BooleanArray>
     lateinit var media:MediaPlayer
     lateinit var soundEffect:MediaPlayer
-    lateinit var completePuzzle:MediaPlayer
 
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +58,7 @@ class puzzleActivity : AppCompatActivity() {
 
 
 
-        var params = LayoutParams(
+        val params = LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT
         )
@@ -71,7 +68,7 @@ class puzzleActivity : AppCompatActivity() {
 
         //Set Home Button
         val fab = findViewById<FloatingActionButton>(R.id.home_fab)
-        fab.setOnClickListener { _ ->
+        fab.setOnClickListener {
             val intent = Intent(this,MainActivity::class.java)
             startActivity(intent)
         }
@@ -85,36 +82,36 @@ class puzzleActivity : AppCompatActivity() {
         val fishCount = sp.getInt(getString(R.string.fish_key),0)
         val breadCount = sp.getInt(getString(R.string.bread_key),0)
         val boatView = findViewById<TextView>(R.id.boatScoreNumber)
-        boatView.setText(boatCount.toString())
+        boatView.text = boatCount.toString()
         val fishView = findViewById<TextView>(R.id.fishScoreNumber)
-        fishView.setText(fishCount.toString())
+        fishView.text = fishCount.toString()
         val breadView = findViewById<TextView>(R.id.breadScoreNumber)
-        breadView.setText(breadCount.toString())
+        breadView.text = breadCount.toString()
 
         //Initiate Database and load puzzle engine
         db = Database(this)
-        var puzzle = db.getPuzzle(pnum)
-        var levelnum = puzzle.level_id
+        val puzzle = db.getPuzzle(pnum)
+        val levelnum = puzzle.level_id
         puzzleEngine = PuzzleEngine(puzzle, this)
 
-        var puzzleGrid = puzzleEngine.grid
+        val puzzleGrid = puzzleEngine.grid
         wordList = puzzleEngine.getWords()
-        breadHighlights = Array<BooleanArray>(puzzleGrid.size){BooleanArray(puzzleGrid.size)}
+        breadHighlights = Array(puzzleGrid.size){BooleanArray(puzzleGrid.size)}
 
         //Load words into wordbank, only populate it if not audio puzzle
         //If audio puzzle, add play/pause button and word counter
         wordCounter = 0
         isAudioPuzzle = db.isAudioPuzzle(puzzleEngine.puzzle.id)
 
-        var wordBank = findViewById<TableLayout>(R.id.wordBank)
+        val wordBank = findViewById<TableLayout>(R.id.wordBank)
 
         if(isAudioPuzzle){
             val row = TableRow(this)
-            var rowParams = TableRow.LayoutParams(LayoutParams.WRAP_CONTENT,100)
+            val rowParams = TableRow.LayoutParams(LayoutParams.WRAP_CONTENT,100)
             wordBank.addView(row)
 
             //creates and designs Headphone icon
-            var audioViewHeadphones = ImageButton(this)
+            val audioViewHeadphones = ImageButton(this)
             audioViewHeadphones.layoutParams = rowParams
             audioViewHeadphones.setImageResource(R.drawable.headphones)
             audioViewHeadphones.setBackgroundResource(0)
@@ -124,7 +121,7 @@ class puzzleActivity : AppCompatActivity() {
             audioViewHeadphones.id = 2000
 
             //creates and designs Play icon
-            var audioViewPlay = ImageButton(this)
+            val audioViewPlay = ImageButton(this)
             audioViewPlay.layoutParams = rowParams
             audioViewPlay.setImageResource(R.drawable.ic_menu_play)
             audioViewPlay.setBackgroundResource(0)
@@ -140,7 +137,7 @@ class puzzleActivity : AppCompatActivity() {
             } catch (e : FormatException) {
                 Toast.makeText(getApplicationContext(), "Incorrect file format", Toast.LENGTH_SHORT).show()
                 finish()
-            } catch(e : android.content.res.Resources.NotFoundException){
+            } catch(e : Resources.NotFoundException){
                 Toast.makeText(getApplicationContext(), puzzle.audioFile, Toast.LENGTH_SHORT).show()
                 finish()
             }
@@ -149,23 +146,23 @@ class puzzleActivity : AppCompatActivity() {
             //Otherwise, play audio
             audioViewHeadphones.setOnClickListener {
                 if(media.isPlaying()){
-                    media.pause();
+                    media.pause()
                 } else {
-                    media.start();
+                    media.start()
                 }
             }
             audioViewPlay.setOnClickListener {
                 if(media.isPlaying()){
-                    media.pause();
+                    media.pause()
                 } else {
-                    media.start();
+                    media.start()
                 }
             }
 
             //creates and designs wordbank
-            var wordsLeft = TextView(this)
+            val wordsLeft = TextView(this)
             wordsLeft.textSize = 20F
-            wordsLeft.text = "$wordCounter / " + wordList.size
+            wordsLeft.text = "$wordCounter / ${wordList.size}"
             wordsLeft.layoutParams = rowParams
             wordsLeft.id = 2001
             wordsLeft.typeface = comicSansFont
@@ -177,12 +174,12 @@ class puzzleActivity : AppCompatActivity() {
             row.addView(wordsLeft)
         } else {
             var row = TableRow(this)
-            for(w in 0 until wordList.size){
+            for(w in wordList.indices){
                 if(w % 3 == 0){
-                    row = TableRow(this);
-                    wordBank.addView(row);
+                    row = TableRow(this)
+                    wordBank.addView(row)
                 }
-                var textView = TextView(this)
+                val textView = TextView(this)
                 textView.textSize= 20F
                 textView.gravity = Gravity.CENTER
                 textView.text = wordList[w]!!.word
@@ -199,7 +196,7 @@ class puzzleActivity : AppCompatActivity() {
         letters = arrayOfNulls(puzzleSize*puzzleSize)
         for (r in 0 until puzzleSize) {
             for (c in 0 until puzzleSize) {
-                var textView = TextView(this)
+                val textView = TextView(this)
                 textView.id = 1000+r*puzzleSize+c
                 letters[r*puzzleSize+c] = textView
                 textView.text = puzzleGrid[r][c].toString()
@@ -248,18 +245,18 @@ class puzzleActivity : AppCompatActivity() {
         levelTitleText.setText(levelName)
 
         //Setting the banner
-        val bannerRes: Resources = resources;
-        val bannerResID = bannerRes.getIdentifier(levelBanner, "drawable", packageName);
+        val bannerRes: Resources = resources
+        val bannerResID = bannerRes.getIdentifier(levelBanner, "drawable", packageName)
         val levelBackground = findViewById<ConstraintLayout>(R.id.puzzleConstraintLayout)
         val rnds = (0..10).random()
 
-        story_title_banner_image.setImageResource(bannerResID);
+        story_title_banner_image.setImageResource(bannerResID)
 
         //setting the level number
         val levelNumber = findViewById<TextView>(R.id.levelPuzzleNumber)
 
         val puzzleLocal = db.getPuzzleIndInLevel(puzzleEngine.puzzle.id)
-        levelNumber.text = "" + puzzleEngine.puzzle.level_id + "-" + puzzleLocal
+        levelNumber.text = "${puzzleEngine.puzzle.level_id}-$puzzleLocal"
 
 
         when (rnds){
@@ -267,13 +264,13 @@ class puzzleActivity : AppCompatActivity() {
             1-> levelBackground.setBackgroundColor(Color.rgb(152,228,146))
             2-> levelBackground.setBackgroundColor(Color.rgb(220, 195, 154))
             3->  levelBackground.setBackgroundColor(Color.rgb(173, 166, 227))
-            4-> levelBackground.setBackgroundColor(Color.rgb(214,174,236));
-            5-> levelBackground.setBackgroundColor(Color.rgb(180,218,217));
-            6-> levelBackground.setBackgroundColor(Color.rgb(218,180,210));
-            7-> levelBackground.setBackgroundColor(Color.rgb(185,209,175));
-            8-> levelBackground.setBackgroundColor(Color.rgb(166,225,195));
-            9-> levelBackground.setBackgroundColor(Color.rgb(20,180,180));
-            else -> {levelBackground.setBackgroundColor(Color.rgb(20,180,180));}
+            4-> levelBackground.setBackgroundColor(Color.rgb(214,174,236))
+            5-> levelBackground.setBackgroundColor(Color.rgb(180,218,217))
+            6-> levelBackground.setBackgroundColor(Color.rgb(218,180,210))
+            7-> levelBackground.setBackgroundColor(Color.rgb(185,209,175))
+            8-> levelBackground.setBackgroundColor(Color.rgb(166,225,195))
+            9-> levelBackground.setBackgroundColor(Color.rgb(20,180,180))
+            else -> {levelBackground.setBackgroundColor(Color.rgb(20,180,180))}
         }
     }
 
@@ -291,30 +288,29 @@ class puzzleActivity : AppCompatActivity() {
         val height = gridSizer.height
         val split = height / puzzleSize
 
-        var row = floor(y.toDouble() / split).toInt()
-        var col = floor(x.toDouble() / split).toInt()
+        var row = kotlin.math.floor(y.toDouble() / split).toInt()
+        var col = kotlin.math.floor(x.toDouble() / split).toInt()
         if (row < 0) row = 0
         if (col < 0) col = 0
-        row = Math.min(row, puzzleSize - 1)
-        col = Math.min(col, puzzleSize - 1)
+        row = min(row, puzzleSize - 1)
+        col = min(col, puzzleSize - 1)
         return row * puzzleSize + col
     }
 
-    // TODO: Update function to allow words to be completed in either direction
     fun isValidWord(startX: Float, startY: Float, endX: Float, endY: Float) : Boolean{
-        var ind1 = getGridCellIndex(startX, startY)
-        var row1 = (ind1 / puzzleSize)
-        var col1 = ind1 % puzzleSize
+        val ind1 = getGridCellIndex(startX, startY)
+        val row1 = (ind1 / puzzleSize)
+        val col1 = ind1 % puzzleSize
 
-        var ind2 = getGridCellIndex(endX, endY)
-        var row2 = (ind2 / puzzleSize)
-        var col2 = ind2 % puzzleSize
+        val ind2 = getGridCellIndex(endX, endY)
+        val row2 = (ind2 / puzzleSize)
+        val col2 = ind2 % puzzleSize
 
-        for(i in 0 until wordList.size){
+        for(i in wordList.indices){
             val word = wordList[i]
             if(word == null) continue
-            if(word!!.getStartPt()[0] == row1 && word.getStartPt()[1] == col1 && word.getEndPt()[0] == row2 && word.getEndPt()[1] == col2
-                || word!!.getEndPt()[0] == row1 && word.getEndPt()[1] == col1 && word.getStartPt()[0] == row2 && word.getStartPt()[1] == col2){
+            if(word.getStartPt()[0] == row1 && word.getStartPt()[1] == col1 && word.getEndPt()[0] == row2 && word.getEndPt()[1] == col2
+                || word.getEndPt()[0] == row1 && word.getEndPt()[1] == col1 && word.getStartPt()[0] == row2 && word.getStartPt()[1] == col2){
 
                 foundWord(i)
 
@@ -341,11 +337,11 @@ class puzzleActivity : AppCompatActivity() {
         //Update wordCounter and cross off word from word bank
         wordCounter++
         if(isAudioPuzzle){
-            var id = 2001
-            var wordsLeft = findViewById<TextView>(id)
+            val id = 2001
+            val wordsLeft = findViewById<TextView>(id)
             wordsLeft.text = "$wordCounter / " + wordList.size
         } else {
-            var wordText = findViewById<TextView>(index + 2000)
+            val wordText = findViewById<TextView>(index + 2000)
             wordText.paintFlags = wordText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         }
         if(sp.getBoolean(getString(R.string.SOUNDS),false)){
@@ -363,7 +359,7 @@ class puzzleActivity : AppCompatActivity() {
 
     //Subtracts 1 from the fish number when tapped
     fun useFish(view: View) {
-        var fishString = fishScoreNumber.text.toString()
+        val fishString = fishScoreNumber.text.toString()
         var fishInt = fishString.toInt()
 
         if (fishInt > 0){
@@ -376,19 +372,19 @@ class puzzleActivity : AppCompatActivity() {
             fishScoreNumber.text = fishInt.toString()
             // Reveal a random entire word
             val numWords = wordList.size - wordCounter
-            var ct = 0;
-            for(i in 0 until wordList.size){
+            var ct = 0
+            for(i in wordList.indices){
                 val word = wordList[i]
                 if(word == null) continue
                 else{
-                    ct++;
+                    ct++
                     if(Math.random() < ct.toDouble() / numWords) {
                         val startLetter = letters[word.getStartPt()[0]*puzzleSize + word.getStartPt()[1]]
                         val endLetter = letters[word.getEndPt()[0]*puzzleSize + word.getEndPt()[1]]
                         canvas.highlightLetters(startLetter, endLetter)
                         //highlight word
                         foundWord(i)
-                        break;
+                        break
                     }
                 }
             }
@@ -397,7 +393,7 @@ class puzzleActivity : AppCompatActivity() {
 
     //Subtracts 1 from the bread number when tapped
     fun useBread(view: View) {
-        var breadString = breadScoreNumber.text.toString()
+        val breadString = breadScoreNumber.text.toString()
         var breadInt = breadString.toInt()
 
         if (breadInt > 0) {
@@ -409,22 +405,22 @@ class puzzleActivity : AppCompatActivity() {
 
             var randRow = (Math.random()*breadHighlights.size).toInt()
             var randCol = (Math.random() * breadHighlights.size).toInt()
-            val sr = randRow;
-            val sc = randCol;
+            val sr = randRow
+            val sc = randCol
             while(breadHighlights[randRow][randCol] || !isWordPos( intArrayOf(randRow,randCol) ) ) {
-                randCol++;
+                randCol++
                 if(randCol % puzzleSize == 0) {
-                    randCol = 0;
+                    randCol = 0
                     randRow = (randRow + 1) % puzzleSize
                 }
                 if(randRow == sr && randCol ==sc){
-                    break;
+                    break
                 }
                 //there WILL be a spot left to highlight, otherwise a word got finished and not removed
             }
-            breadHighlights[randRow][randCol] = true;
-            breadHighlights[randRow][randCol] = true;
-            letters[(randRow * puzzleSize + randCol)]!!.setBackgroundResource(R.color.colorPrimary);
+            breadHighlights[randRow][randCol] = true
+            breadHighlights[randRow][randCol] = true
+            letters[(randRow * puzzleSize + randCol)]!!.setBackgroundResource(R.color.colorPrimary)
             removeBreadWords()
 
             /*
@@ -436,9 +432,9 @@ class puzzleActivity : AppCompatActivity() {
 
     fun removeBreadWords(){
         for(i in wordList.indices){
-            val word = wordList[i];
-            if(word==null)continue;
-            var pointList = posInWord(word)
+            val word = wordList[i]
+            if(word==null)continue
+            val pointList = posInWord(word)
             var wordAllHighlighted = true
             for(arr in pointList){
                 if(!breadHighlights[arr[0]][arr[1]]){
@@ -463,10 +459,10 @@ class puzzleActivity : AppCompatActivity() {
 
     fun isWordPos(coords : IntArray) : Boolean{
         for(word in wordList){
-            if(word == null) continue;
+            if(word == null) continue
             for(intarr in posInWord(word)){
                 if(coords.contentEquals(intarr)){
-                    return true;
+                    return true
                 }
             }
         }
@@ -478,24 +474,24 @@ class puzzleActivity : AppCompatActivity() {
         val sc = word.getStartPt()[1]
         val er = word.getEndPt()[0]
         val ec = word.getEndPt()[1]
-        val len : Int
-        if(sr == er){
-            len = abs(sc - ec) + 1
-        } else {
-            len = abs(sr- er) +1
-        }
-        var toReturn = Array<IntArray>(len){intArrayOf(0,0)}
+        val len =
+            if(sr == er){
+                abs(sc - ec) + 1
+            } else {
+                abs(sr- er) +1
+            }
+        val toReturn = Array(len){intArrayOf(0,0)}
         toReturn[0]=word.getStartPt()
         for(i in 1 until len) {
-            toReturn[i] = intArrayOf( ((er-sr) * i / (len-1) + sr).toInt(), ((ec-sc) * i / (len-1) + sc).toInt())
+            toReturn[i] = intArrayOf(((er-sr) * i / (len-1) + sr), ((ec-sc) * i / (len-1) + sc))
         }
         return toReturn
     }
 
     fun gainBoat(){
-        var boatString = boatScoreNumber.text.toString()
+        val boatString = boatScoreNumber.text.toString()
         var boatInt = boatString.toInt()
-//boatInt += 200
+
         boatInt++
         boatScoreNumber.text = boatInt.toString()
         val edit = sp.edit()
@@ -504,9 +500,9 @@ class puzzleActivity : AppCompatActivity() {
     }
 
     fun gainFish(){
-        var fishString = fishScoreNumber.text.toString()
+        val fishString = fishScoreNumber.text.toString()
         var fishInt = fishString.toInt()
-//fishInt += 5000
+
         fishInt++
         fishScoreNumber.text = fishInt.toString()
         val edit = sp.edit()
@@ -515,7 +511,7 @@ class puzzleActivity : AppCompatActivity() {
     }
 
     fun gainBread(){
-        var breadString = breadScoreNumber.text.toString()
+        val breadString = breadScoreNumber.text.toString()
         var breadInt = breadString.toInt()
 
         breadInt++
@@ -535,14 +531,14 @@ class puzzleActivity : AppCompatActivity() {
             soundEffect = createMedia("complete_puzzle")
             soundEffect.start()
         }
-        PopUp(this, false, "", true, puzzleEngine.puzzle.id)
+        showPopUp(this, false, "", true, puzzleEngine.puzzle.id)
     }
 
     //Creates and prepares media to be played
     //Throws FormatException if file is not an mp3
     @Throws(FormatException::class)
     private fun createMedia(mp3: String): MediaPlayer {
-        return if (!mp3.isNullOrEmpty()) {
+        return if (mp3.isNotEmpty()) {
             val id = resources.getIdentifier(mp3, "raw", packageName)
             MediaPlayer.create(this, id)
         } else {

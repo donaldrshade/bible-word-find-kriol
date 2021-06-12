@@ -9,8 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-import kotlinx.android.synthetic.main.activity_listen.*
-
 class ListenActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

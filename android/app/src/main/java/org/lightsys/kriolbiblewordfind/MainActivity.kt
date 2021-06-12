@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-const val LEVEL_SELECT = 1
 class MainActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +31,7 @@ class MainActivity : AppCompatActivity(){
         val playButton = findViewById<ImageView>(R.id.play_button)
         playButton.setOnClickListener {
             playButton.setImageResource(R.drawable.plei_buton_active)
-            val intent = Intent(this,puzzleActivity::class.java)
+            val intent = Intent(this,PuzzleActivity::class.java)
 
             val puzList: ArrayList<Puzzle> = Database(this).getPuzzleList()
             var thePuz: Puzzle = puzList[0]
@@ -59,7 +58,7 @@ class MainActivity : AppCompatActivity(){
         val gameLevelButton = findViewById<ConstraintLayout>(R.id.game_level_button)
         gameLevelButton.setOnClickListener {
             val intent = Intent(this,LevelSelect::class.java)
-            startActivityForResult(intent, LEVEL_SELECT)
+            startActivity(intent)
         }
         val listenBibleButton = findViewById<ConstraintLayout>(R.id.listen_bible_button)
         listenBibleButton.setOnClickListener {
@@ -77,7 +76,7 @@ class MainActivity : AppCompatActivity(){
         noise.setOnCheckedChangeListener { _, isChecked ->
             val edit = sp.edit()
             edit.putBoolean(getString(R.string.SOUNDS),isChecked)
-            edit.apply()
+            edit.commit()
         }
         val developerButton = findViewById<ConstraintLayout>(R.id.developer_button)
         developerButton.setOnClickListener {
@@ -95,6 +94,6 @@ class MainActivity : AppCompatActivity(){
 
     override fun onBackPressed() {
         // minimize  app when back button is pressed at the home screen (main activity)
-        this.moveTaskToBack(true);
+        this.moveTaskToBack(true)
     }
 }

@@ -1,5 +1,6 @@
+package org.lightsys.kriolbiblewordfind
+
 import android.content.Context
-import org.lightsys.kriolbiblewordfind.Puzzle
 import java.util.*
 
 class PuzzleEngine(var puzzle: Puzzle, var context: Context) {
@@ -19,7 +20,7 @@ class PuzzleEngine(var puzzle: Puzzle, var context: Context) {
             words[swap] = sv
         }
         if(numWordsLeft > numLinesLeft) {
-            var newWords = Array<Word?>(numLinesLeft) {i -> words[i]}
+            val newWords = Array(numLinesLeft) {i -> words[i]}
             words = newWords
             numWordsLeft = numLinesLeft
         }
@@ -85,8 +86,6 @@ class PuzzleEngine(var puzzle: Puzzle, var context: Context) {
         val checkedSpots =
             ArrayList<Array<BooleanArray>>()
         //this will be empty if this word's position has not been tried anywhere yet
-        var RESET_CT = 0
-        //- this is for breaking the loop if recursion goes too long
         var i = 0
         while (i < words.size) {
             if (i < 0) {
@@ -159,7 +158,6 @@ class PuzzleEngine(var puzzle: Puzzle, var context: Context) {
                 r %= display.size
             }
             if (!worked) {
-                RESET_CT++
                 rc[i][0] = -1
                 rc[i][1] =
                     -1 //erase any rc for this word, for last word is saved as restart pt
@@ -176,9 +174,9 @@ class PuzzleEngine(var puzzle: Puzzle, var context: Context) {
         }
         //board got generated
         for (arr in display) {
-            for (i in arr.indices) {
-                if (arr[i] == '\u0000') {
-                    arr[i] = randLetter()
+            for (j in arr.indices) {
+                if (arr[j] == '\u0000') {
+                    arr[j] = randLetter()
                 }
             }
         }
@@ -244,7 +242,7 @@ class PuzzleEngine(var puzzle: Puzzle, var context: Context) {
     }
 
     private fun randLetter(): Char {
-        return (Math.random() * ('Z' - 'A') + 'A'.toDouble()).toInt().toChar()
+        return (Math.random() * ('Z' - 'A') + 'A'.code.toDouble()).toInt().toChar()
     }
 
     val grid: Array<CharArray>
@@ -258,44 +256,44 @@ class PuzzleEngine(var puzzle: Puzzle, var context: Context) {
         //get
         if(puzzle.id == -1){ //tutorial puzzle
             display = Array(4) {CharArray(4)}
-            var i = 0;
+            var i = 0
             for(c in "EDAM"){
-                display[0][i] = c;
+                display[0][i] = c
                 i++
             }
-            i = 0;
+            i = 0
             for(c in "NAGO"){
-                display[1][i] = c;
-                i++;
+                display[1][i] = c
+                i++
             }
-            i = 0;
+            i = 0
             for(c in "IGTA"){
-                display[2][i] = c;
-                i++;
+                display[2][i] = c
+                i++
             }
-            i = 0;
+            i = 0
             for(c in "FABB"){
-                display[3][i] = c;
-                i++;
+                display[3][i] = c
+                i++
             }
             words = arrayOf(
                     Word("EDAM"),
                     Word("DAGA"),
                     Word("MOAB")
             )
-            words[0]!!.setStartPt(0,0);
-            words[0]!!.setEndPt(0,3);
-            words[1]!!.setStartPt(0,1);
-            words[1]!!.setEndPt(3,1);
-            words[2]!!.setStartPt(0,3);
-            words[2]!!.setEndPt(3,3);
+            words[0]!!.setStartPt(0,0)
+            words[0]!!.setEndPt(0,3)
+            words[1]!!.setStartPt(0,1)
+            words[1]!!.setEndPt(3,1)
+            words[2]!!.setStartPt(0,3)
+            words[2]!!.setEndPt(3,3)
         } else {
             val s = puzzle.size
             val wCt = puzzle.numOfWords
             display = Array(s) { CharArray(s) }
             words = arrayOfNulls(wCt)
             val pool = puzzle.getWordList(context)
-            var wordSizes = puzzle.getWordSizes()
+            val wordSizes = puzzle.getWordSizes()
             val options = ArrayList<String>()
             for (i in pool.indices) {
 
