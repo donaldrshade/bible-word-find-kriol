@@ -309,7 +309,7 @@ class Database(context: Context) :
         val db = this.writableDatabase
         val query = "select * from $LEVEL_TABLE_NAME"
         val res = db.rawQuery(query,arrayOf())
-        var level = Level(1)
+        var level: Level
         //stops at first incomplete level. will break if levels can be completed out of order
         while (res.moveToNext()) {
             if(res.getInt(2)==0){
@@ -395,19 +395,18 @@ class Database(context: Context) :
             set.put(PUZZLE_COL_7,puz.min_num_letters)
             set.put(PUZZLE_COL_8,puz.max_num_letters)
             db.update(PUZZLE_TABLE_NAME,set,"$PUZZLE_COL_1=?", arrayOf(puzzleId.toString()))
-            val next = getPuzzle(puz.id+1)
 
             //TODO finish level completion
-            val query = "select * from $PUZZLE_TABLE_NAME WHERE $PUZZLE_COL_6 = ? "
-            val res = db.rawQuery(query, arrayOf(puz.level_id.toString()))
+            val query2 = "select * from $PUZZLE_TABLE_NAME WHERE $PUZZLE_COL_6 = ? "
+            val res2 = db.rawQuery(query2, arrayOf(puz.level_id.toString()))
             //check if all puzzles of level are complete
-            while(res.moveToNext()){
-                if(res.getInt(3) == 0){
-                    res.close()
+            while(res2.moveToNext()){
+                if(res2.getInt(3) == 0){
+                    res2.close()
                     return false
                 }
             }
-            res.close()
+            res2.close()
             return markLevelCompleted(puz.level_id)
 
         } else{

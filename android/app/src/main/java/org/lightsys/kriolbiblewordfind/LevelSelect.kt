@@ -26,7 +26,7 @@ class LevelSelect : AppCompatActivity() {
         setContentView(R.layout.activity_level_select)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         val fab = findViewById<FloatingActionButton>(R.id.home)
-        fab.setOnClickListener { view ->
+        fab.setOnClickListener { _ ->
             val intent = Intent(this,MainActivity::class.java)
             startActivity(intent)
         }
@@ -43,7 +43,7 @@ class LevelSelect : AppCompatActivity() {
         db = Database(this)
 
         val comicSansFont : Typeface? = ResourcesCompat.getFont(this,R.font.comic_sans_b)
-        val audioLevels = intArrayOf(9, 10, 11, 12, 14, 15, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44)
+        //val audioLevels = intArrayOf(9, 10, 11, 12, 14, 15, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44)
         val rowLayout = TableLayout.LayoutParams()
         rowLayout.setMargins(0,30,0,0)
         var row = TableRow(this)

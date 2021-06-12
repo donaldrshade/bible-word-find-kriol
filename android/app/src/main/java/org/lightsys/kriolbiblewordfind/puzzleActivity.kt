@@ -71,7 +71,7 @@ class puzzleActivity : AppCompatActivity() {
 
         //Set Home Button
         val fab = findViewById<FloatingActionButton>(R.id.home_fab)
-        fab.setOnClickListener { view ->
+        fab.setOnClickListener { _ ->
             val intent = Intent(this,MainActivity::class.java)
             startActivity(intent)
         }
@@ -424,7 +424,7 @@ class puzzleActivity : AppCompatActivity() {
             }
             breadHighlights[randRow][randCol] = true;
             breadHighlights[randRow][randCol] = true;
-            val tv = letters[(randRow * puzzleSize + randCol)]!!.setBackgroundResource(R.color.colorPrimary);
+            letters[(randRow * puzzleSize + randCol)]!!.setBackgroundResource(R.color.colorPrimary);
             removeBreadWords()
 
             /*

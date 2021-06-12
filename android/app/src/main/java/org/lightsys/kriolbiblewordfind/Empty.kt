@@ -17,7 +17,7 @@ class Empty : AppCompatActivity() {
         setContentView(R.layout.activity_empty)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         val fab = findViewById<FloatingActionButton>(R.id.home_fab)
-        fab.setOnClickListener { view ->
+        fab.setOnClickListener { _ ->
             val intent = Intent(this,MainActivity::class.java)
             startActivity(intent)
         }

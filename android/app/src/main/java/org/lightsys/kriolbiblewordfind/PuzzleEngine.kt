@@ -37,7 +37,6 @@ class PuzzleEngine(var puzzle: Puzzle, var context: Context) {
                 //System.out.println(s + " " + forwards + " r: " + r);
                 val charSkip = (Math.random() * (display.size - s.length)).toInt()
                 var c = 0
-                c = 0
                 while (c < charSkip) {
                     display[r][if (forwards) c else display.size - 1 - c] = randLetter()
                     c++
@@ -311,7 +310,6 @@ class PuzzleEngine(var puzzle: Puzzle, var context: Context) {
                 val rand = (Math.random() * options.size).toInt()
                 var insert: Word? = Word(options.removeAt(rand))
                 var x = 0
-                x = 0
                 while (x < i) {
                     if (words[x]!!.word.length < insert!!.word.length) {
                         val sv = words[x]
